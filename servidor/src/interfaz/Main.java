@@ -12,6 +12,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
+
+import modelo.Conexion;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -88,6 +91,19 @@ public class Main {
 				if(encendido==OFF){
 					try {
 						servidor = new ServerSocket(Integer.parseInt(txtPuerto.getText()));
+						Thread hilo = new Thread(){
+							public void run(){
+								while(true){
+									try {
+										Socket cliente = servidor.accept();
+										Conexion conexion = new Conexion(cliente);
+										conexion.run();
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+								}
+							}
+						};
 						btnIniciarServidor.setText("Detener Servidor");
 						encendido=ON;
 					} catch (NumberFormatException e) {
