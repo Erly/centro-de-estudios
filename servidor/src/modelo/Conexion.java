@@ -27,6 +27,7 @@ public class Conexion extends Thread {
 			Object inObj;
 			while((inObj = in.readObject()) != null){
 				// Tratamiento del objeto
+				
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
