@@ -104,6 +104,7 @@ public class Main {
 								}
 							}
 						};
+						hilo.run();
 						btnIniciarServidor.setText("Detener Servidor");
 						encendido=ON;
 					} catch (NumberFormatException e) {
