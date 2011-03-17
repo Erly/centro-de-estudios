@@ -141,29 +141,76 @@ public class Peticion {
 						Vector<PlacaBase> placasBase = Main.db.obtenerPlacaBase();
 						respuesta = new Respuesta(true, "Placas base obtenidas con exito.", placasBase);
 					}else{
-						PlacaBase placaBase = Main.db.obtenerPlacaBase(equipo, aula);
+						PlacaBase placaBase = Main.db.obtenerPlacaBase(equipo);
+						respuesta = new Respuesta(true, "Placa base obtenida con exito.", placaBase);
 					}
 					break;
 				case 4:
-					
+					Vector<HDD> hdds;
+					if (equipo==null){
+						hdds = Main.db.obtenerHDDs();
+						respuesta = new Respuesta(true, "HDDs obtenidos con exito.", hdds);
+					}else{
+						hdds = Main.db.obtenerHDDs(equipo);
+						respuesta = new Respuesta(true, "HDDs obtenidos con exito.", hdds);
+					}
 					break;
 				case 5:
-					
+					if (equipo==null){
+						Vector<CPU> cpus = Main.db.obtenerCPU();
+						respuesta = new Respuesta(true, "CPUs obtenidas con exito.", cpus);
+					}else{
+						CPU cpu = Main.db.obtenerCPU(equipo);
+						respuesta = new Respuesta(true, "CPU obtenida con exito.", cpu);
+					}
 					break;
 				case 6:
-					
+					Vector<RAM> ram;
+					if (equipo==null){
+						ram= Main.db.obtenerRAM();
+						respuesta = new Respuesta(true, "RAM obtenida con exito.", ram);
+					}else{
+						ram = Main.db.obtenerRAM(equipo);
+						respuesta = new Respuesta(true, "RAM obtenida con exito.", ram);
+					}
 					break;
 				case 7:
-					
+					Vector<TGrafica> graficas;
+					if (equipo==null){
+						graficas = Main.db.obtenerTGrafica();
+						respuesta = new Respuesta(true, "Tarjetas Graficas obtenidas con exito.", graficas);
+					}else{
+						graficas = Main.db.obtenerTGrafica(equipo);
+						respuesta = new Respuesta(true, "Tarjetas Graficas obtenidas con exito.", graficas);
+					}
 					break;
 				case 8:
-					
+					if (equipo==null){
+						Vector<TAudio> taudio = Main.db.obtenerTAudio();
+						respuesta = new Respuesta(true, "Tarjetas de Audio obtenidas con exito.", taudio);
+					}else{
+						TAudio taudio = Main.db.obtenerTAudio(equipo);
+						respuesta = new Respuesta(true, "Tarjeta de Audio obtenida con exito.", taudio);
+					}
 					break;
 				case 9:
-					
+					if (equipo==null){
+						Vector<Monitor> monitores = Main.db.obtenerMonitor();
+						respuesta = new Respuesta(true, "CPUs obtenidas con exito.", monitores);
+					}else{
+						Monitor monitor = Main.db.obtenerMonitor(equipo);
+						respuesta = new Respuesta(true, "CPU obtenida con exito.", monitor);
+					}
 					break;
 				case 10:
-					
+					Vector<TRed> redes;
+					if (equipo==null){
+						redes = Main.db.obtenerTRed();
+						respuesta = new Respuesta(true, "Tarjetas de Red obtenidas con exito.", redes);
+					}else{
+						redes = Main.db.obtenerTRed(equipo);
+						respuesta = new Respuesta(true, "Tarjetas de Red obtenidas con exito.", redes);
+					}
 					break;
 				case 11:
 					
@@ -173,8 +220,7 @@ public class Peticion {
 					break;
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				respuesta = new Respuesta(false, "Sentencia SQL incorrecta");
 			}
 			break;
 		case 1:

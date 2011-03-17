@@ -138,14 +138,14 @@ public class CentroDB extends AccesoBD {
 		return vpb;
 	}
 	
-	public PlacaBase obtenerPlacaBase(Equipo equipo, Aula aula) throws SQLException{
+	public PlacaBase obtenerPlacaBase(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		PlacaBase pb = null;
 		ResultSet rs_pb = this.lanzarSelect("select * from `Placas Base` where ModeloPB = (select ModeloPB from Equipos where CodEquipo = " 
-				+ equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula() + ")");
+				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_pb.next()){
 			try{
 				pb = new PlacaBase(rs_pb.getString("ModeloPB") ,rs_pb.getString("Marca"), rs_pb.getInt("PCI"), rs_pb.getInt("AGP"), rs_pb.getInt("PCIE"), 
@@ -175,13 +175,13 @@ public class CentroDB extends AccesoBD {
 		return HDDs;
 	}
 	
-	public Vector<HDD> obtenerHDDs(Equipo equipo, Aula aula) throws SQLException{
+	public Vector<HDD> obtenerHDDs(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		Vector<HDD> HDDs = new Vector<HDD>();
-		ResultSet rs_eqhdd = this.lanzarSelect("Select ModeloHDD from EqHDD where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula());
+		ResultSet rs_eqhdd = this.lanzarSelect("Select ModeloHDD from EqHDD where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqhdd.next()){
 			try{
 				ResultSet rs_hdd = this.lanzarSelect("select * from HDD where ModeloHDD = ('" + rs_eqhdd.getString(1) + "')");
@@ -214,14 +214,14 @@ public class CentroDB extends AccesoBD {
 		return CPUs;
 	}
 	
-	public CPU obtenerCPU(Equipo equipo, Aula aula) throws SQLException{
+	public CPU obtenerCPU(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		CPU cpu = null;
 		ResultSet rs_cpu = this.lanzarSelect("select * from CPU where ModeloCPU = (select ModeloCPU from Equipos where CodEquipo = " 
-				+ equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula() + ")");
+				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_cpu.next()){
 			try{
 				cpu = new CPU(rs_cpu.getString("ModeloCPU") ,rs_cpu.getString("Marca"), rs_cpu.getInt("Nucleos"), rs_cpu.getFloat("Velocidad"), 
@@ -251,13 +251,13 @@ public class CentroDB extends AccesoBD {
 		return ram;
 	}
 	
-	public Vector<RAM> obtenerRAM(Equipo equipo, Aula aula) throws SQLException{
+	public Vector<RAM> obtenerRAM(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		Vector<RAM> ram = new Vector<RAM>();
-		ResultSet rs_eqram = this.lanzarSelect("Select ModeloRAM from EqRAM where CodEquipo = "	+ equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula());
+		ResultSet rs_eqram = this.lanzarSelect("Select ModeloRAM from EqRAM where CodEquipo = "	+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqram.next()){
 			try{
 				ResultSet rs_ram = this.lanzarSelect("select * from RAM where ModeloRAM = ('" + rs_eqram.getString(1) + "')");
@@ -290,13 +290,13 @@ public class CentroDB extends AccesoBD {
 		return tGraficas;
 	}
 	
-	public Vector<TGrafica> obtenerTGrafica(Equipo equipo, Aula aula) throws SQLException{
+	public Vector<TGrafica> obtenerTGrafica(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		Vector<TGrafica> tGraficas = new Vector<TGrafica>();
-		ResultSet rs_eqtg = this.lanzarSelect("Select ModeloTG from EqTG where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula());
+		ResultSet rs_eqtg = this.lanzarSelect("Select ModeloTG from EqTG where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqtg.next()){
 			try{
 				ResultSet rs_tg = this.lanzarSelect("select * from `TGrafica` where ModeloTG = ('" + rs_eqtg.getString(1) + "')");
@@ -329,14 +329,14 @@ public class CentroDB extends AccesoBD {
 		return vta;
 	}
 	
-	public TAudio obtenerTAudio(Equipo equipo, Aula aula) throws SQLException{
+	public TAudio obtenerTAudio(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		TAudio ta = null;
 		ResultSet rs_ta = this.lanzarSelect("select * from `TAudio` where ModeloTA = (select ModeloTA from Equipos where CodEquipo = " 
-				+ equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula() + ")");
+				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_ta.next()){
 			try{
 				ta = new TAudio(rs_ta.getString("ModeloTA") ,rs_ta.getString("Marca"), rs_ta.getFloat("Canales"));
@@ -366,14 +366,14 @@ public class CentroDB extends AccesoBD {
 		return monitores;
 	}
 	
-	public Monitor obtenerMonitor(Equipo equipo, Aula aula) throws SQLException{
+	public Monitor obtenerMonitor(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		Monitor monitor = null;
 		ResultSet rs_mon = this.lanzarSelect("select * from Monitor where ModeloMonitor = (select ModeloMonitor from Equipos where CodEquipo = " 
-				+ equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula() + ")");
+				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_mon.next()){
 			try{
 				monitor = new Monitor(rs_mon.getString("ModeloMonitor") ,rs_mon.getString("Marca"), rs_mon.getFloat("Pulgadas"), rs_mon.getString("Resolucion"), 
@@ -403,13 +403,13 @@ public class CentroDB extends AccesoBD {
 		return tRed;
 	}
 	
-	public Vector<TRed> obtenerTRed(Equipo equipo, Aula aula) throws SQLException{
+	public Vector<TRed> obtenerTRed(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
 		Vector<TRed> tRed = new Vector<TRed>();
-		ResultSet rs_eqtr = this.lanzarSelect("Select ModeloTR from EqTR where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + aula.getCodAula());
+		ResultSet rs_eqtr = this.lanzarSelect("Select ModeloTR from EqTR where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqtr.next()){
 			try{
 				ResultSet rs_tr = this.lanzarSelect("select * from `TRed` where ModeloTR = ('" + rs_eqtr.getString(1) + "')");
@@ -457,16 +457,24 @@ public class CentroDB extends AccesoBD {
 		this.lanzarDelete("Aulas", "CodAula=" + codAula);
 	}
 	
-	public void borrarEquipo(Equipo equipo, Aula aula) throws SQLException{
+	public void actualizarEquipo(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarDelete("eqTR", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + aula.getCodAula());
-		this.lanzarDelete("eqTG", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + aula.getCodAula());
-		this.lanzarDelete("eqRAM", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + aula.getCodAula());
-		this.lanzarDelete("eqHDD", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + aula.getCodAula());
+		this.lanzarUpdate("Equipos", "CodEquipo='" + equipo.getCodEquipo() + "'", "CodAula =" + equipo.getCodAula());
+	}
+	
+	public void borrarEquipo(Equipo equipo) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarDelete("eqTR", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqTG", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqRAM", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqHDD", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
 		
-		this.lanzarDelete("Equipos", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + aula.getCodAula());
+		this.lanzarDelete("Equipos", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
 	}
 }
