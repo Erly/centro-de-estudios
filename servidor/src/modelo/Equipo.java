@@ -9,15 +9,16 @@ import modelo.Hardware.*;
 @SuppressWarnings("serial")
 public class Equipo implements Serializable{
 	
-	int codEquipo;
-	PlacaBase placaBase;
-	Vector<HDD> HDDs= new Vector<HDD>();
-	CPU cpu;
-	Vector<RAM> ram = new Vector<RAM>();
-	Vector<TGrafica> tGraficas = new Vector<TGrafica>();
-	TAudio tAudio;
-	Monitor monitor;
-	Vector<TRed> tRed = new Vector<TRed>();
+	private int codAula;
+	private int codEquipo;
+	private PlacaBase placaBase;
+	private Vector<HDD> HDDs= new Vector<HDD>();
+	private CPU cpu;
+	private Vector<RAM> ram = new Vector<RAM>();
+	private Vector<TGrafica> tGraficas = new Vector<TGrafica>();
+	private TAudio tAudio;
+	private Monitor monitor;
+	private Vector<TRed> tRed = new Vector<TRed>();
 
 	public Equipo() {
 	}
@@ -26,9 +27,10 @@ public class Equipo implements Serializable{
 		this.codEquipo = codEquipo;
 	}
 
-	public Equipo(int codEquipo, PlacaBase placaBase, Vector<HDD> HDDs,
+	public Equipo(int codAula, int codEquipo, PlacaBase placaBase, Vector<HDD> HDDs,
 			CPU cpu, Vector<RAM> ram, Vector<TGrafica> tGraficas,
 			TAudio tAudio, Monitor monitor, Vector<TRed> tRed) {
+		this.codAula = codAula;
 		this.codEquipo = codEquipo;
 		this.placaBase = placaBase;
 		this.HDDs = HDDs;
@@ -40,6 +42,14 @@ public class Equipo implements Serializable{
 		this.tRed = tRed;
 	}
 
+	public int getCodAula(){
+		return codAula;
+	}
+	
+	public void setCodAula(int codAula){
+		this.codAula = codAula;
+	}
+	
 	public int getCodEquipo() {
 		return codEquipo;
 	}
