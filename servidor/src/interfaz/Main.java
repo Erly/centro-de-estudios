@@ -4,14 +4,19 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
+
+import datos.*;
 
 import modelo.Conexion;
 
@@ -30,6 +35,8 @@ public class Main {
 	ServerSocket servidor = null;
 	Socket cliente = null;
 	int encendido = OFF;
+	
+	public static CentroDB db;
 
 	/**
 	 * Launch the application.
@@ -51,6 +58,16 @@ public class Main {
 	 * Create the application.
 	 */
 	public Main() {
+		try{
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			db.abrirConexionSinODBC("//localhost/centrodb", AccesoBD.MYSQL, "root", "administrador");
+		}catch(SQLException e) {
+			System.out.println("No se ha podido establecer la conexión.");
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 		initialize();
 	}
 

@@ -24,9 +24,9 @@ public class Conexion extends Thread {
 		try {
 			in = new ObjectInputStream(cliente.getInputStream());
 			out = new PrintWriter(cliente.getOutputStream());
-			Object inObj;
-			while((inObj = in.readObject()) != null){
-				// Tratamiento del objeto
+			Peticion peticion;
+			while((peticion = (Peticion)in.readObject()) != null){
+				// Tratamiento de la peticion
 				
 			}
 		} catch (IOException e) {
