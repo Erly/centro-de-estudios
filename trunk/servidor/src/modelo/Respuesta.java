@@ -1,11 +1,12 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import modelo.Hardware.Hardware;
 
-public class Respuesta {
+public class Respuesta implements Serializable{
 	
 	public Boolean exito;
 	public String mensaje;

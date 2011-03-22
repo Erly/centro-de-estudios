@@ -14,6 +14,24 @@ public class CentroDB extends AccesoBD {
 	public CentroDB() {
 	}
 
+	public String login(Usuario usuario) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return "Imposible realizar consulta; CONEXION BD NO ESTABLECIDA";
+		}
+		ResultSet rs_login = lanzarSelect("Select * from usuarios where NomUsu='" + usuario.getNombre() + "'");
+		while(rs_login.next()){
+			//Usuario usu = new Usuario(rs_login.getString("NomUsu") ,rs_login.getString("Pass"), rs_login.getString("Email"), 
+			//		rs_login.getString("Tipo");
+			if(usuario.getPass().equals(rs_login.getString("Pass"))){
+				return rs_login.getString("Tipo");
+			}else{
+				return "La contraseña introducida es incorrecta.";
+			}
+		}
+		return "El usuario introducido no existe";
+	}
+	
 	public void actualizarAula(Aula aula) throws SQLException{
 		actualizarAula(aula.getCodAula(), aula.getCurso());
 	}

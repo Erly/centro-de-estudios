@@ -7,31 +7,32 @@ import java.net.Socket;
 
 public class Conexion extends Thread {
 
-	Socket cliente;
+	Socket cliente = null;
+	ObjectInputStream in = null;
+	ObjectOutputStream out = null;
 	
-	
-	public Conexion() {
-		// TODO Auto-generated constructor stub
-	}
+	public Conexion() {}
 	
 	public Conexion(Socket cliente){
-		cliente= this.cliente;
+		this.cliente = cliente;
 	}
 
 	public void run(){
-		ObjectInputStream in = null;
-		ObjectOutputStream out = null;
 		try {
+			System.out.println("RUN");
 			in = new ObjectInputStream(cliente.getInputStream());
 			out = new ObjectOutputStream(cliente.getOutputStream());
 			Peticion peticion;
-			while((peticion = (Peticion)in.readObject()) != null){
+			while(true){
+				System.out.println("WHILE");
 				// Tratamiento de la peticion
+				peticion = (Peticion)in.readObject();
 				Respuesta respuesta = peticion.tratar();
 				if (respuesta.mensaje.equals("SALIR")){
 					break;
 				}
-				out.writeObject(peticion);
+				out.writeObject(respuesta);
+				System.out.println("FIN WHILE");
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -41,6 +42,7 @@ public class Conexion extends Thread {
 			e.printStackTrace();
 		} finally {
 			try {
+				System.out.println("Finally");
 				in.close();
 				out.close();
 				cliente.close();
