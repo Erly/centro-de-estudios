@@ -2,7 +2,7 @@ package modelo;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Conexion extends Thread {
@@ -20,14 +20,18 @@ public class Conexion extends Thread {
 
 	public void run(){
 		ObjectInputStream in = null;
-		PrintWriter out = null;
+		ObjectOutputStream out = null;
 		try {
 			in = new ObjectInputStream(cliente.getInputStream());
-			out = new PrintWriter(cliente.getOutputStream());
+			out = new ObjectOutputStream(cliente.getOutputStream());
 			Peticion peticion;
 			while((peticion = (Peticion)in.readObject()) != null){
 				// Tratamiento de la peticion
-				
+				Respuesta respuesta = peticion.tratar();
+				if (respuesta.mensaje.equals("SALIR")){
+					break;
+				}
+				out.writeObject(peticion);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

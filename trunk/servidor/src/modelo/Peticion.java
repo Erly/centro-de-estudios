@@ -37,6 +37,7 @@ public class Peticion {
 	private Object nuevoObjeto;
 	private Aula aula;
 	private Equipo equipo;
+	private boolean salir;
 	/*String tabla;
 	private String[] filtros;
 	private String[] extras;*/
@@ -76,6 +77,10 @@ public class Peticion {
 		this.objeto=objeto;
 	}
 	
+	public Peticion(boolean salir){
+		this.salir=salir;
+	}
+	
 	/*
 	public Peticion(int accion, String tabla, String[] filtros) throws Exception{
 		if(accion != 0)
@@ -92,6 +97,8 @@ public class Peticion {
 	
 	public Respuesta tratar(){
 		Respuesta respuesta = null;
+		if(salir)
+			return new Respuesta(true, "SALIR");
 		switch (accion) {
 		case 0:
 			/*String select;
