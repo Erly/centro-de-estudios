@@ -1,5 +1,6 @@
 package modelo;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
@@ -9,12 +10,17 @@ import interfaz.Main;
 import modelo.Hardware.*;
 import modelo.Usuarios.*;
 
-public class Peticion {
+public class Peticion implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int CONSULTAR = 0;
 	public static final int INSERTAR = 1;
 	public static final int BORRAR = 2;
 	private static final int MODIFICAR = 3;
+	private static final int LOGIN = 4;
 	
 	public static final int USUARIOS = 0;
 	public static final int AULAS = 1;
@@ -37,6 +43,7 @@ public class Peticion {
 	private Object nuevoObjeto;
 	private Aula aula;
 	private Equipo equipo;
+	private Usuario usuario;
 	private boolean salir;
 	/*String tabla;
 	private String[] filtros;
@@ -77,6 +84,11 @@ public class Peticion {
 		this.objeto=objeto;
 	}
 	
+	public Peticion(Usuario usuario){
+		accion=LOGIN;
+		this.usuario = usuario;
+	}
+	
 	public Peticion(boolean salir){
 		this.salir=salir;
 	}
@@ -101,34 +113,6 @@ public class Peticion {
 			return new Respuesta(true, "SALIR");
 		switch (accion) {
 		case 0:
-			/*String select;
-			if(filtros != null){
-				String filtro = filtros[0];
-				for(int i=1;i<filtros.length;i++){
-					filtro += " AND " + filtros[i];
-				}
-				if(extras != null){
-					String extra = "";
-					for(int i=0;i<extras.length;i++){
-						extra += ", " + extras[i];
-					}
-					select = "SELECT * FROM " + tabla + " WHERE " + filtro + extra;
-				}else{
-					select = "SELECT * FROM " + tabla + " WHERE " + filtro;
-				}
-			}else{
-				select = "SELECT * FROM " + tabla;
-			}
-			try {
-				ResultSet rs = Main.db.lanzarSelect(select);
-				while(rs.next()){
-					
-				}
-				respuesta = new Respuesta(true, "");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 			try {
 				switch(tipo){
 				case 0:
@@ -364,6 +348,22 @@ public class Peticion {
 			}else if(objeto.getClass().toString().equals(Solicitud.class.toString())){
 				
 			}*/
+			break;
+		case 4:
+			try {
+				String mensa = Main.db.login(usuario);
+				if(mensa.equals("Usuario")){
+					respuesta = new Respuesta(true, "Cuenta de tipo 'Usuario' correcta.");
+				}else if(mensa.equals("Tecnico")){
+					respuesta = new Respuesta(true, "Cuenta de tipo 'Tecnico' correcta.");
+				}else if(mensa.equals("Administrador")){
+					respuesta = new Respuesta(true, "Cuenta de tipo 'Administrador' correcta.");
+				}else{
+					respuesta = new Respuesta(false, mensa);
+				}
+			} catch (SQLException e) {
+				respuesta = new Respuesta(false, "Ha ocurrido un error con la sentencia SQL.");
+			}
 			break;
 		}
 		return respuesta;

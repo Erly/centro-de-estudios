@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -36,7 +37,7 @@ public class Main {
 	Socket cliente = null;
 	int encendido = OFF;
 	
-	public static CentroDB db;
+	public static CentroDB db = new CentroDB();
 
 	/**
 	 * Launch the application.
@@ -60,7 +61,7 @@ public class Main {
 	public Main() {
 		try{
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-			db.abrirConexionSinODBC("//localhost/centrodb", AccesoBD.MYSQL, "root", "administrador");
+			db.abrirConexionSinODBC("//localhost/centrodb", AccesoBD.MYSQL, "root", "291188");
 		}catch(SQLException e) {
 			System.out.println("No se ha podido establecer la conexión.");
 		}catch(ClassNotFoundException e) {
@@ -105,23 +106,28 @@ public class Main {
 		btnIniciarServidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				Thread hilo = new Thread(){
+					private boolean arrancado=true;
+					public void run(){
+						while(arrancado){
+							try {
+								Socket cliente = servidor.accept();
+								Conexion conexion = new Conexion(cliente);
+								conexion.start();
+							} catch (SocketException se){
+								System.out.println("Socket cerrado");
+								break;
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				};
 				if(encendido==OFF){
 					try {
 						servidor = new ServerSocket(Integer.parseInt(txtPuerto.getText()));
-						Thread hilo = new Thread(){
-							public void run(){
-								while(true){
-									try {
-										Socket cliente = servidor.accept();
-										Conexion conexion = new Conexion(cliente);
-										conexion.run();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-						};
-						hilo.run();
+						
+						hilo.start();
 						btnIniciarServidor.setText("Detener Servidor");
 						encendido=ON;
 					} catch (NumberFormatException e) {
