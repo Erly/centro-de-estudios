@@ -260,7 +260,7 @@ public class Peticion implements Serializable{
 			}*/
 			break;
 		case 2:
-			if(objeto.getClass().toString().equals(Usuario.class.toString())){
+if(objeto.getClass().toString().equals(Usuario.class.toString())){
 				
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
 				
@@ -268,18 +268,18 @@ public class Peticion implements Serializable{
 				
 			}else if(objeto.getClass().toString().equals(Aula.class.toString())){
 				try {
-					Main.db.actualizarAula((Aula)nuevoObjeto);
-					respuesta= new Respuesta(true, "La aula ha sido creada con exito");
+					Main.db.borrarAula((Aula)objeto);
+					respuesta= new Respuesta(true, "La aula ha sido eliminada con exito");
 				} catch (SQLException e) {
-					respuesta = new Respuesta(false, "La aula no ha podido ser creada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+					respuesta = new Respuesta(false, "La aula no ha podido ser eliminada debido a un error en los datos introducidos. El error devuelto es: \r\n"
 							+ e.getMessage().toString());
 				}
 			}else if(objeto.getClass().toString().equals(Equipo.class.toString())){
 				try {
-					Main.db.actualizarEquipo((Equipo)nuevoObjeto);
-					respuesta= new Respuesta(true, "El equipo ha sido creado con exito");
+					Main.db.borrarEquipo((Equipo)objeto);
+					respuesta= new Respuesta(true, "El equipo ha sido eliminado con exito");
 				} catch (SQLException e) {
-					respuesta = new Respuesta(false, "El equipo no ha podido ser creada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+					respuesta = new Respuesta(false, "El equipo no ha podido ser eliminado debido a un error en los datos introducidos. El error devuelto es: \r\n"
 							+ e.getMessage().toString());
 				}
 			}else if(objeto.getClass().toString().equals(PlacaBase.class.toString())){
@@ -305,7 +305,7 @@ public class Peticion implements Serializable{
 			}*/
 			break;
 		case 3:
-			if(objeto.getClass().toString().equals(Usuario.class.toString())){
+if(objeto.getClass().toString().equals(Usuario.class.toString())){
 				
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
 				
@@ -313,18 +313,18 @@ public class Peticion implements Serializable{
 				
 			}else if(objeto.getClass().toString().equals(Aula.class.toString())){
 				try {
-					Main.db.borrarAula((Aula)objeto);
-					respuesta= new Respuesta(true, "La aula ha sido eliminada con exito");
+					Main.db.actualizarAula((Aula)nuevoObjeto);
+					respuesta= new Respuesta(true, "La aula ha sido creada con exito");
 				} catch (SQLException e) {
-					respuesta = new Respuesta(false, "La aula no ha podido ser eliminada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+					respuesta = new Respuesta(false, "La aula no ha podido ser creada debido a un error en los datos introducidos. El error devuelto es: \r\n"
 							+ e.getMessage().toString());
 				}
 			}else if(objeto.getClass().toString().equals(Equipo.class.toString())){
 				try {
-					Main.db.borrarEquipo((Equipo)objeto);
-					respuesta= new Respuesta(true, "El equipo ha sido eliminado con exito");
+					Main.db.actualizarEquipo((Equipo)nuevoObjeto);
+					respuesta= new Respuesta(true, "El equipo ha sido creado con exito");
 				} catch (SQLException e) {
-					respuesta = new Respuesta(false, "El equipo no ha podido ser eliminado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+					respuesta = new Respuesta(false, "El equipo no ha podido ser creada debido a un error en los datos introducidos. El error devuelto es: \r\n"
 							+ e.getMessage().toString());
 				}
 			}else if(objeto.getClass().toString().equals(PlacaBase.class.toString())){
