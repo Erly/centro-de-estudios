@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Vector;
+
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import datos.AccesoBD;
 import datos.CentroDB;
@@ -43,8 +46,19 @@ public class Main {
 	public static void recargarAulas(){
 		Main.centroEstudios.getAulas().removeAllElements();
 		try {
-			Main.centroEstudios.setAulas(Main.db.obtenerAulas());
+			//Main.centroEstudios.setAulas(Main.db.obtenerAulas());
+			Peticion pet = new Peticion(Peticion.AULAS);
+			out.writeObject(pet);
+			Respuesta res = (Respuesta)in.readObject();
+			if (res.exito){
+				centroEstudios.setAulas(res.resultado);
+			}else{
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las aulas", JOptionPane.ERROR_MESSAGE);
+			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -21,6 +22,9 @@ import javax.swing.SwingConstants;
 import modelo.Aula;
 import modelo.Equipo;
 import modelo.Main;
+import modelo.Peticion;
+import modelo.Respuesta;
+
 import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")
@@ -107,12 +111,29 @@ public class VerAulas extends JInternalFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				if(aula.getEquipos().isEmpty()){
 					try {
-						Main.db.borrarAula(aula);
+						//Main.db.borrarAula(aula);
+						Peticion pet = new Peticion(Peticion.BORRAR, aula);
+						Main.out.writeObject(pet);
+						Respuesta res = (Respuesta)Main.in.readObject();
+						if (res.exito){
+							JOptionPane.showMessageDialog(null, res.mensaje, "Aula eliminada con exito", JOptionPane.INFORMATION_MESSAGE);
+						}else{
+							JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar la aula", JOptionPane.ERROR_MESSAGE);
+						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}finally{
-						JOptionPane.showMessageDialog(null, "Aula " + aula.getCodAula() + " eliminada satisfactoriamente");
+						//JOptionPane.showMessageDialog(null, "Aula " + aula.getCodAula() + " eliminada satisfactoriamente");
 						cargarAulas();
 						aula = null;
 					}
@@ -121,8 +142,25 @@ public class VerAulas extends JInternalFrame {
 						Vector<Equipo> ve = aula.getEquipos();
 						for(int i = 0; i < ve.size(); i++){
 							try {
-								Main.db.borrarEquipo(ve.elementAt(i), aula);
+								//Main.db.borrarEquipo(ve.elementAt(i), aula);
+								Peticion pet = new Peticion(Peticion.BORRAR, ve.elementAt(i));
+								Main.out.writeObject(pet);
+								Respuesta res = (Respuesta)Main.in.readObject();
+								if (res.exito){
+									JOptionPane.showMessageDialog(null, res.mensaje, "Aula eliminada con exito", JOptionPane.INFORMATION_MESSAGE);
+								}else{
+									JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
+								}
 							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
