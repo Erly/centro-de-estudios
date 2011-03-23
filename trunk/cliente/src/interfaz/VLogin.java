@@ -35,6 +35,10 @@ public class VLogin extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtUsuario;
 	private JTextField txtPassword;
+	JLabel lblConectado;
+	JButton btnSeleccionarServidor;
+	JButton okButton;
+	JButton cancelButton;
 
 	/**
 	 * Launch the application.
@@ -74,7 +78,8 @@ public class VLogin extends JDialog {
 		lblLogin.setBounds(12, 12, 426, 71);
 		contentPanel.add(lblLogin);
 		{
-			JButton okButton = new JButton("OK");
+			okButton = new JButton("OK");
+			okButton.setEnabled(false);
 			okButton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -85,7 +90,9 @@ public class VLogin extends JDialog {
 						Respuesta respuesta = (Respuesta)Main.in.readObject();
 						JOptionPane.showMessageDialog(null, respuesta.mensaje, "Login", JOptionPane.DEFAULT_OPTION);
 						if(respuesta.exito){
-							
+							VPrincipal vprincipal = new VPrincipal();
+							vprincipal.setVisible(true);
+							VLogin.this.dispose();
 						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -103,13 +110,14 @@ public class VLogin extends JDialog {
 			getRootPane().setDefaultButton(okButton);
 		}
 		{
-			JButton cancelButton = new JButton("Cancel");
+				cancelButton = new JButton("Cancel");
+				cancelButton.setEnabled(false);
 			cancelButton.setBounds(353, 264, 81, 24);
 			contentPanel.add(cancelButton);
 			cancelButton.setActionCommand("Cancel");
 		}
 		
-		JButton btnSeleccionarServidor = new JButton("Seleccionar Servidor");
+		btnSeleccionarServidor = new JButton("Seleccionar Servidor");
 		btnSeleccionarServidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -128,6 +136,10 @@ public class VLogin extends JDialog {
 					Main.socket = new Socket(ip, puerto);
 					Main.out = new ObjectOutputStream(Main.socket.getOutputStream());
 					Main.in = new ObjectInputStream(Main.socket.getInputStream());
+					lblConectado.setText("Conectado");
+					lblConectado.setForeground(Color.GREEN);
+					okButton.setEnabled(true);
+					cancelButton.setEnabled(true);
 				} catch (UnknownHostException e1) {
 					JOptionPane.showMessageDialog(null, "No es posible encontrar un servidor en la dirección introducida.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
 				} catch (ConnectException ce){
@@ -185,6 +197,11 @@ public class VLogin extends JDialog {
 		passwordIncorrecto.setBounds(384, 157, 32, 32);
 		passwordIncorrecto.setVisible(false);
 		contentPanel.add(passwordIncorrecto);
+		
+		lblConectado = new JLabel("NO Conectado");
+		lblConectado.setForeground(Color.RED);
+		lblConectado.setBounds(12, 12, 127, 15);
+		contentPanel.add(lblConectado);
 		{
 			JLabel Fondo = new JLabel("");
 			Fondo.setIcon(new ImageIcon(getClass().getClassLoader().getResource("imagenes/fondo_login.png")));//"/home/erlantz/Descargas/fondo_login.png"));
