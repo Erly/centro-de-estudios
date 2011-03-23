@@ -19,6 +19,7 @@ import modelo.Main;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class VPrincipal extends JFrame {
@@ -32,21 +33,7 @@ public class VPrincipal extends JFrame {
 	VerEquipo verEquipo;
 	
 	AcercaDe acercaDe;
-/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Principal frame = new Principal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-*/
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -144,7 +131,14 @@ public class VPrincipal extends JFrame {
                     JOptionPane.WARNING_MESSAGE, null, null,  
                     null );  
             if( opcion == JOptionPane.YES_OPTION ) {
-            	Main.db.cerrarConexion();
+            	try {
+            		Main.out.close();
+            		Main.in.close();
+					Main.socket.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 System.exit(0);
             }  
         }
