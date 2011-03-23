@@ -41,7 +41,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("Aulas", "Curso='" + curso + "'", "CodAula =" + codAula);
+		this.lanzarUpdate("aulas", "Curso='" + curso + "'", "CodAula =" + codAula);
 	}
 	
 	public void actualizarEquipo(Equipo equipo) throws SQLException{
@@ -49,7 +49,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("Equipos", "CodEquipo='" + equipo.getCodEquipo() + "'", "CodAula =" + equipo.getCodAula());
+		this.lanzarUpdate("equipos", "CodEquipo='" + equipo.getCodEquipo() + "'", "CodAula =" + equipo.getCodAula());
 	}
 	
 	public void borrarAula(Aula aula) throws SQLException{
@@ -61,7 +61,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarDelete("Aulas", "CodAula=" + codAula);
+		this.lanzarDelete("aulas", "CodAula=" + codAula);
 	}
 	
 	public void borrarEquipo(Equipo equipo) throws SQLException{
@@ -69,12 +69,12 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarDelete("eqTR", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
-		this.lanzarDelete("eqTG", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
-		this.lanzarDelete("eqRAM", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
-		this.lanzarDelete("eqHDD", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqtr", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqtg", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqram", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("eqhdd", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
 		
-		this.lanzarDelete("Equipos", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
+		this.lanzarDelete("equipos", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
 	}
 	
 	public void insertarAula(Aula aula) throws SQLException{
@@ -86,7 +86,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarInsert("Aulas", "CodAula, Curso", codAula + ", '" + curso + "'");
+		this.lanzarInsert("aulas", "CodAula, Curso", codAula + ", '" + curso + "'");
 	}
 	
 	public void insertarEquipo(Equipo equipo) throws SQLException{
@@ -100,22 +100,22 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarInsert("Equipos", "CodEquipo, CodAula, ModeloPB, ModeloCPU, ModeloTA, ModeloMonitor", codEquipo + ", " + codAula + ", '" + pb.getModelo() + "', '" + 
+		this.lanzarInsert("equipos", "CodEquipo, CodAula, ModeloPB, ModeloCPU, ModeloTA, ModeloMonitor", codEquipo + ", " + codAula + ", '" + pb.getModelo() + "', '" + 
 				cpu.getModelo() + "', '" + tso.getModelo() + "', '" + mon.getModelo() + "'");
 		for(int i = 0; i < vhdd.size(); i++){
-			this.lanzarInsert("eqHDD", "Codigo, codEquipo, codAula, ModeloHDD", this.obtenerMaxCod("eqHDD") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqhdd", "Codigo, codEquipo, codAula, ModeloHDD", this.obtenerMaxCod("eqHDD") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vhdd.elementAt(i).getModelo() + "'");
 		}
 		for(int i = 0; i < vram.size(); i++){
-			this.lanzarInsert("eqRAM", "Codigo, codEquipo, codAula, ModeloRAM", this.obtenerMaxCod("eqRAM") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqram", "Codigo, codEquipo, codAula, ModeloRAM", this.obtenerMaxCod("eqRAM") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vram.elementAt(i).getModelo() + "'");
 		}
 		for(int i = 0; i < vtgraf.size(); i++){
-			this.lanzarInsert("eqTG", "Codigo, codEquipo, codAula, ModeloTG", this.obtenerMaxCod("eqTG") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqtg", "Codigo, codEquipo, codAula, ModeloTG", this.obtenerMaxCod("eqTG") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vtgraf.elementAt(i).getModelo() + "'");
 		}
 		for(int i = 0; i < vtred.size(); i++){
-			this.lanzarInsert("eqTR", "Codigo, codEquipo, codAula, ModeloTR", this.obtenerMaxCod("eqTR") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqtr", "Codigo, codEquipo, codAula, ModeloTR", this.obtenerMaxCod("eqTR") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vtred.elementAt(i).getModelo() + "'");
 		}
 	}
@@ -126,7 +126,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<Aula> aulas = new Vector<Aula>();
-		ResultSet rs_aulas = this.lanzarSelect("select * from Aulas ORDER BY CodAula");
+		ResultSet rs_aulas = this.lanzarSelect("select * from aulas ORDER BY CodAula");
 		while(rs_aulas.next()){
 			try{
 				Aula a = new Aula(rs_aulas.getInt("CodAula"), rs_aulas.getString("Curso"));
@@ -145,7 +145,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<CPU> CPUs = new Vector<CPU>();
-		ResultSet rs_cpu = this.lanzarSelect("select * from CPU");
+		ResultSet rs_cpu = this.lanzarSelect("select * from cpu");
 		while(rs_cpu.next()){
 			try{
 				CPU cpu = new CPU(rs_cpu.getString("ModeloCPU") ,rs_cpu.getString("Marca"), rs_cpu.getInt("Nucleos"), rs_cpu.getFloat("Velocidad"), 
@@ -164,7 +164,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		CPU cpu = null;
-		ResultSet rs_cpu = this.lanzarSelect("select * from CPU where ModeloCPU = (select ModeloCPU from Equipos where CodEquipo = " 
+		ResultSet rs_cpu = this.lanzarSelect("select * from cpu where ModeloCPU = (select ModeloCPU from Equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_cpu.next()){
 			try{
@@ -183,7 +183,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<Equipo> equipos = new Vector<Equipo>();
-		ResultSet rs_eq = this.lanzarSelect("select * from Equipos where CodAula = " + aula.getCodAula());
+		ResultSet rs_eq = this.lanzarSelect("select * from equipos where CodAula = " + aula.getCodAula());
 		while(rs_eq.next()){
 			try{
 				Equipo e = new Equipo(rs_eq.getInt("CodEquipo"));
@@ -209,7 +209,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<HDD> HDDs = new Vector<HDD>();
-		ResultSet rs_hdd = this.lanzarSelect("select * from HDD");
+		ResultSet rs_hdd = this.lanzarSelect("select * from hdd");
 		while(rs_hdd.next()){
 			try{
 				HDD hdd = new HDD(rs_hdd.getString("ModeloHDD"), rs_hdd.getString("Marca"), rs_hdd.getInt("Capacidad"), rs_hdd.getInt("RPM"));
@@ -227,10 +227,10 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<HDD> HDDs = new Vector<HDD>();
-		ResultSet rs_eqhdd = this.lanzarSelect("Select ModeloHDD from EqHDD where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
+		ResultSet rs_eqhdd = this.lanzarSelect("Select ModeloHDD from eqhdd where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqhdd.next()){
 			try{
-				ResultSet rs_hdd = this.lanzarSelect("select * from HDD where ModeloHDD = ('" + rs_eqhdd.getString(1) + "')");
+				ResultSet rs_hdd = this.lanzarSelect("select * from hdd where ModeloHDD = ('" + rs_eqhdd.getString(1) + "')");
 				rs_hdd.next();
 				HDD hdd = new HDD(rs_hdd.getString("ModeloHDD"), rs_hdd.getString("Marca"), rs_hdd.getInt("Capacidad"), rs_hdd.getInt("RPM"));
 				HDDs.addElement(hdd);
@@ -257,7 +257,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<Monitor> monitores = new Vector<Monitor>();
-		ResultSet rs_mon = this.lanzarSelect("select * from Monitor");
+		ResultSet rs_mon = this.lanzarSelect("select * from monitor");
 		while(rs_mon.next()){
 			try{
 				Monitor monitor = new Monitor(rs_mon.getString("ModeloMonitor") ,rs_mon.getString("Marca"), rs_mon.getFloat("Pulgadas"), rs_mon.getString("Resolucion"), 
@@ -276,7 +276,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Monitor monitor = null;
-		ResultSet rs_mon = this.lanzarSelect("select * from Monitor where ModeloMonitor = (select ModeloMonitor from Equipos where CodEquipo = " 
+		ResultSet rs_mon = this.lanzarSelect("select * from monitor where ModeloMonitor = (select ModeloMonitor from Equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_mon.next()){
 			try{
@@ -295,7 +295,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<PlacaBase> vpb = new Vector<PlacaBase>();
-		ResultSet rs_pb = this.lanzarSelect("select * from `Placas Base`");
+		ResultSet rs_pb = this.lanzarSelect("select * from `placas base`");
 		while(rs_pb.next()){
 			try{
 				PlacaBase pb = new PlacaBase(rs_pb.getString("ModeloPB") ,rs_pb.getString("Marca"), rs_pb.getInt("PCI"), rs_pb.getInt("AGP"), rs_pb.getInt("PCIE"), 
@@ -314,7 +314,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		PlacaBase pb = null;
-		ResultSet rs_pb = this.lanzarSelect("select * from `Placas Base` where ModeloPB = (select ModeloPB from Equipos where CodEquipo = " 
+		ResultSet rs_pb = this.lanzarSelect("select * from `placas base` where ModeloPB = (select ModeloPB from Equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_pb.next()){
 			try{
@@ -333,7 +333,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<RAM> ram = new Vector<RAM>();
-		ResultSet rs_ram = this.lanzarSelect("select * from RAM");
+		ResultSet rs_ram = this.lanzarSelect("select * from ram");
 		while(rs_ram.next()){
 			try{
 				RAM r = new RAM(rs_ram.getString("ModeloRAM"), rs_ram.getString("Marca"), rs_ram.getInt("Capacidad"), rs_ram.getInt("Velocidad"));
@@ -351,10 +351,10 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<RAM> ram = new Vector<RAM>();
-		ResultSet rs_eqram = this.lanzarSelect("Select ModeloRAM from EqRAM where CodEquipo = "	+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
+		ResultSet rs_eqram = this.lanzarSelect("Select ModeloRAM from eqram where CodEquipo = "	+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqram.next()){
 			try{
-				ResultSet rs_ram = this.lanzarSelect("select * from RAM where ModeloRAM = ('" + rs_eqram.getString(1) + "')");
+				ResultSet rs_ram = this.lanzarSelect("select * from ram where ModeloRAM = ('" + rs_eqram.getString(1) + "')");
 				rs_ram.next();
 				RAM r = new RAM(rs_ram.getString("ModeloRAM"), rs_ram.getString("Marca"), rs_ram.getInt("Capacidad"), rs_ram.getInt("Velocidad"));
 				ram.addElement(r);
@@ -371,7 +371,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<TAudio> vta = new Vector<TAudio>();
-		ResultSet rs_ta = this.lanzarSelect("select * from `TAudio`");
+		ResultSet rs_ta = this.lanzarSelect("select * from `taudio`");
 		while(rs_ta.next()){
 			try{
 				TAudio ta = new TAudio(rs_ta.getString("ModeloTA") ,rs_ta.getString("Marca"), rs_ta.getFloat("Canales"));
@@ -389,7 +389,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		TAudio ta = null;
-		ResultSet rs_ta = this.lanzarSelect("select * from `TAudio` where ModeloTA = (select ModeloTA from Equipos where CodEquipo = " 
+		ResultSet rs_ta = this.lanzarSelect("select * from `taudio` where ModeloTA = (select ModeloTA from Equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_ta.next()){
 			try{
@@ -407,7 +407,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<TGrafica> tGraficas = new Vector<TGrafica>();
-		ResultSet rs_tg = this.lanzarSelect("select * from `TGrafica`");
+		ResultSet rs_tg = this.lanzarSelect("select * from `tgrafica`");
 		while(rs_tg.next()){
 			try{
 				TGrafica tg = new TGrafica(rs_tg.getString("ModeloTG"), rs_tg.getString("Marca"), rs_tg.getString("Puerto"), rs_tg.getInt("Velocidad"),
@@ -426,10 +426,10 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<TGrafica> tGraficas = new Vector<TGrafica>();
-		ResultSet rs_eqtg = this.lanzarSelect("Select ModeloTG from EqTG where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
+		ResultSet rs_eqtg = this.lanzarSelect("Select ModeloTG from eqtg where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqtg.next()){
 			try{
-				ResultSet rs_tg = this.lanzarSelect("select * from `TGrafica` where ModeloTG = ('" + rs_eqtg.getString(1) + "')");
+				ResultSet rs_tg = this.lanzarSelect("select * from `tgrafica` where ModeloTG = ('" + rs_eqtg.getString(1) + "')");
 				rs_tg.next();
 				TGrafica tg = new TGrafica(rs_tg.getString("ModeloTG"), rs_tg.getString("Marca"), rs_tg.getString("Puerto"), rs_tg.getInt("Velocidad"),
 						rs_tg.getInt("Memoria"));
@@ -447,7 +447,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<TRed> tRed = new Vector<TRed>();
-		ResultSet rs_tr = this.lanzarSelect("select * from `TRed`");
+		ResultSet rs_tr = this.lanzarSelect("select * from `tred`");
 		while(rs_tr.next()){
 			try{
 				TRed tr = new TRed(rs_tr.getString("ModeloTR"), rs_tr.getString("Marca"), rs_tr.getString("Puerto"), rs_tr.getInt("Capacidad"));
@@ -465,10 +465,10 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<TRed> tRed = new Vector<TRed>();
-		ResultSet rs_eqtr = this.lanzarSelect("Select ModeloTR from EqTR where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
+		ResultSet rs_eqtr = this.lanzarSelect("Select ModeloTR from eqtr where CodEquipo = " + equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula());
 		while(rs_eqtr.next()){
 			try{
-				ResultSet rs_tr = this.lanzarSelect("select * from `TRed` where ModeloTR = ('" + rs_eqtr.getString(1) + "')");
+				ResultSet rs_tr = this.lanzarSelect("select * from `tred` where ModeloTR = ('" + rs_eqtr.getString(1) + "')");
 				rs_tr.next();
 				TRed tr = new TRed(rs_tr.getString("ModeloTR"), rs_tr.getString("Marca"), rs_tr.getString("Puerto"), rs_tr.getInt("Capacidad"));
 				tRed.addElement(tr);
