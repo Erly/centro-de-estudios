@@ -260,7 +260,7 @@ public class Peticion implements Serializable{
 			}*/
 			break;
 		case 2:
-if(objeto.getClass().toString().equals(Usuario.class.toString())){
+			if(objeto.getClass().toString().equals(Usuario.class.toString())){
 				
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
 				
@@ -305,7 +305,7 @@ if(objeto.getClass().toString().equals(Usuario.class.toString())){
 			}*/
 			break;
 		case 3:
-if(objeto.getClass().toString().equals(Usuario.class.toString())){
+			if(objeto.getClass().toString().equals(Usuario.class.toString())){
 				
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
 				
