@@ -6,9 +6,12 @@ import java.util.Vector;
 
 import modelo.Hardware.*;
 
-@SuppressWarnings("serial")
 public class Equipo implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 	private int codAula;
 	private int codEquipo;
 	private PlacaBase placaBase;
@@ -23,15 +26,15 @@ public class Equipo implements Serializable{
 	public Equipo() {
 	}
 	
-	public Equipo(int codEquipo){
+	public Equipo(int codAula, int codEquipo){
+		this.codAula = codAula;
 		this.codEquipo = codEquipo;
 	}
 
 	public Equipo(int codAula, int codEquipo, PlacaBase placaBase, Vector<HDD> HDDs,
 			CPU cpu, Vector<RAM> ram, Vector<TGrafica> tGraficas,
 			TAudio tAudio, Monitor monitor, Vector<TRed> tRed) {
-		this.codAula = codAula;
-		this.codEquipo = codEquipo;
+		this(codAula, codEquipo);
 		this.placaBase = placaBase;
 		this.HDDs = HDDs;
 		this.cpu = cpu;

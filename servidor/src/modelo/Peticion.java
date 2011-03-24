@@ -21,6 +21,7 @@ public class Peticion implements Serializable{
 	public static final int BORRAR = 2;
 	private static final int MODIFICAR = 3;
 	private static final int LOGIN = 4;
+	private static final int CARGARHARD = 5;
 	
 	public static final int USUARIOS = 0;
 	public static final int AULAS = 1;
@@ -87,6 +88,11 @@ public class Peticion implements Serializable{
 	public Peticion(Usuario usuario){
 		accion=LOGIN;
 		this.usuario = usuario;
+	}
+	
+	public Peticion(Equipo equipo){
+		accion=CARGARHARD;
+		this.equipo=equipo;
 	}
 	
 	public Peticion(boolean salir){
@@ -365,7 +371,26 @@ public class Peticion implements Serializable{
 				respuesta = new Respuesta(false, "Ha ocurrido un error con la sentencia SQL.");
 			}
 			break;
+		case 5:
+			try {
+				cargarHardware(equipo);
+				respuesta=new Respuesta(true, "Hardware cargado con exito.", equipo);
+			} catch (SQLException e) {
+				respuesta = new Respuesta(false, "Ha ocurrido un error SQL al obtener el hardware del equipo " + equipo.getCodEquipo());
+			}
+			break;
 		}
 		return respuesta;
+	}
+	
+	public void cargarHardware(Equipo equipo) throws SQLException{
+		equipo.setPlacaBase(Main.db.obtenerPlacaBase(equipo));
+		equipo.setHDDs(Main.db.obtenerHDDs(equipo));
+		equipo.setCpu(Main.db.obtenerCPU(equipo));
+		equipo.setRam(Main.db.obtenerRAM(equipo));
+		equipo.settGraficas(Main.db.obtenerTGrafica(equipo));
+		equipo.settAudio(Main.db.obtenerTAudio(equipo));
+		equipo.setMonitor(Main.db.obtenerMonitor(equipo));
+		equipo.settRed(Main.db.obtenerTRed(equipo));
 	}
 }

@@ -164,7 +164,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		CPU cpu = null;
-		ResultSet rs_cpu = this.lanzarSelect("select * from cpu where ModeloCPU = (select ModeloCPU from Equipos where CodEquipo = " 
+		ResultSet rs_cpu = this.lanzarSelect("select * from cpu where ModeloCPU = (select ModeloCPU from equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_cpu.next()){
 			try{
@@ -183,10 +183,10 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Vector<Equipo> equipos = new Vector<Equipo>();
-		ResultSet rs_eq = this.lanzarSelect("select * from equipos where CodAula = " + aula.getCodAula());
+		ResultSet rs_eq = this.lanzarSelect("select CodEquipo from equipos where CodAula = " + aula.getCodAula());
 		while(rs_eq.next()){
 			try{
-				Equipo e = new Equipo(rs_eq.getInt("CodEquipo"));
+				Equipo e = new Equipo(aula.getCodAula(), rs_eq.getInt(1));
 				/*e.setPlacaBase(obtenerPlacaBase(e, aula));
 				e.setHDDs(obtenerHDDs(e, aula));
 				e.setCpu(obtenerCPU(e, aula));
@@ -276,7 +276,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		Monitor monitor = null;
-		ResultSet rs_mon = this.lanzarSelect("select * from monitor where ModeloMonitor = (select ModeloMonitor from Equipos where CodEquipo = " 
+		ResultSet rs_mon = this.lanzarSelect("select * from monitor where ModeloMonitor = (select ModeloMonitor from equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_mon.next()){
 			try{
@@ -314,7 +314,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		PlacaBase pb = null;
-		ResultSet rs_pb = this.lanzarSelect("select * from `placas base` where ModeloPB = (select ModeloPB from Equipos where CodEquipo = " 
+		ResultSet rs_pb = this.lanzarSelect("select * from `placas base` where ModeloPB = (select ModeloPB from equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_pb.next()){
 			try{
@@ -389,7 +389,7 @@ public class CentroDB extends AccesoBD {
 			return null;
 		}
 		TAudio ta = null;
-		ResultSet rs_ta = this.lanzarSelect("select * from `taudio` where ModeloTA = (select ModeloTA from Equipos where CodEquipo = " 
+		ResultSet rs_ta = this.lanzarSelect("select * from `taudio` where ModeloTA = (select ModeloTA from equipos where CodEquipo = " 
 				+ equipo.getCodEquipo() + " AND CodAula = " + equipo.getCodAula() + ")");
 		while(rs_ta.next()){
 			try{
