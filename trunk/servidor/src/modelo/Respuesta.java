@@ -10,6 +10,7 @@ public class Respuesta implements Serializable{
 	
 	public Boolean exito;
 	public String mensaje;
+	public Equipo equipo;
 	public Hardware hardware;
 	public Vector resultado;
 	public Hashtable resultado2;
@@ -23,6 +24,11 @@ public class Respuesta implements Serializable{
 	public Respuesta(Boolean exito, String mensaje){
 		this(exito);
 		this.mensaje=mensaje;
+	}
+	
+	public Respuesta(Boolean exito, String mensaje, Equipo equipo){
+		this(exito, mensaje);
+		this.equipo=equipo;
 	}
 	
 	public Respuesta(Boolean exito, String mensaje, Hardware resultado){
