@@ -3,8 +3,10 @@ package interfaz;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.UIManager;
 import javax.swing.JLabel;
@@ -34,7 +36,7 @@ public class VLogin extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtUsuario;
-	private JTextField txtPassword;
+	private JPasswordField txtPassword;
 	JLabel lblConectado;
 	JButton btnSeleccionarServidor;
 	JButton okButton;
@@ -171,7 +173,7 @@ public class VLogin extends JDialog {
 		contentPanel.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
-		txtPassword = new JTextField();
+		txtPassword = new JPasswordField();
 		txtPassword.setBounds(191, 159, 182, 24);
 		contentPanel.add(txtPassword);
 		txtPassword.setColumns(10);

@@ -243,14 +243,10 @@ public class VerAulas extends JInternalFrame {
 					if(componentes[i].getClass() == VerEquipo.class){
 						VerEquipo ve = (VerEquipo) componentes[i];
 						Equipo e = aula.getEquipos().elementAt(lstEquipos.getSelectedIndex());
-						try {
-							e.cargarHardware(aula);
-							ve.setEquipo(e, aula);
-							ve.setVisible(true);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						
+						e.cargarHardware();
+						ve.setEquipo(e);
+						ve.setVisible(true);
 					}
 				}
 			}
