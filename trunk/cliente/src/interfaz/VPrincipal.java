@@ -16,6 +16,7 @@ import accionesMenu.Cerrar;
 import accionesMenu.MostrarVentana;
 
 import modelo.Main;
+import modelo.Peticion;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -132,6 +133,8 @@ public class VPrincipal extends JFrame {
                     null );  
             if( opcion == JOptionPane.YES_OPTION ) {
             	try {
+            		Peticion pet = new Peticion(true);
+            		Main.out.writeObject(pet);
             		Main.out.close();
             		Main.in.close();
 					Main.socket.close();

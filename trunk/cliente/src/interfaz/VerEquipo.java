@@ -109,8 +109,8 @@ public class VerEquipo extends JInternalFrame {
 		lstTR = new JList();
 		scrollPane_3.setViewportView(lstTR);
 	}
-	public void setEquipo(Equipo e, Aula aula){
-		this.setTitle("Aula Nº" + aula.getCodAula() + " - PC" + e.getCodEquipo());
+	public void setEquipo(Equipo e){
+		this.setTitle("Aula Nº" + e.getCodAula() + " - PC" + e.getCodEquipo());
 		lblPB.setText(e.getPlacaBase().toString());
 		lblCPU.setText(e.getCpu().toString());
 		lblMON.setText(e.getMonitor().toString());
