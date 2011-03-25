@@ -3,7 +3,6 @@ package interfaz;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -85,10 +84,15 @@ public class VLogin extends JDialog {
 			okButton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					if(!okButton.isEnabled()){
+						return;
+					}
 					String usuario = txtUsuario.getText();
-					String pass = txtPassword.getText();
+					char[] pass = txtPassword.getPassword();
+					String password = String.valueOf(pass);
+					pass = new char[0];
 					try {
-						Main.out.writeObject(new Peticion(new Usuario(usuario, pass, "")));
+						Main.out.writeObject(new Peticion(new Usuario(usuario, password, "")));
 						Respuesta respuesta = (Respuesta)Main.in.readObject();
 						JOptionPane.showMessageDialog(null, respuesta.mensaje, "Login", JOptionPane.DEFAULT_OPTION);
 						if(respuesta.exito){
@@ -112,8 +116,25 @@ public class VLogin extends JDialog {
 			getRootPane().setDefaultButton(okButton);
 		}
 		{
-				cancelButton = new JButton("Cancel");
-				cancelButton.setEnabled(false);
+			cancelButton = new JButton("Cancel");
+			cancelButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(Main.socket.isConnected()){
+						try {
+							Peticion pet = new Peticion(true);
+							Main.out.writeObject(pet);
+							Main.out.close();
+							Main.in.close();
+							Main.socket.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					System.exit(0);
+				}
+			});
 			cancelButton.setBounds(353, 264, 81, 24);
 			contentPanel.add(cancelButton);
 			cancelButton.setActionCommand("Cancel");
@@ -141,7 +162,6 @@ public class VLogin extends JDialog {
 					lblConectado.setText("Conectado");
 					lblConectado.setForeground(Color.GREEN);
 					okButton.setEnabled(true);
-					cancelButton.setEnabled(true);
 				} catch (UnknownHostException e1) {
 					JOptionPane.showMessageDialog(null, "No es posible encontrar un servidor en la dirección introducida.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
 				} catch (ConnectException ce){

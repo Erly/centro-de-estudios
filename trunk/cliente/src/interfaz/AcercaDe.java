@@ -8,27 +8,14 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import datos.VERSION;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class AcercaDe extends JInternalFrame {
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AcercaDe frame = new AcercaDe();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -37,7 +24,7 @@ public class AcercaDe extends JInternalFrame {
 		setFrameIcon(new ImageIcon(AcercaDe.class.getResource("/javax/swing/plaf/metal/icons/ocean/info.png")));
 		setTitle("Acerca de...");
 		setClosable(true);
-		setBounds(100, 100, 560, 160);
+		setBounds(100, 100, 600, 160);
 		getContentPane().setLayout(null);
 		
 		JLabel lblCentroDeEstudios = new JLabel("Centro de Estudios");
@@ -46,12 +33,13 @@ public class AcercaDe extends JInternalFrame {
 		lblCentroDeEstudios.setFont(new Font("Tahoma", Font.BOLD, 24));
 		getContentPane().add(lblCentroDeEstudios);
 		
-		JLabel lblVersionBeta = new JLabel("Version: 0.1 BETA");
-		lblVersionBeta.setBounds(224, 40, 102, 14);
+		JLabel lblVersionBeta = new JLabel("Versión: " + VERSION.MAJOR + "." + VERSION.MINOR + "." + VERSION.BUILD);
+		lblVersionBeta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVersionBeta.setBounds(196, 40, 178, 15);
 		getContentPane().add(lblVersionBeta);
 		
 		JLabel lblcCopyright = new JLabel("(c) Copyright 2011, Erlantz Oniga Ouro, todos los derechos reservados");
-		lblcCopyright.setBounds(47, 107, 386, 14);
+		lblcCopyright.setBounds(12, 107, 457, 14);
 		getContentPane().add(lblcCopyright);
 		
 		JLabel label = new JLabel("");
@@ -66,7 +54,7 @@ public class AcercaDe extends JInternalFrame {
 				AcercaDe.this.dispose();
 			}
 		});
-		btnAceptar.setBounds(445, 102, 89, 23);
+		btnAceptar.setBounds(487, 103, 89, 23);
 		getContentPane().add(btnAceptar);
 
 	}
