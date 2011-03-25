@@ -13,6 +13,7 @@ import datos.VERSION;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class AcercaDe extends JInternalFrame {
@@ -24,27 +25,25 @@ public class AcercaDe extends JInternalFrame {
 		setFrameIcon(new ImageIcon(AcercaDe.class.getResource("/javax/swing/plaf/metal/icons/ocean/info.png")));
 		setTitle("Acerca de...");
 		setClosable(true);
-		setBounds(100, 100, 600, 160);
+		setBounds(100, 100, 600, 200);
 		getContentPane().setLayout(null);
 		
 		JLabel lblCentroDeEstudios = new JLabel("Centro de Estudios");
-		lblCentroDeEstudios.setBounds(0, 0, 544, 29);
-		lblCentroDeEstudios.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCentroDeEstudios.setBounds(150, 6, 439, 29);
 		lblCentroDeEstudios.setFont(new Font("Tahoma", Font.BOLD, 24));
 		getContentPane().add(lblCentroDeEstudios);
 		
 		JLabel lblVersionBeta = new JLabel("Versión: " + VERSION.MAJOR + "." + VERSION.MINOR + "." + VERSION.BUILD);
-		lblVersionBeta.setHorizontalAlignment(SwingConstants.CENTER);
-		lblVersionBeta.setBounds(196, 40, 178, 15);
+		lblVersionBeta.setBounds(160, 47, 416, 15);
 		getContentPane().add(lblVersionBeta);
 		
 		JLabel lblcCopyright = new JLabel("(c) Copyright 2011, Erlantz Oniga Ouro, todos los derechos reservados");
-		lblcCopyright.setBounds(12, 107, 457, 14);
+		lblcCopyright.setBounds(18, 144, 457, 14);
 		getContentPane().add(lblcCopyright);
 		
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(AcercaDe.class.getResource("/javax/swing/plaf/metal/icons/ocean/homeFolder.gif")));
-		label.setBounds(257, 65, 26, 30);
+		label.setIcon(new ImageIcon(AcercaDe.class.getResource("/imagenes/Logo.png")));
+		label.setBounds(10, 6, 128, 126);
 		getContentPane().add(label);
 		
 		JButton btnAceptar = new JButton("Aceptar");
@@ -54,8 +53,13 @@ public class AcercaDe extends JInternalFrame {
 				AcercaDe.this.dispose();
 			}
 		});
-		btnAceptar.setBounds(487, 103, 89, 23);
+		btnAceptar.setBounds(487, 140, 89, 23);
 		getContentPane().add(btnAceptar);
+		
+		JLabel lblLiberadoBajoLicencia = new JLabel("<html>Liberado bajo licencia GPLv3 <br> Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com'>centro-de-estudios.googlecode.com</a></html>");
+		lblLiberadoBajoLicencia.setAutoscrolls(true);
+		lblLiberadoBajoLicencia.setBounds(160, 87, 416, 45);
+		getContentPane().add(lblLiberadoBajoLicencia);
 
 	}
 }
