@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Centro de Estudios" default="todo">
 
+	<property name="appname" value="Centro de Estudios"/>
+	<property name="classes" value="../class"/>
+	
     <target name="todo" depends="empaqueta, documenta">
     </target>
     
     <target name="empaqueta" depends="compila">
-        <jar destfile="../jar/Centro de Estudios.jar" basedir="../class" manifest="../class/MANIFEST.MF"/>
+        <jar destfile="../jar/${appname}.jar" basedir="${classes}" includes="**/*.class, **/*.jpg, 
+        	**/*.png, **/*.gif, **/*.xml" manifest="${classes}/MANIFEST.MF"/>
     </target>
     
     <target name="compila" depends="generarversion">
-        <!--delete file="../jar/Centro de Estudios.jar"/>
-    	<delete file="../class/MANIFEST.MF"/>-->
+        <delete file="../jar/${appname}.jar"/>
+    	<delete file="${classes}/MANIFEST.MF"/>
+    	<copy todir="${classes}/imagenes">
+    		<fileset dir="./imagenes"/>
+    	</copy>
     	<manifest file="../class/MANIFEST.MF">
     		   <attribute name="Built-By" value="${user.name}"/>
     	       <attribute name="Main-Class" value="modelo.Main"/>
@@ -28,7 +35,7 @@
 public class VERSION{
     //Clase auto-generada por el script Build.xml usando ant.
     public static final int MAJOR = 0;
-    public static final int MINOR = 1;
+    public static final int MINOR = 2;
 	public static final int BUILD = ${TODAY};
 }
 		</echo>
