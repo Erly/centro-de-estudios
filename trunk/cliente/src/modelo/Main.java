@@ -8,11 +8,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import datos.CentroDB;
 
 public class Main {
 	
-	public static CentroDB db = new CentroDB();
 	public static CentroEstudios centroEstudios = new CentroEstudios();
 	public static Socket socket = new Socket();
 	public static ObjectInputStream in;
@@ -30,32 +28,19 @@ public class Main {
 		vlogin.setVisible(true);
 	}
 	
-	/**
-	 * Borra los elementos del vector aulas del centro de estudios y los vuelve a cargar desde la base de datos. 
-	 * Obteniendo la versión mas actualziada de estos.
-	 */
-	public static void recargarAulas(){
-		Main.centroEstudios.getAulas().removeAllElements();
+	public static Respuesta enviarPeticion(Peticion peticion) {
 		try {
-			Peticion pet = new Peticion(Peticion.AULAS);
-			out.writeObject(pet);
-			Respuesta res = (Respuesta)in.readObject();
-			if (res.exito){
-				centroEstudios.setAulas(res.resultado);
-			}else{
-				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las aulas", JOptionPane.ERROR_MESSAGE);
-			}
+			Main.out.writeObject(peticion);
+			Respuesta res = (Respuesta)Main.in.readObject();
+			return res;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Imposible enviar o recivir información del servidor, asegurese de estar " +
+					"correctamente conectado", "Error al conectar", JOptionPane.ERROR_MESSAGE);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "El cliente esperaba un objeto de tipo Respuesta, en su lugar" +
+					"ha recivido un objeto de otro tipo", "Error en la recepción", JOptionPane.ERROR_MESSAGE);
 		}
+		return null;
+		
 	}
-	
-	
 }

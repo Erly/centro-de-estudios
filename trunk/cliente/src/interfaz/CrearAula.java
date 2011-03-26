@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import modelo.Aula;
 import modelo.Main;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -58,18 +59,9 @@ public class CrearAula extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(!txtCurso.getText().isEmpty()){
-					try {
-						Main.db.insertarAula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}finally{
-						JOptionPane.showMessageDialog(null, "Aula Nº" + txtCodigo.getText() + " '" + txtCurso.getText() + "' creada satisfactoriamente.");
-						CrearAula.this.dispose();
-					}
+					Aula aula = new Aula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
+					Main.centroEstudios.agregarAula(aula);
+					CrearAula.this.dispose();
 				}
 			}
 		});
@@ -85,7 +77,7 @@ public class CrearAula extends JInternalFrame {
 	}
 	
 	public void cargarCodigo(){
-		Main.recargarAulas();
+		Main.centroEstudios.cargarAulas();
 		if(Main.centroEstudios.getAulas().isEmpty()){
 			txtCodigo.setText("1");
 		}else{

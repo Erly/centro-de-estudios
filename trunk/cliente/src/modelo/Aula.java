@@ -3,6 +3,8 @@ package modelo;
 import java.io.Serializable;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 @SuppressWarnings("serial")
 public class Aula implements Serializable{
 
@@ -43,6 +45,43 @@ public class Aula implements Serializable{
 	}
 	public String toString(){
 		return codAula + " - " + curso;
+	}
+	
+	public void agregarEquipo(Equipo equipo){
+		try {
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.INSERTAR, equipo));
+			if (res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Equipo creado con exito", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al crear el equipo", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void borrarEquipo(Equipo equipo){
+		try {
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipo));
+			if (res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Equipo borrado con exito", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "La accion solicitada no coincide con el constructor empleado", "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void borrarEquipos() throws Exception{
+		for(int i = 0; i < equipos.size(); i++){
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipos.elementAt(i)));
+			if (!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 	
 }

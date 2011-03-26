@@ -12,7 +12,11 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
+import modelo.Aula;
+import modelo.Equipo;
 import modelo.Main;
+import modelo.Peticion;
+import modelo.Respuesta;
 import modelo.Hardware.*;
 
 import javax.swing.SwingConstants;
@@ -237,13 +241,12 @@ public class NuevoEquipo extends JInternalFrame {
 						&& lstHDD2.getLastVisibleIndex() != -1 && lstRAM2.getLastVisibleIndex() != -1 && lstTGrafica2.getLastVisibleIndex() != -1
 						&& lstTRed2.getLastVisibleIndex() != -1){
 					try {
-						Main.db.insertarEquipo(Integer.parseInt(txtAula.getText()), Integer.parseInt(txtCodEquipo.getText()), vpb.elementAt(cmbPlacaBase.getSelectedIndex()-1), 
+						Equipo equipo = new Equipo(Integer.parseInt(txtAula.getText()), Integer.parseInt(txtCodEquipo.getText()), vpb.elementAt(cmbPlacaBase.getSelectedIndex()-1), 
 								vhdd2, vcpu.elementAt(cmbCPU.getSelectedIndex()-1), vram2, vtgraf2, vtso.elementAt(cmbTSonido.getSelectedIndex()-1), 
 								vmo.elementAt(cmbMonitor.getSelectedIndex()-1), vtred2);
+						Vector<Aula> aulas = Main.centroEstudios.getAulas();
+						Aula aula = aulas.elementAt(0); //TODO
 					} catch (NumberFormatException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}finally{
@@ -276,47 +279,115 @@ public class NuevoEquipo extends JInternalFrame {
 	}
 	
 	public void cargarCampos(int codClase, int codEquipo){
-		try {
-			resetearCombos();
-			resetearListas();
-			txtAula.setText("" + codClase);
-			txtCodEquipo.setText("" + codEquipo);
-			vpb = Main.db.obtenerPlacaBase();
-			vcpu = Main.db.obtenerCPU();
-			vtso = Main.db.obtenerTAudio();
-			vmo = Main.db.obtenerMonitor();
-			vhdd = Main.db.obtenerHDDs();
-			vram = Main.db.obtenerRAM();
-			vtgraf = Main.db.obtenerTGrafica();
-			vtred = Main.db.obtenerTRed();
-			
-			cmbPlacaBase.addItem("Seleccione Placa Base");
-			for(int i = 0; i < vpb.size(); i++){
-				cmbPlacaBase.addItem(vpb.elementAt(i));
+		
+		resetearCombos();
+		resetearListas();
+		txtAula.setText("" + codClase);
+		txtCodEquipo.setText("" + codEquipo);
+		Respuesta res;
+		try {	
+			res = Main.enviarPeticion(new Peticion(Peticion.PLACABASE));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las placas base", JOptionPane.ERROR_MESSAGE);
 			}
-
-			cmbCPU.addItem("Seleccione CPU");
-			for(int i = 0; i < vcpu.size(); i++){
-				cmbCPU.addItem(vcpu.elementAt(i));
-			}
-
-			cmbTSonido.addItem("Seleccione T. Sonido");
-			for(int i = 0; i < vtso.size(); i++){
-				cmbTSonido.addItem(vtso.elementAt(i));
-			}
-
-			cmbMonitor.addItem("Seleccione Monitor");
-			for(int i = 0; i < vmo.size(); i++){
-				cmbMonitor.addItem(vmo.elementAt(i));
-			}
-			lstHDD.setListData(vhdd);
-			lstRAM.setListData(vram);
-			lstTGrafica.setListData(vtgraf);
-			lstTRed.setListData(vtred);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			vpb = res.resultado;
+		} catch(Exception e) {
+			//TODO
 		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.CPU));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las CPU", JOptionPane.ERROR_MESSAGE);
+			}
+			vcpu = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.TAUDIO));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las tarjetas de sonido", JOptionPane.ERROR_MESSAGE);
+			}
+			vtso = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.MONITOR));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener los monitores", JOptionPane.ERROR_MESSAGE);
+			}
+			vmo = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.HDD));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener los discos duros", JOptionPane.ERROR_MESSAGE);
+			}
+			vhdd = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.RAM));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las memorias RAM", JOptionPane.ERROR_MESSAGE);
+			}
+			vram = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.TGRAFICA));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las tarjetas gráficas", JOptionPane.ERROR_MESSAGE);
+			}
+			vtgraf = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+		
+		try{
+			res = Main.enviarPeticion(new Peticion(Peticion.TRED));
+			if(!res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las tarjetas de red", JOptionPane.ERROR_MESSAGE);
+			}
+			vtred = res.resultado;
+		} catch(Exception e) {
+			//TODO
+		}
+			
+		cmbPlacaBase.addItem("Seleccione Placa Base");
+		for(int i = 0; i < vpb.size(); i++){
+			cmbPlacaBase.addItem(vpb.elementAt(i));
+		}
+
+		cmbCPU.addItem("Seleccione CPU");
+		for(int i = 0; i < vcpu.size(); i++){
+			cmbCPU.addItem(vcpu.elementAt(i));
+		}
+
+		cmbTSonido.addItem("Seleccione T. Sonido");
+		for(int i = 0; i < vtso.size(); i++){
+			cmbTSonido.addItem(vtso.elementAt(i));
+		}
+
+		cmbMonitor.addItem("Seleccione Monitor");
+		for(int i = 0; i < vmo.size(); i++){
+			cmbMonitor.addItem(vmo.elementAt(i));
+		}
+		lstHDD.setListData(vhdd);
+		lstRAM.setListData(vram);
+		lstTGrafica.setListData(vtgraf);
+		lstTRed.setListData(vtred);
 	}
 	
 	public void resetearCombos(){

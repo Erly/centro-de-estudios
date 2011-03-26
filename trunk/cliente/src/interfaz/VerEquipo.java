@@ -3,7 +3,6 @@ package interfaz;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 
-import modelo.Aula;
 import modelo.Equipo;
 
 import java.awt.Font;
