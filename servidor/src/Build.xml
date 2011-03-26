@@ -12,17 +12,20 @@
         	**/*.png, **/*.gif, **/*.xml" manifest="${classes}/MANIFEST.MF"/>
     </target>
     
-    <target name="compila" depends="generarversion">
+    <target name="compila" depends="generarversion, generarcp">
         <delete file="../jar/${appname}.jar"/>
     	<delete file="${classes}/MANIFEST.MF"/>
     	<copy todir="${classes}/imagenes">
     		<fileset dir="./imagenes"/>
     	</copy>
+    	<copy todir="../jar">
+    		   <fileset dir="../includes"/>
+    	</copy>
     	<manifest file="../class/MANIFEST.MF">
     		   <attribute name="Built-By" value="${user.name}"/>
-    	       <attribute name="Main-Class" value="modelo.Main"/>
+    	       <attribute name="Main-Class" value="interfaz.Main"/>
+    		   <attribute name="Class-Path" value="${mf.classpath}"/>
     	</manifest>
-    	
         <javac srcdir="./" destdir="../class"/>
     </target>
 	
@@ -39,6 +42,18 @@ public class VERSION{
 	public static final int BUILD = ${TODAY};
 }
 		</echo>
+	</target>
+	
+	<target name="generarcp">
+		<path id="build.classpath">
+			  <fileset dir="../includes">
+			    <include name="**/*.jar" />
+			  </fileset>
+		</path>
+		<pathconvert property="mf.classpath" pathsep=" ">
+			<path refid="build.classpath" />
+			<flattenmapper />
+		</pathconvert>
 	</target>
     
     <target name="documenta">
