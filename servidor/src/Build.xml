@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Centro de Estudios" default="todo">
+
+	<property name="appname" value="ServidorCE"/>
+	<property name="classes" value="../class"/>
+	
+    <target name="todo" depends="empaqueta, documenta">
+    </target>
+    
+    <target name="empaqueta" depends="compila">
+        <jar destfile="../jar/${appname}.jar" basedir="${classes}" includes="**/*.class, **/*.jpg, 
+        	**/*.png, **/*.gif, **/*.xml" manifest="${classes}/MANIFEST.MF"/>
+    </target>
+    
+    <target name="compila" depends="generarversion">
+        <delete file="../jar/${appname}.jar"/>
+    	<delete file="${classes}/MANIFEST.MF"/>
+    	<copy todir="${classes}/imagenes">
+    		<fileset dir="./imagenes"/>
+    	</copy>
+    	<manifest file="../class/MANIFEST.MF">
+    		   <attribute name="Built-By" value="${user.name}"/>
+    	       <attribute name="Main-Class" value="modelo.Main"/>
+    	</manifest>
+    	
+        <javac srcdir="./" destdir="../class"/>
+    </target>
+	
+	<target name="generarversion">
+		<tstamp>
+			  <format property="TODAY" pattern="yyyyMMd" locale="SPANISH, ENGLISH" />
+		</tstamp>
+		<echo file="./datos/VERSION.java">package datos;
+
+public class VERSION{
+    //Clase auto-generada por el script Build.xml usando ant.
+    public static final int MAJOR = 0;
+    public static final int MINOR = 3;
+	public static final int BUILD = ${TODAY};
+}
+		</echo>
+	</target>
+    
+    <target name="documenta">
+        <javadoc sourcepath="." destdir="../javadoc" packagenames="*"/>
+    </target>
+</project>
