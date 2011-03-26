@@ -19,6 +19,7 @@ public class ModificarAula extends JInternalFrame {
 
 	private JTextField txtCodigo;
 	private JTextField txtCurso;
+	private Aula aula;
 	
 	/**
 	 * Create the frame.
@@ -62,25 +63,16 @@ public class ModificarAula extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(!txtCurso.getText().isEmpty()){
-					try {
-						Main.db.actualizarAula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}finally{
-						JOptionPane.showMessageDialog(null, "Aula Nº" + txtCodigo.getText() + " es ahora '" + txtCurso.getText() + "'.");
-						Component[] componentes = ModificarAula.this.getParent().getComponents();
-						for(int i = 0; i < componentes.length; i++){
-							if(componentes[i].getClass() == VerAulas.class){
-								VerAulas va = (VerAulas) componentes[i];
-								va.cargarAulas();
-							}
+					Aula nuevaAula = new Aula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
+					Main.centroEstudios.modificarAula(aula, nuevaAula);
+					Component[] componentes = ModificarAula.this.getParent().getComponents();
+					for(int i = 0; i < componentes.length; i++){
+						if(componentes[i].getClass() == VerAulas.class){
+							VerAulas va = (VerAulas) componentes[i];
+							va.cargarAulas();
 						}
-						ModificarAula.this.dispose();
 					}
+					ModificarAula.this.dispose();
 				}
 			}
 		});
@@ -89,6 +81,7 @@ public class ModificarAula extends JInternalFrame {
 	}
 	
 	public void cargarCodigo(Aula aula){
+		this.aula = aula;
 		txtCodigo.setText("" + aula.getCodAula());
 		txtCurso.setText(aula.getCurso());
 		this.setTitle("Modificar " + txtCodigo.getText() + " - " + txtCurso.getText());

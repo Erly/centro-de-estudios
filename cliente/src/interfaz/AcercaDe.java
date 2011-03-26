@@ -1,5 +1,6 @@
 package interfaz;
 
+import java.awt.Desktop;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
@@ -14,6 +15,13 @@ import datos.VERSION;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.swing.JEditorPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 @SuppressWarnings("serial")
 public class AcercaDe extends JInternalFrame {
@@ -56,10 +64,30 @@ public class AcercaDe extends JInternalFrame {
 		btnAceptar.setBounds(487, 140, 89, 23);
 		getContentPane().add(btnAceptar);
 		
-		JLabel lblLiberadoBajoLicencia = new JLabel("<html>Liberado bajo licencia GPLv3 <br> Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com'>centro-de-estudios.googlecode.com</a></html>");
-		lblLiberadoBajoLicencia.setAutoscrolls(true);
-		lblLiberadoBajoLicencia.setBounds(160, 87, 416, 45);
-		getContentPane().add(lblLiberadoBajoLicencia);
+		JEditorPane editorPane = new JEditorPane("text/html","<center>Liberado bajo licencia GPLv3 </center><br> " +
+				"Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com/'>centro-de-estudios.googlecode.com</a>");
+		editorPane.setAutoscrolls(true);
+		editorPane.setOpaque(false);
+		editorPane.setEditable(false);
+		editorPane.addHyperlinkListener(new HyperlinkListener() {
+			
+			@Override
+			public void hyperlinkUpdate(HyperlinkEvent e) {
+				if(HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())){
+					try {
+						Desktop.getDesktop().browse(new URI(e.getURL().toString()));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		editorPane.setBounds(150, 74, 432, 58);
+		getContentPane().add(editorPane);
 
 	}
 }

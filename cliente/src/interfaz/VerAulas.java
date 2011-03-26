@@ -110,71 +110,14 @@ public class VerAulas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(aula.getEquipos().isEmpty()){
-					try {
-						//Main.db.borrarAula(aula);
-						Peticion pet = new Peticion(Peticion.BORRAR, aula);
-						Main.out.writeObject(pet);
-						Respuesta res = (Respuesta)Main.in.readObject();
-						if (res.exito){
-							JOptionPane.showMessageDialog(null, res.mensaje, "Aula eliminada con exito", JOptionPane.INFORMATION_MESSAGE);
-						}else{
-							JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar la aula", JOptionPane.ERROR_MESSAGE);
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}finally{
-						//JOptionPane.showMessageDialog(null, "Aula " + aula.getCodAula() + " eliminada satisfactoriamente");
-						cargarAulas();
-						aula = null;
-					}
+					Main.centroEstudios.eliminarAula(aula);
+					cargarAulas();
+					aula = null;
 				}else{
 					if(chkRecursivo.isSelected()){
-						Vector<Equipo> ve = aula.getEquipos();
-						for(int i = 0; i < ve.size(); i++){
-							try {
-								//Main.db.borrarEquipo(ve.elementAt(i), aula);
-								Peticion pet = new Peticion(Peticion.BORRAR, ve.elementAt(i));
-								Main.out.writeObject(pet);
-								Respuesta res = (Respuesta)Main.in.readObject();
-								if (res.exito){
-									JOptionPane.showMessageDialog(null, res.mensaje, "Aula eliminada con exito", JOptionPane.INFORMATION_MESSAGE);
-								}else{
-									JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
-								}
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (ClassNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						try {
-							Main.db.borrarAula(aula);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}finally{
-							JOptionPane.showMessageDialog(null, "Aula " + aula.getCodAula() + " eliminada satisfactoriamente");
-							cargarAulas();
-							aula = null;
-						}
+						Main.centroEstudios.eliminarAulaRecursivamente(aula);
+						cargarAulas();
+						aula = null;
 					}else{
 						JOptionPane.showMessageDialog(null, "Hay equipos en este aula por lo que no se puede eliminar sin eliminar los equipos.\n" +
 								"Si deseas eliminar los equipos junto con el aula selecciona el borrado recursivo", "Imposible borrar", JOptionPane.ERROR_MESSAGE);
@@ -253,23 +196,18 @@ public class VerAulas extends JInternalFrame {
 		});
 		panel.add(btnVerEquipo);
 		
-		JButton btnEditarEquipo = new JButton("Eliminar Equipo");
-		btnEditarEquipo.addMouseListener(new MouseAdapter() {
+		JButton btnEliminarEquipo = new JButton("Eliminar Equipo");
+		btnEliminarEquipo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(lstEquipos.getSelectedIndex() != -1){
-					Equipo e = aula.getEquipos().elementAt(lstEquipos.getSelectedIndex());
-					try {
-						Main.db.borrarEquipo(e, aula);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					Equipo eq = aula.getEquipos().elementAt(lstEquipos.getSelectedIndex());
+					aula.borrarEquipo(eq);
 				}
 				cargarAulas();
 			}
 		});
-		panel.add(btnEditarEquipo);
+		panel.add(btnEliminarEquipo);
 	}
 	
 	public void setVisible(boolean b){
@@ -279,7 +217,7 @@ public class VerAulas extends JInternalFrame {
 	}
 	
 	public void cargarAulas(){
-		Main.recargarAulas();
+		Main.centroEstudios.cargarAulas();
 		aulas = Main.centroEstudios.getAulas();
 		lstAulas.setListData(aulas);
 		lstEquipos.setListData(new Object[0]);
