@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Centro de Estudios" default="todo">
 
-	<property name="appname" value="Centro de Estudios"/>
+	<property name="appname" value="ClienteCE"/>
 	<property name="classes" value="../class"/>
 	
     <target name="todo" depends="empaqueta, documenta">
@@ -12,7 +12,7 @@
         	**/*.png, **/*.gif, **/*.xml" manifest="${classes}/MANIFEST.MF"/>
     </target>
     
-    <target name="compila" depends="generarversion">
+    <target name="compila" depends="generarversion">    
         <delete file="../jar/${appname}.jar"/>
     	<delete file="${classes}/MANIFEST.MF"/>
     	<copy todir="${classes}/imagenes">
