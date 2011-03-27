@@ -17,8 +17,6 @@ import java.awt.Color;
 import javax.swing.JCheckBox;
 
 import modelo.Main;
-import modelo.Peticion;
-import modelo.Respuesta;
 import modelo.Usuarios.Usuario;
 
 import java.awt.event.MouseAdapter;
@@ -91,23 +89,12 @@ public class VLogin extends JDialog {
 					char[] pass = txtPassword.getPassword();
 					String password = String.valueOf(pass);
 					pass = new char[0];
-					try {
-						Main.out.writeObject(new Peticion(new Usuario(usuario, password, "")));
-						Respuesta respuesta = (Respuesta)Main.in.readObject();
-						JOptionPane.showMessageDialog(null, respuesta.mensaje, "Login", JOptionPane.DEFAULT_OPTION);
-						if(respuesta.exito){
-							VPrincipal vprincipal = new VPrincipal();
-							vprincipal.setVisible(true);
-							VLogin.this.dispose();
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
+					Usuario usu = new Usuario(usuario, password, "");
+					if(Main.Login(usu)){
+						VPrincipal vprincipal = new VPrincipal();
+						vprincipal.setVisible(true);
+						VLogin.this.dispose();
 					}
-					
 				}
 			});
 			okButton.setBounds(287, 264, 54, 24);
@@ -122,11 +109,7 @@ public class VLogin extends JDialog {
 				public void mouseClicked(MouseEvent e) {
 					if(Main.socket.isConnected()){
 						try {
-							Peticion pet = new Peticion(true);
-							Main.out.writeObject(pet);
-							Main.out.close();
-							Main.in.close();
-							Main.socket.close();
+							Main.Salir();
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

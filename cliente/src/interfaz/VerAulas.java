@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -22,9 +20,6 @@ import javax.swing.SwingConstants;
 import modelo.Aula;
 import modelo.Equipo;
 import modelo.Main;
-import modelo.Peticion;
-import modelo.Respuesta;
-
 import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")

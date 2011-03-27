@@ -2,7 +2,6 @@ package interfaz;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -10,7 +9,6 @@ import modelo.Aula;
 import modelo.Main;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 
 @SuppressWarnings("serial")
 public class CrearAula extends JInternalFrame {

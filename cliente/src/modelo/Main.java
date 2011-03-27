@@ -9,6 +9,8 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import modelo.Usuarios.Usuario;
+
 public class Main {
 	
 	public static CentroEstudios centroEstudios = new CentroEstudios();
@@ -41,6 +43,24 @@ public class Main {
 					"ha recivido un objeto de otro tipo", "Error en la recepción", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
-		
+	}
+	
+	public static boolean Login(Usuario usuario){
+		Respuesta res = enviarPeticion(new Peticion(usuario));
+		if(res.exito){
+			JOptionPane.showMessageDialog(null, res.mensaje, "Login", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		} else {
+			JOptionPane.showMessageDialog(null, res.mensaje, "Login", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	
+	public static void Salir() throws IOException{
+		Peticion pet = new Peticion(true);
+		out.writeObject(pet);
+		Main.out.close();
+		Main.in.close();
+		Main.socket.close();
 	}
 }
