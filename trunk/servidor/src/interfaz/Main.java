@@ -38,6 +38,7 @@ public class Main {
 	int encendido = OFF;
 	
 	public static CentroDB db = new CentroDB();
+	private JButton btnAcercaDe;
 
 	/**
 	 * Launch the application.
@@ -149,6 +150,20 @@ public class Main {
 				}
 			}
 		});
+		
+		btnAcercaDe = new JButton("Acerca de...");
+		btnAcercaDe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				AcercaDe acercade = new AcercaDe();
+				acercade.setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_btnAcercaDe = new GridBagConstraints();
+		gbc_btnAcercaDe.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAcercaDe.gridx = 4;
+		gbc_btnAcercaDe.gridy = 5;
+		frame.getContentPane().add(btnAcercaDe, gbc_btnAcercaDe);
 		GridBagConstraints gbc_btnIniciarServidor = new GridBagConstraints();
 		gbc_btnIniciarServidor.insets = new Insets(0, 0, 0, 5);
 		gbc_btnIniciarServidor.gridx = 3;
