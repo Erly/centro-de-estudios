@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -49,10 +50,14 @@ public class AcercaDe extends JInternalFrame {
 		lblcCopyright.setBounds(18, 144, 457, 14);
 		getContentPane().add(lblcCopyright);
 		
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(AcercaDe.class.getResource("/imagenes/Logo.png")));
-		label.setBounds(10, 6, 128, 126);
-		getContentPane().add(label);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setBounds(10, 6, 128, 126);
+		ImageIcon icono = new ImageIcon(AcercaDe.class.getResource("/imagenes/Logo.png"));
+		Image img = icono.getImage();
+		img = img.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon imagen = new ImageIcon(img);
+		lblLogo.setIcon(imagen);
+		getContentPane().add(lblLogo);
 		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addMouseListener(new MouseAdapter() {
