@@ -30,11 +30,7 @@ public class Cerrar extends AbstractAction {
                 null );  
         if( opcion == JOptionPane.YES_OPTION ) {
         	try {
-        		Peticion pet = new Peticion(true);
-        		Main.out.writeObject(pet);
-        		Main.out.close();
-        		Main.in.close();
-				Main.socket.close();
+        		Main.Salir();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

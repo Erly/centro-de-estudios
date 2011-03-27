@@ -1,6 +1,5 @@
 package modelo;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Vector;
 
@@ -132,23 +131,12 @@ public class Equipo implements Serializable{
 	}
 
 	public void cargarHardware(){
-		Peticion pet = new Peticion(this);
-		try {
-			Main.out.writeObject(pet);
-			Respuesta res;
-			res = (Respuesta)Main.in.readObject();
-			if(res.exito){
-				Equipo eq = (Equipo)res.equipo;
-				montarHardware(eq);
-			}else{
-				JOptionPane.showMessageDialog(null, res.mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Respuesta res = Main.enviarPeticion(new Peticion(this));
+		if(res.exito){
+			Equipo eq = (Equipo)res.equipo;
+			montarHardware(eq);
+		}else{
+			JOptionPane.showMessageDialog(null, res.mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
