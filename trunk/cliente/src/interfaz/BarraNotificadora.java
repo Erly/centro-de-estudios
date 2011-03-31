@@ -72,6 +72,11 @@ public class BarraNotificadora extends JPanel implements Runnable{
 		this.setMillis(millis);
 	}
 	
+	public void start(){
+		Thread hilo = new Thread(this);
+		hilo.run();
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -128,5 +133,4 @@ public class BarraNotificadora extends JPanel implements Runnable{
 			break;
 		}
 	}
-
 }
