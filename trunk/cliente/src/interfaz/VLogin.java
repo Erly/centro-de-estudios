@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JCheckBox;
 
+import excepciones.ValorIncorrectoEx;
+
 import modelo.Main;
 import modelo.Usuarios.Usuario;
 
@@ -130,28 +132,71 @@ public class VLogin extends JDialog {
 			public void mouseClicked(MouseEvent arg0) {
 				String ip = null;
 				int puerto = 0;
+				boolean correcto = true;
 				while(!comprobarip(ip)){
 					ip = JOptionPane.showInputDialog("Introduce la ip del servidor: ");
+					if(!comprobarip(ip)){
+						correcto = false;
+						break;
+					}
 					if(ip==null){
-						
+						correcto = false;
+						break;
 					}
 				}
-				while(puerto < 1 || puerto > 65535){
-					puerto = Integer.parseInt(JOptionPane.showInputDialog("Introduce el puerto del servidor <1-65535>: "));
+				while(correcto && (puerto < 1 || puerto > 65535)){
+					try{
+						puerto = Integer.parseInt(JOptionPane.showInputDialog("Introduce el puerto del servidor <1-65535>: "));
+					}catch (NumberFormatException nfe){
+						try {
+							Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Puerto incorrecto", 
+									BarraNotificadora.ERROR_MESSAGE, 3000));
+							notif.start();
+						} catch (ValorIncorrectoEx e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						correcto = false;
+						break;
+					}
 				}
-				try {
-					Main.socket = new Socket(ip, puerto);
-					Main.out = new ObjectOutputStream(Main.socket.getOutputStream());
-					Main.in = new ObjectInputStream(Main.socket.getInputStream());
-					lblConectado.setText("Conectado");
-					lblConectado.setForeground(Color.GREEN);
-					okButton.setEnabled(true);
-				} catch (UnknownHostException e1) {
-					JOptionPane.showMessageDialog(null, "No es posible encontrar un servidor en la dirección introducida.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
-				} catch (ConnectException ce){
-					JOptionPane.showMessageDialog(null, "La conexión ha sido rechazada por el servidor. Asegurese de arrancar el servidor con los permisos adecuados.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				if(correcto){
+					try {
+						Main.socket = new Socket(ip, puerto);
+						Main.out = new ObjectOutputStream(Main.socket.getOutputStream());
+						Main.in = new ObjectInputStream(Main.socket.getInputStream());
+						lblConectado.setText("Conectado");
+						lblConectado.setForeground(Color.GREEN);
+						okButton.setEnabled(true);
+						Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Conexión establecida con el servidor " +
+								ip + ":" + puerto, BarraNotificadora.OK_MESSAGE, 3000));
+						notif.start();
+					} catch (ValorIncorrectoEx e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnknownHostException e1) {
+						//JOptionPane.showMessageDialog(null, "No es posible encontrar un servidor en la dirección introducida.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
+						try {
+							Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Imposible encontrar un servidor " +
+									"en la dirección introducida", BarraNotificadora.ERROR_MESSAGE, 3000));
+							notif.start();
+						} catch (ValorIncorrectoEx e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} catch (ConnectException ce){
+						//JOptionPane.showMessageDialog(null, "La conexión ha sido rechazada por el servidor. Asegurese de arrancar el servidor con los permisos adecuados.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
+						try {
+							Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La conexión ha sido rechazada " +
+									"por el servidor", BarraNotificadora.ERROR_MESSAGE, 3000));
+							notif.start();
+						} catch (ValorIncorrectoEx e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -187,6 +232,24 @@ public class VLogin extends JDialog {
 		chkRecordarPass.setOpaque(false);
 		contentPanel.add(chkRecordarPass);
 		
+		JButton btnNotificacion = new JButton("Notificacion");
+		btnNotificacion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Thread notif;
+				try {
+					notif = new Thread(new BarraNotificadora(VLogin.this, "Esto es una notificación de prueba", 
+							BarraNotificadora.INFORMATION_MESSAGE, 3000));
+					notif.start();
+				} catch (ValorIncorrectoEx e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnNotificacion.setBounds(12, 191, 117, 25);
+		contentPanel.add(btnNotificacion);
+		
 		JLabel lblPassOlvidado = new JLabel("\u00BFHas olvidado tu contrase\u00F1a?");
 		lblPassOlvidado.setForeground(new Color(128, 0, 128));
 		lblPassOlvidado.setBounds(191, 195, 221, 14);
@@ -220,15 +283,17 @@ public class VLogin extends JDialog {
 		if(ip == null){
 			return false;
 		}
-		System.out.println(ip);
 		String octetos[] = ip.split("\\.");
-		System.out.println(octetos[0]);
-		System.out.println(octetos[1]);
-		System.out.println(octetos[2]);
-		System.out.println(octetos[3]);
 		if (octetos.length != 4){
-			System.out.println("octetos");
-			JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			try {
+				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
+						BarraNotificadora.ERROR_MESSAGE, 5000));
+				notif.start();
+			} catch (ValorIncorrectoEx e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return false;
 		}
 		int uno,dos,tres,cuatro;
@@ -237,29 +302,65 @@ public class VLogin extends JDialog {
 			dos = Integer.parseInt(octetos[1]);
 			tres = Integer.parseInt(octetos[2]);
 			cuatro = Integer.parseInt(octetos[3]);
-			System.out.println("" + uno);
-			System.out.println("" + dos);
-			System.out.println("" + tres);
-			System.out.println("" + cuatro);
 		}catch(NumberFormatException e){
 			System.out.println("NumberFormatException");
-			JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			try {
+				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
+						BarraNotificadora.ERROR_MESSAGE, 5000));
+				notif.start();
+			} catch (ValorIncorrectoEx vie) {
+				// TODO Auto-generated catch block
+				vie.printStackTrace();
+			}
 			return false;
 		}
 		if(uno < 1 || uno > 255){
-			JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			try {
+				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
+						BarraNotificadora.ERROR_MESSAGE, 5000));
+				notif.start();
+			} catch (ValorIncorrectoEx vie) {
+				// TODO Auto-generated catch block
+				vie.printStackTrace();
+			}
 			return false;
 		}
 		if(dos < 0 || dos > 255){
-			JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			try {
+				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
+						BarraNotificadora.ERROR_MESSAGE, 5000));
+				notif.start();
+			} catch (ValorIncorrectoEx vie) {
+				// TODO Auto-generated catch block
+				vie.printStackTrace();
+			}
 			return false;
 		}
 		if(tres < 0 || tres > 255){
-			JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			try {
+				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
+						BarraNotificadora.ERROR_MESSAGE, 5000));
+				notif.start();
+			} catch (ValorIncorrectoEx vie) {
+				// TODO Auto-generated catch block
+				vie.printStackTrace();
+			}
 			return false;
 		}
 		if(cuatro < 0 || cuatro > 255){
-			JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
+			try {
+				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
+						BarraNotificadora.ERROR_MESSAGE, 5000));
+				notif.start();
+			} catch (ValorIncorrectoEx vie) {
+				// TODO Auto-generated catch block
+				vie.printStackTrace();
+			}
 			return false;
 		}
 		return true;
