@@ -3,9 +3,14 @@ package modelo;
 import java.io.Serializable;
 import java.util.Vector;
 
-@SuppressWarnings("serial")
+import datos.Seriales;
+
 public class Aula implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = Seriales.AULA;
 	private int codAula;
 	private String curso;
 	private Vector<Equipo> equipos;

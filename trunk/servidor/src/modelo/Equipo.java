@@ -1,8 +1,9 @@
 package modelo;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.Vector;
+
+import datos.Seriales;
 
 import modelo.Hardware.*;
 
@@ -11,7 +12,7 @@ public class Equipo implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = Seriales.EQUIPO;
 	private int codAula;
 	private int codEquipo;
 	private PlacaBase placaBase;
