@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import datos.Seriales;
+
+import excepciones.ValorIncorrectoEx;
+
 import interfaz.Main;
 import modelo.Hardware.*;
 import modelo.Usuarios.*;
@@ -15,7 +19,7 @@ public class Peticion implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = Seriales.PETICION;
 	private static final int CONSULTAR = 0;
 	public static final int INSERTAR = 1;
 	public static final int BORRAR = 2;
@@ -52,9 +56,9 @@ public class Peticion implements Serializable{
 	
 	public Peticion() {}
 	
-	public Peticion(int tipo) throws Exception{
+	public Peticion(int tipo) throws ValorIncorrectoEx{
 		if(tipo < 0 || tipo > 12 || tipo == 2)
-			throw new Exception();
+			throw new ValorIncorrectoEx();
 		accion=CONSULTAR;
 		this.tipo = tipo;
 	}
@@ -65,17 +69,17 @@ public class Peticion implements Serializable{
 		this.aula=aula;
 	}
 	
-	public Peticion(int tipo, Equipo equipo) throws Exception{
+	public Peticion(int tipo, Equipo equipo) throws ValorIncorrectoEx{
 		if(tipo < 3 || tipo > 11)
-			throw new Exception();
+			throw new ValorIncorrectoEx();
 		accion = CONSULTAR;
 		this.tipo = tipo;
 		this.equipo = equipo;
 	}
 	
-	public Peticion(int accion, Object objeto) throws Exception{
+	public Peticion(int accion, Object objeto) throws ValorIncorrectoEx{
 		if(accion != 1 && accion != 3)
-			throw new Exception();
+			throw new ValorIncorrectoEx();
 		this.accion=accion;
 		this.objeto=objeto;
 	}
