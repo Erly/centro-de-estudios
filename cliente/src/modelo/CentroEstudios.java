@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import excepciones.ValorIncorrectoEx;
+
 import modelo.Usuarios.Usuario;
 
 public class CentroEstudios {
@@ -38,7 +40,7 @@ public class CentroEstudios {
 			}else{
 				JOptionPane.showMessageDialog(null, res.mensaje, "Error al crear el aulas", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (ValorIncorrectoEx e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -66,7 +68,7 @@ public class CentroEstudios {
 			}else{
 				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener las aulas", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (ValorIncorrectoEx e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -80,7 +82,7 @@ public class CentroEstudios {
 			}else{
 				JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar la aula", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (ValorIncorrectoEx e) {
 			JOptionPane.showMessageDialog(null, "La accion solicitada no coincide con el constructor empleado", "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -92,7 +94,7 @@ public class CentroEstudios {
 			if (res.exito){
 				JOptionPane.showMessageDialog(null, res.mensaje, "Aula eliminada satisfactoriamente", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (ValorIncorrectoEx e) {
 			JOptionPane.showMessageDialog(null, "La accion solicitada no coincide con el constructor empleado", "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
 		}
 	}

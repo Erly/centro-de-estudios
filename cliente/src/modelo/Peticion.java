@@ -1,6 +1,8 @@
 package modelo;
 
 import java.io.Serializable;
+
+import excepciones.ValorIncorrectoEx;
 import modelo.Usuarios.*;
 
 public class Peticion implements Serializable{
@@ -43,11 +45,11 @@ public class Peticion implements Serializable{
 	private String[] filtros;
 	private String[] extras;*/
 	
-	public Peticion() {}
+	//public Peticion() {}
 	
-	public Peticion(int tipo) throws Exception{
+	public Peticion(int tipo) throws ValorIncorrectoEx{
 		if(tipo < 0 || tipo > 12 || tipo == 2)
-			throw new Exception();
+			throw new ValorIncorrectoEx();
 		accion=CONSULTAR;
 		this.tipo = tipo;
 	}
@@ -58,17 +60,17 @@ public class Peticion implements Serializable{
 		this.aula=aula;
 	}
 	
-	public Peticion(int tipo, Equipo equipo) throws Exception{
+	public Peticion(int tipo, Equipo equipo) throws ValorIncorrectoEx{
 		if(tipo < 3 || tipo > 11)
-			throw new Exception();
+			throw new ValorIncorrectoEx();
 		accion = CONSULTAR;
 		this.tipo = tipo;
 		this.equipo = equipo;
 	}
 	
-	public Peticion(int accion, Object objeto) throws Exception{
+	public Peticion(int accion, Object objeto) throws ValorIncorrectoEx{
 		if(accion != 1 && accion != 3)
-			throw new Exception();
+			throw new ValorIncorrectoEx();
 		this.accion=accion;
 		this.objeto=objeto;
 	}
