@@ -5,11 +5,16 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import datos.Seriales;
+
 import excepciones.ValorIncorrectoEx;
 
-@SuppressWarnings("serial")
 public class Aula implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = Seriales.AULA;
 	private int codAula;
 	private String curso;
 	private Vector<Equipo> equipos;

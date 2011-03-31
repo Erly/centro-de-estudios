@@ -288,7 +288,7 @@ public class VLogin extends JDialog {
 			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
 			try {
 				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
-						BarraNotificadora.ERROR_MESSAGE, 5000));
+						BarraNotificadora.ERROR_MESSAGE, 3000));
 				notif.start();
 			} catch (ValorIncorrectoEx e) {
 				// TODO Auto-generated catch block
@@ -307,7 +307,7 @@ public class VLogin extends JDialog {
 			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
 			try {
 				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
-						BarraNotificadora.ERROR_MESSAGE, 5000));
+						BarraNotificadora.ERROR_MESSAGE, 3000));
 				notif.start();
 			} catch (ValorIncorrectoEx vie) {
 				// TODO Auto-generated catch block
@@ -319,7 +319,7 @@ public class VLogin extends JDialog {
 			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
 			try {
 				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
-						BarraNotificadora.ERROR_MESSAGE, 5000));
+						BarraNotificadora.ERROR_MESSAGE, 3000));
 				notif.start();
 			} catch (ValorIncorrectoEx vie) {
 				// TODO Auto-generated catch block
@@ -331,7 +331,7 @@ public class VLogin extends JDialog {
 			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
 			try {
 				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
-						BarraNotificadora.ERROR_MESSAGE, 5000));
+						BarraNotificadora.ERROR_MESSAGE, 3000));
 				notif.start();
 			} catch (ValorIncorrectoEx vie) {
 				// TODO Auto-generated catch block
@@ -343,7 +343,7 @@ public class VLogin extends JDialog {
 			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
 			try {
 				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
-						BarraNotificadora.ERROR_MESSAGE, 5000));
+						BarraNotificadora.ERROR_MESSAGE, 3000));
 				notif.start();
 			} catch (ValorIncorrectoEx vie) {
 				// TODO Auto-generated catch block
@@ -355,7 +355,7 @@ public class VLogin extends JDialog {
 			//JOptionPane.showMessageDialog(null, "La IP introducida es incorrecta.", "IP incorrecta", JOptionPane.ERROR_MESSAGE);
 			try {
 				Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La IP introducida es incorrecta",
-						BarraNotificadora.ERROR_MESSAGE, 5000));
+						BarraNotificadora.ERROR_MESSAGE, 3000));
 				notif.start();
 			} catch (ValorIncorrectoEx vie) {
 				// TODO Auto-generated catch block

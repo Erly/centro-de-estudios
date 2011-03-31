@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import datos.Seriales;
+
 import modelo.Hardware.*;
 
 public class Equipo implements Serializable{
@@ -12,7 +14,7 @@ public class Equipo implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = Seriales.EQUIPO;
 	private int codAula;
 	private int codEquipo;
 	private PlacaBase placaBase;

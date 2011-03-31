@@ -153,7 +153,7 @@ public class VerAulas extends JInternalFrame {
 		getContentPane().add(panel, gbc_panel);
 		
 		JButton btnNuevoEquipo = new JButton("Nuevo Equipo");
-		btnNuevoEquipo.addMouseListener(new MouseAdapter() {
+		btnNuevoEquipo.addMouseListener	(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Component[] componentes = VerAulas.this.getParent().getComponents();
