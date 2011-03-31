@@ -64,6 +64,7 @@ public class VLogin extends JDialog {
 		setTitle("Login");
 		setUndecorated(true);
 		setBounds(100, 100, 450, 300);
+		this.setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(UIManager.getColor("ComboBox.disabledForeground"));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

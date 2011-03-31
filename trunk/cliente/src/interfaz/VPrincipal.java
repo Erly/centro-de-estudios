@@ -2,7 +2,6 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -39,9 +38,10 @@ public class VPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VPrincipal() {
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setExtendedState(VPrincipal.MAXIMIZED_BOTH);
 		setName("VPrincipal");
 		setBounds(100, 100, 800, 640);
+		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

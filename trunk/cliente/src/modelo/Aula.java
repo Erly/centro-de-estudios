@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import excepciones.ValorIncorrectoEx;
+
 @SuppressWarnings("serial")
 public class Aula implements Serializable{
 
@@ -55,7 +57,7 @@ public class Aula implements Serializable{
 			} else {
 				JOptionPane.showMessageDialog(null, res.mensaje, "Error al crear el equipo", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (ValorIncorrectoEx e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -70,12 +72,12 @@ public class Aula implements Serializable{
 			} else {
 				JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (ValorIncorrectoEx e) {
 			JOptionPane.showMessageDialog(null, "La accion solicitada no coincide con el constructor empleado", "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
-	public void borrarEquipos() throws Exception{
+	public void borrarEquipos() throws ValorIncorrectoEx{
 		for(int i = 0; i < equipos.size(); i++){
 			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipos.elementAt(i)));
 			if (!res.exito){
