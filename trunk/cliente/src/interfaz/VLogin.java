@@ -238,7 +238,7 @@ public class VLogin extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				Thread notif;
 				try {
-					notif = new Thread(new BarraNotificadora(VLogin.this, "Esto es una notificación de prueba", 
+					notif = new Thread(new BarraNotificadora(VLogin.this, "Esto es una notificación muuuuuuuuuuuuuuuuuuuy larga de prueba", 
 							BarraNotificadora.INFORMATION_MESSAGE, 3000));
 					notif.start();
 				} catch (ValorIncorrectoEx e1) {

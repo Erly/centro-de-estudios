@@ -10,6 +10,7 @@ import excepciones.ValorIncorrectoEx;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.Component;
 
 public class BarraNotificadora extends JPanel implements Runnable{
 
@@ -23,12 +24,14 @@ public class BarraNotificadora extends JPanel implements Runnable{
 	
 	JLabel lblTexto;
 	private int millis = -1;
+	private int alto = 30;
 	
 	public BarraNotificadora(){
 		setBackground(new Color(100, 149, 237));
 		setLayout(null);
-		this.setBounds(0, 0, 500, 30);
+		this.setBounds(0, 0, 500, alto);
 		lblTexto = new JLabel("texto");
+		lblTexto.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblTexto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTexto.setFont(new Font("DejaVu Sans", Font.BOLD, 12));
 		lblTexto.setForeground(new Color(255, 255, 255));
@@ -38,18 +41,20 @@ public class BarraNotificadora extends JPanel implements Runnable{
 	
 	public BarraNotificadora(JFrame padre, String texto) {
 		this();
-		this.setBounds(0, 0, padre.getWidth(), 30);
-		lblTexto.setText(texto);
-		lblTexto.setBounds(5, 0, this.getWidth()-10, 30);
+		calcAltura(padre, texto);
+		this.setBounds(0, 0, padre.getWidth(), alto);
+		lblTexto.setText("<html><center>" + texto + "</center></html>");
+		lblTexto.setBounds(5, 0, this.getWidth()-10, alto);
 		padre.getContentPane().add(this, 0);
 	}
 
 	public BarraNotificadora(JDialog padre, String texto) {
 		this();
+		calcAltura(padre, texto);
+		this.setBounds(0, 0, padre.getWidth(), alto);
+		lblTexto.setText("<html><center>" + texto + "</center></html>");
+		lblTexto.setBounds(5, 0, this.getWidth()-10, alto);
 		padre.getContentPane().add(this, 0);
-		this.setBounds(0, 0, padre.getWidth(), 30);
-		lblTexto.setText(texto);
-		lblTexto.setBounds(5, 0, this.getWidth()-10, 30);
 	}
 	
 	public BarraNotificadora(JFrame padre, String texto, int tipoMensaje) throws ValorIncorrectoEx{
@@ -81,7 +86,7 @@ public class BarraNotificadora extends JPanel implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		setVisible(true);
-		for(int i = 1; i <= 30; i++){
+		for(int i = 1; i <= alto; i++){
 			setSize(getWidth(), i);
 			repaint();
 			try {
@@ -98,7 +103,7 @@ public class BarraNotificadora extends JPanel implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			for(int i = 30; i >= 0; i--){
+			for(int i = alto; i >= 0; i--){
 				setSize(getWidth(), i);
 				repaint();
 				try {
@@ -132,5 +137,18 @@ public class BarraNotificadora extends JPanel implements Runnable{
 			this.setBackground(Color.GREEN);
 			break;
 		}
+	}
+	
+	private void calcAltura(JFrame padre, String texto) {
+		int ancho = padre.getWidth();
+		int tamTexto = texto.length();
+		alto = 20 * (1 + ancho / (tamTexto * 10));
+	}
+	
+	private void calcAltura(JDialog padre, String texto) {
+		int ancho = padre.getWidth();
+		int tamTexto = texto.length();
+		alto = 20 * (1 + (tamTexto * 8) / ancho);
+		System.out.println("" + alto);
 	}
 }
