@@ -130,72 +130,28 @@ public class VLogin extends JDialog {
 		btnSeleccionarServidor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				String ip = null;
-				int puerto = 0;
-				boolean correcto = true;
-				while(!comprobarip(ip)){
-					ip = JOptionPane.showInputDialog("Introduce la ip del servidor: ");
-					if(!comprobarip(ip)){
-						correcto = false;
-						break;
-					}
-					if(ip==null){
-						correcto = false;
-						break;
-					}
-				}
-				while(correcto && (puerto < 1 || puerto > 65535)){
-					try{
-						puerto = Integer.parseInt(JOptionPane.showInputDialog("Introduce el puerto del servidor <1-65535>: "));
-					}catch (NumberFormatException nfe){
-						try {
-							Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Puerto incorrecto", 
-									BarraNotificadora.ERROR_MESSAGE, 3000));
-							notif.start();
-						} catch (ValorIncorrectoEx e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						correcto = false;
-						break;
-					}
-				}
-				if(correcto){
+				VConectar vconectar = new VConectar();
+				vconectar.setVisible(true);
+				if(vconectar.getConectado()){
+					lblConectado.setText("Conectado");
+					lblConectado.setForeground(Color.GREEN);
+					okButton.setEnabled(true);
 					try {
-						Main.socket = new Socket(ip, puerto);
-						Main.out = new ObjectOutputStream(Main.socket.getOutputStream());
-						Main.in = new ObjectInputStream(Main.socket.getInputStream());
-						lblConectado.setText("Conectado");
-						lblConectado.setForeground(Color.GREEN);
-						okButton.setEnabled(true);
 						Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Conexión establecida con el servidor " +
-								ip + ":" + puerto, BarraNotificadora.OK_MESSAGE, 3000));
+								Main.socket.getInetAddress().toString()+ ":" + Main.socket.getPort(), BarraNotificadora.OK_MESSAGE, 3000));
 						notif.start();
 					} catch (ValorIncorrectoEx e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (UnknownHostException e1) {
-						//JOptionPane.showMessageDialog(null, "No es posible encontrar un servidor en la dirección introducida.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
-						try {
-							Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Imposible encontrar un servidor " +
-									"en la dirección introducida", BarraNotificadora.ERROR_MESSAGE, 3000));
-							notif.start();
-						} catch (ValorIncorrectoEx e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} catch (ConnectException ce){
-						//JOptionPane.showMessageDialog(null, "La conexión ha sido rechazada por el servidor. Asegurese de arrancar el servidor con los permisos adecuados.", "Host desconocido", JOptionPane.ERROR_MESSAGE);
-						try {
-							Thread notif = new Thread(new BarraNotificadora(VLogin.this, "La conexión ha sido rechazada " +
-									"por el servidor", BarraNotificadora.ERROR_MESSAGE, 3000));
-							notif.start();
-						} catch (ValorIncorrectoEx e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} catch (IOException e1) {
-						e1.printStackTrace();
+					}
+				}else{
+					try {
+						Thread notif = new Thread(new BarraNotificadora(VLogin.this, "Error al establecer la conexión con el " +
+								"servidor", BarraNotificadora.ERROR_MESSAGE, 3000));
+						notif.start();
+					} catch (ValorIncorrectoEx e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
