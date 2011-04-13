@@ -11,9 +11,6 @@ import excepciones.ValorIncorrectoEx;
 
 public class Aula implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = Seriales.AULA;
 	private int codAula;
 	private String curso;
@@ -54,6 +51,10 @@ public class Aula implements Serializable{
 		return codAula + " - " + curso;
 	}
 	
+	/**
+	 * Inserta un nuevo equipo en la base de datos y lo añade en el vector Equipos;
+	 * @param equipo Equipo que va a ser insertado
+	 */
 	public void agregarEquipo(Equipo equipo){
 		try {
 			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.INSERTAR, equipo));
@@ -69,6 +70,10 @@ public class Aula implements Serializable{
 		
 	}
 	
+	/**
+	 * Elimina un equipo de la base de datos.
+	 * @param equipo Equipo que va a ser borrado.
+	 */
 	public void borrarEquipo(Equipo equipo){
 		try {
 			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipo));
@@ -82,12 +87,19 @@ public class Aula implements Serializable{
 		}
 	}
 	
-	public void borrarEquipos() throws ValorIncorrectoEx{
-		for(int i = 0; i < equipos.size(); i++){
-			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipos.elementAt(i)));
-			if (!res.exito){
-				JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
+	/**
+	 * Borra todos los equipos de este aula de la base de datos.
+	 */
+	public void borrarEquipos(){
+		try{
+			for(int i = 0; i < equipos.size(); i++){
+				Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipos.elementAt(i)));
+				if (!res.exito){
+					JOptionPane.showMessageDialog(null, res.mensaje, "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
+				}
 			}
+		} catch (ValorIncorrectoEx e){
+			JOptionPane.showMessageDialog(null, "La accion solicitada no coincide con el constructor empleado", "Error al borrar el equipo", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
