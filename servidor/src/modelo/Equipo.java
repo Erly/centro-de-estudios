@@ -1,6 +1,9 @@
 package modelo;
 
+import interfaz.Main;
+
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import datos.Seriales;
@@ -130,14 +133,14 @@ public class Equipo implements Serializable{
 		return "PC " + codEquipo;
 	}
 
-	/*public void cargarHardware(Aula aula) throws SQLException{
-		this.setPlacaBase(Main.db.obtenerPlacaBase(this, aula));
-		this.setHDDs(Main.db.obtenerHDDs(this, aula));
-		this.setCpu(Main.db.obtenerCPU(this, aula));
-		this.setRam(Main.db.obtenerRAM(this, aula));
-		this.settGraficas(Main.db.obtenerTGrafica(this, aula));
-		this.settAudio(Main.db.obtenerTAudio(this, aula));
-		this.setMonitor(Main.db.obtenerMonitor(this, aula));
-		this.settRed(Main.db.obtenerTRed(this, aula));
-	}*/
+	public void cargarHardware() throws SQLException{
+		this.setPlacaBase(Main.db.obtenerPlacaBase(this));
+		this.setHDDs(Main.db.obtenerHDDs(this));
+		this.setCpu(Main.db.obtenerCPU(this));
+		this.setRam(Main.db.obtenerRAM(this));
+		this.settGraficas(Main.db.obtenerTGrafica(this));
+		this.settAudio(Main.db.obtenerTAudio(this));
+		this.setMonitor(Main.db.obtenerMonitor(this));
+		this.settRed(Main.db.obtenerTRed(this));
+	}
 }
