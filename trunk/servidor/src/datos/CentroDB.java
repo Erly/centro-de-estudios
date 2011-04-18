@@ -4,16 +4,35 @@ import modelo.Hardware.*;
 import modelo.Usuarios.*;
 import modelo.Aula;
 import modelo.Equipo;
+import modelo.Software;
+import modelo.Solicitud;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import excepciones.ValorIncorrectoEx;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CentroDB.
+ */
 public class CentroDB extends AccesoBD {
 
+	/**
+	 * Instantiates a new centro db.
+	 */
 	public CentroDB() {
 	}
 
+	/**
+	 * Login.
+	 *
+	 * @param usuario the usuario
+	 * @return the string
+	 * @throws SQLException the sQL exception
+	 */
 	public String login(Usuario usuario) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -32,10 +51,23 @@ public class CentroDB extends AccesoBD {
 		return "El usuario introducido no existe";
 	}
 	
+	/**
+	 * Actualizar aula.
+	 *
+	 * @param aula the aula
+	 * @throws SQLException the sQL exception
+	 */
 	public void actualizarAula(Aula aula) throws SQLException{
 		actualizarAula(aula.getCodAula(), aula.getCurso());
 	}
 	
+	/**
+	 * Actualizar aula.
+	 *
+	 * @param codAula the cod aula
+	 * @param curso the curso
+	 * @throws SQLException the sQL exception
+	 */
 	public void actualizarAula(int codAula, String curso) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -44,6 +76,12 @@ public class CentroDB extends AccesoBD {
 		this.lanzarUpdate("aulas", "Curso='" + curso + "'", "CodAula =" + codAula);
 	}
 	
+	/**
+	 * Actualizar equipo.
+	 *
+	 * @param equipo the equipo
+	 * @throws SQLException the sQL exception
+	 */
 	public void actualizarEquipo(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -52,10 +90,49 @@ public class CentroDB extends AccesoBD {
 		this.lanzarUpdate("equipos", "CodEquipo='" + equipo.getCodEquipo() + "'", "CodAula =" + equipo.getCodAula());
 	}
 	
+	public void actualizarUsuario(Usuario usuario) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarUpdate("usuarios", "Pass='" + usuario.getPass() + "' AND Email='" + usuario.getEmail() + "'", 
+				"NomUsu='" + usuario.getNombre());
+	}
+	
+	public void actualizarSoftware(Software software) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarUpdate("software", "Categoria='" + software.getCategoria() + "' AND Desarrollador='" + software.desarrollador + 
+				"' AND Version='" + software.getVersion() + "'", "CodSoft='" + software.getCodigo());
+	}
+	
+	public void actualizarSolicitudes(Solicitud solicitud) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarUpdate("solicitudes", "Realizado='" + solicitud.getCodigo() + "' AND Observaciones='" + solicitud.observaciones + "'", 
+				"CodSolicitud='" + solicitud.getCodigo() + "'");
+	}
+	
+	/**
+	 * Borrar aula.
+	 *
+	 * @param aula the aula
+	 * @throws SQLException the sQL exception
+	 */
 	public void borrarAula(Aula aula) throws SQLException{
 		borrarAula(aula.getCodAula());
 	}
 	
+	/**
+	 * Borrar aula.
+	 *
+	 * @param codAula the cod aula
+	 * @throws SQLException the sQL exception
+	 */
 	public void borrarAula(int codAula) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -64,6 +141,24 @@ public class CentroDB extends AccesoBD {
 		this.lanzarDelete("aulas", "CodAula=" + codAula);
 	}
 	
+	public void borrarSolicitud(Solicitud solicitud) throws SQLException{
+		borrarSolicitud(solicitud.getCodigo());
+	}
+	
+	public void borrarSolicitud(int codSolicitud) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarDelete("solicitudes", "CodSolicitud=" + codSolicitud);
+	}
+	
+	/**
+	 * Borrar equipo.
+	 *
+	 * @param equipo the equipo
+	 * @throws SQLException the sQL exception
+	 */
 	public void borrarEquipo(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -77,10 +172,31 @@ public class CentroDB extends AccesoBD {
 		this.lanzarDelete("equipos", "CodEquipo=" + equipo.getCodEquipo() + " AND CodAula=" + equipo.getCodAula());
 	}
 	
+	public void borrarUsuario(Usuario usuario) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarUpdate("usuarios", "Activo=0", "NomUsu='" + usuario.getNombre() + "'");
+	}
+	
+	/**
+	 * Insertar aula.
+	 *
+	 * @param aula the aula
+	 * @throws SQLException the sQL exception
+	 */
 	public void insertarAula(Aula aula) throws SQLException{
 		insertarAula(aula.getCodAula(), aula.getCurso());
 	}
 	
+	/**
+	 * Insertar aula.
+	 *
+	 * @param codAula the cod aula
+	 * @param curso the curso
+	 * @throws SQLException the sQL exception
+	 */
 	public void insertarAula(int codAula, String curso) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -89,11 +205,79 @@ public class CentroDB extends AccesoBD {
 		this.lanzarInsert("aulas", "CodAula, Curso", codAula + ", '" + curso + "'");
 	}
 	
+	public void insertarUsuario(Usuario usuario) throws SQLException{
+		String tipo;
+		if(usuario.getClass().toString().equals(Administrador.class.toString())){
+			tipo = "Administrador";
+		}else if(usuario.getClass().toString().equals(Tecnico.class.toString())){
+			tipo = "Tecnico";
+		}else{
+			tipo = "Usuario";
+		}
+		insertarUsuario(usuario.getNombre(), usuario.getPass(), usuario.getEmail(), tipo);
+	}
+	
+	public void insertarUsuario(String nombre, String pass, String email, String tipo) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarInsert("usuarios", "NomUsu, Pass, Email, Tipo", "'" + nombre + "', '" + pass + "', '" + email + "', '" + 
+				tipo + "'");
+	}
+	
+	public void insertarSolicitud(Solicitud solicitud) throws SQLException{
+		insertarSolicitud(solicitud.getCodigo(), solicitud.Descripcion, solicitud.usuario, solicitud.equipo);
+	}
+	
+	public void insertarSolicitud(int codSolicitud, String descripcion, Usuario usuario, Equipo equipo) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarInsert("solicitudes", "CodSolicitud, Descripcion, NomUsu	, CodAula, CodEquipo", codSolicitud + ", '" 
+				+ descripcion + "', '" + usuario.getNombre() + "', " + equipo.getCodAula() + ", " + equipo.getCodEquipo());
+	}
+	
+	public void insertarSoftware(Software soft) throws SQLException{
+		insertarSoftware(soft.getCodigo(), soft.nombre, soft.getCategoria(), soft.licencia, soft.desarrollador, soft.getVersion());
+	}
+	
+	public void insertarSoftware(int codSoft, String nombre, String categoria, String licencia, String desarrollador, float version) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarInsert("software", "CodSoft, Nombre, Categoria, Licencia, Desarrollador, Version", codSoft + ", '" 
+				+ nombre + "', '" + categoria + "', '" + licencia + "', '" + desarrollador + "', " + version);
+	}
+	
+	/**
+	 * Insertar equipo.
+	 *
+	 * @param equipo the equipo
+	 * @throws SQLException the sQL exception
+	 */
 	public void insertarEquipo(Equipo equipo) throws SQLException{
 		insertarEquipo(equipo.getCodAula(), equipo.getCodEquipo(), equipo.getPlacaBase(), equipo.getHDDs(), equipo.getCpu(), equipo.getRam(), 
 				equipo.gettGraficas(), equipo.gettAudio(), equipo.getMonitor(), equipo.gettRed());
 	}
 	
+	/**
+	 * Insertar equipo.
+	 *
+	 * @param codAula the cod aula
+	 * @param codEquipo the cod equipo
+	 * @param pb the pb
+	 * @param vhdd the vhdd
+	 * @param cpu the cpu
+	 * @param vram the vram
+	 * @param vtgraf the vtgraf
+	 * @param tso the tso
+	 * @param mon the mon
+	 * @param vtred the vtred
+	 * @throws SQLException the sQL exception
+	 */
 	public void insertarEquipo(int codAula, int codEquipo, PlacaBase pb, Vector<HDD> vhdd, CPU cpu, Vector<RAM> vram, Vector<TGrafica> vtgraf, 
 			TAudio tso, Monitor mon, Vector<TRed> vtred) throws SQLException{
 		if(this.getConexion()==null){
@@ -120,6 +304,12 @@ public class CentroDB extends AccesoBD {
 		}
 	}
 	
+	/**
+	 * Obtener aulas.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<Aula> obtenerAulas() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -133,12 +323,32 @@ public class CentroDB extends AccesoBD {
 				a.setEquipos(obtenerEquipos(a));
 				aulas.addElement(a);
 			}catch(Exception ex1){
-				System.out.println(ex1.getMessage());
+				System.out.println("Ha ocurrido un error al recuperar algun equipo del aula " + rs_aulas.getInt("CodAula"));
 			}
 		}
 		return aulas;
 	}
 	
+	public Aula obtenerAula(int codAula) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		ResultSet rs_aula = this.lanzarSelect("SELECT * FROM AULAS WHERE CodAula=" + codAula);
+		while(rs_aula.next()){
+			Aula aula = new Aula(rs_aula.getInt("CodAula"), rs_aula.getString("Curso"));
+			aula.setEquipos(obtenerEquipos(aula));
+			return aula;
+		}
+		return null;
+	}
+	
+	/**
+	 * Obtener cpu.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<CPU> obtenerCPU() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -158,6 +368,13 @@ public class CentroDB extends AccesoBD {
 		return CPUs;
 	}
 	
+	/**
+	 * Obtener cpu.
+	 *
+	 * @param equipo the equipo
+	 * @return the cPU
+	 * @throws SQLException the sQL exception
+	 */
 	public CPU obtenerCPU(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -177,6 +394,13 @@ public class CentroDB extends AccesoBD {
 		return cpu;
 	}
 	
+	/**
+	 * Obtener equipos.
+	 *
+	 * @param aula the aula
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<Equipo> obtenerEquipos(Aula aula) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -187,6 +411,7 @@ public class CentroDB extends AccesoBD {
 		while(rs_eq.next()){
 			try{
 				Equipo e = new Equipo(aula.getCodAula(), rs_eq.getInt(1));
+				e.cargarHardware();
 				/*e.setPlacaBase(obtenerPlacaBase(e, aula));
 				e.setHDDs(obtenerHDDs(e, aula));
 				e.setCpu(obtenerCPU(e, aula));
@@ -203,6 +428,12 @@ public class CentroDB extends AccesoBD {
 		return equipos;
 	}
 	
+	/**
+	 * Obtener hd ds.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<HDD> obtenerHDDs() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -221,6 +452,13 @@ public class CentroDB extends AccesoBD {
 		return HDDs;
 	}
 	
+	/**
+	 * Obtener hd ds.
+	 *
+	 * @param equipo the equipo
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<HDD> obtenerHDDs(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -241,6 +479,13 @@ public class CentroDB extends AccesoBD {
 		return HDDs;
 	}
 	
+	/**
+	 * Obtener max cod.
+	 *
+	 * @param tabla the tabla
+	 * @return the int
+	 * @throws SQLException the sQL exception
+	 */
 	private int obtenerMaxCod(String tabla) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -251,6 +496,12 @@ public class CentroDB extends AccesoBD {
 		return rs_mc.getInt(1);
 	}
 	
+	/**
+	 * Obtener monitor.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<Monitor> obtenerMonitor() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -270,6 +521,13 @@ public class CentroDB extends AccesoBD {
 		return monitores;
 	}
 	
+	/**
+	 * Obtener monitor.
+	 *
+	 * @param equipo the equipo
+	 * @return the monitor
+	 * @throws SQLException the sQL exception
+	 */
 	public Monitor obtenerMonitor(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -289,6 +547,12 @@ public class CentroDB extends AccesoBD {
 		return monitor;
 	}
 	
+	/**
+	 * Obtener placa base.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<PlacaBase> obtenerPlacaBase() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -308,6 +572,13 @@ public class CentroDB extends AccesoBD {
 		return vpb;
 	}
 	
+	/**
+	 * Obtener placa base.
+	 *
+	 * @param equipo the equipo
+	 * @return the placa base
+	 * @throws SQLException the sQL exception
+	 */
 	public PlacaBase obtenerPlacaBase(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -327,6 +598,12 @@ public class CentroDB extends AccesoBD {
 		return pb;
 	}
 	
+	/**
+	 * Obtener ram.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<RAM> obtenerRAM() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -345,6 +622,13 @@ public class CentroDB extends AccesoBD {
 		return ram;
 	}
 	
+	/**
+	 * Obtener ram.
+	 *
+	 * @param equipo the equipo
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<RAM> obtenerRAM(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -365,6 +649,96 @@ public class CentroDB extends AccesoBD {
 		return ram;
 	}
 	
+	public Vector<Software> obtenerSoftware() throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		Vector<Software> vsoft = new Vector<Software>();
+		ResultSet rs_so = this.lanzarSelect("select * from software");
+		while(rs_so.next()){
+			try{
+				Software soft = new Software(rs_so.getInt("CodSoft"), rs_so.getString("Nombre"), rs_so.getFloat("Version"), 
+						rs_so.getString("Categoria"), rs_so.getString("Licencia"), rs_so.getString("Desarrollador"));
+				vsoft.addElement(soft);
+			}catch (Exception ex1){
+				System.out.println(ex1.getMessage());
+			}
+		}
+		return vsoft;
+	}
+	
+	public Vector<Software> obtenerSoftware(Equipo equipo) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		Vector<Software> vsoft = new Vector<Software>();
+		ResultSet rs_eqso = this.lanzarSelect("SELECT CodSoft FROM eqso WHERE CodAula=" + equipo.getCodAula() + " AND CodEquipo=" + equipo.getCodEquipo());
+		while(rs_eqso.next()){
+			try{
+				ResultSet rs_so = this.lanzarSelect("select * from software where CodSoft = ('" + rs_eqso.getInt("CodSoft") + "')");
+				rs_so.next();
+				Software s = new Software(rs_so.getInt("CodSoft"), rs_so.getString("Nombre"), rs_so.getFloat("Version"), 
+						rs_so.getString("Categoria"), rs_so.getString("Licencia"), rs_so.getString("Desarrollador"));
+				vsoft.addElement(s);
+			}catch(Exception ex1){
+				System.out.println(ex1.getMessage());
+			}
+		}
+		return vsoft;
+	}
+	
+	public Vector<Solicitud> obtenerSolicitudes() throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		Vector<Solicitud> vsol = new Vector<Solicitud>();
+		ResultSet rs_sol = this.lanzarSelect("select * from solicitudes");
+		while(rs_sol.next()){
+			try{
+				Usuario usuario = this.obtenerUsuario(rs_sol.getString("NomUsu"));
+				Aula aula = this.obtenerAula(rs_sol.getInt("CodAula"));
+				Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
+				equipo.cargarHardware();
+				Solicitud solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), rs_sol.getString("Descripcion"), usuario, aula, equipo);
+				vsol.addElement(solicitud);
+			}catch (Exception ex1){
+				System.out.println(ex1.getMessage());
+			}
+		}
+		return vsol;
+	}
+	
+	public Solicitud obtenerSolicitud(int codSolicitud) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		ResultSet rs_sol = this.lanzarSelect("SELECT * FROM solicitudes WHERE CodSolicitud=" + codSolicitud);
+		Solicitud solicitud = null;
+		while(rs_sol.next()){
+			Usuario usuario = this.obtenerUsuario(rs_sol.getString("NomUsu"));
+			Aula aula = this.obtenerAula(rs_sol.getInt("CodAula"));
+			Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
+			equipo.cargarHardware();
+			 try {
+				solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), rs_sol.getString("Descripcion"), usuario, aula, equipo);
+			} catch (ValorIncorrectoEx e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return solicitud;
+	}
+	
+	/**
+	 * Obtener t audio.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<TAudio> obtenerTAudio() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -383,6 +757,13 @@ public class CentroDB extends AccesoBD {
 		return vta;
 	}
 
+	/**
+	 * Obtener t audio.
+	 *
+	 * @param equipo the equipo
+	 * @return the t audio
+	 * @throws SQLException the sQL exception
+	 */
 	public TAudio obtenerTAudio(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -401,6 +782,12 @@ public class CentroDB extends AccesoBD {
 		return ta;
 	}
 	
+	/**
+	 * Obtener t grafica.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<TGrafica> obtenerTGrafica() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -420,6 +807,13 @@ public class CentroDB extends AccesoBD {
 		return tGraficas;
 	}
 	
+	/**
+	 * Obtener t grafica.
+	 *
+	 * @param equipo the equipo
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<TGrafica> obtenerTGrafica(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -441,6 +835,12 @@ public class CentroDB extends AccesoBD {
 		return tGraficas;
 	}
 	
+	/**
+	 * Obtener t red.
+	 *
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<TRed> obtenerTRed() throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -459,6 +859,13 @@ public class CentroDB extends AccesoBD {
 		return tRed;
 	}
 	
+	/**
+	 * Obtener t red.
+	 *
+	 * @param equipo the equipo
+	 * @return the vector
+	 * @throws SQLException the sQL exception
+	 */
 	public Vector<TRed> obtenerTRed(Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
@@ -479,29 +886,54 @@ public class CentroDB extends AccesoBD {
 		return tRed;
 	}
 	
+	/**
+	 * Obtener usuarios.
+	 *
+	 * @return the hashtable
+	 * @throws SQLException the sQL exception
+	 */
 	public Hashtable<String, Usuario> obtenerUsuarios() throws SQLException{
 		if (this.getConexion() == null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
-	          return null;
-	       }
-	       Hashtable<String, Usuario> usuarios = new Hashtable<String, Usuario>();
-	        ResultSet rs_usu = this.lanzarSelect("select * from usuarios");
-	        while (rs_usu.next()) {
-	        	try {
-	        		Usuario u = null;
-	        		if(rs_usu.getString("Tipo").equals("Usuario")){
-	        			u = new Usuario(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
-	        		}else if(rs_usu.getString("Tipo").equals("Tecnico")){
-	        			u = new Tecnico(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
-	        		}else if(rs_usu.getString("Tipo").equals("Administrador")){
-	        			u = new Administrador(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
-	        		}
-	        		usuarios.put(u.getNombre(), u);
-	          } catch (Exception ex1) {
-	            System.out.println(ex1.getMessage());
-	            return null;
-	          }
-	       }
-	       return usuarios;
+			return null;
+		}
+	    Hashtable<String, Usuario> usuarios = new Hashtable<String, Usuario>();
+	    ResultSet rs_usu = this.lanzarSelect("select * from usuarios where Activo=1");
+	    while (rs_usu.next()) {
+	    	try {
+	    		Usuario u = null;
+	    		if(rs_usu.getString("Tipo").equals("Usuario")){
+	    			u = new Usuario(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
+	    		}else if(rs_usu.getString("Tipo").equals("Tecnico")){
+	    			u = new Tecnico(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
+	    		}else if(rs_usu.getString("Tipo").equals("Administrador")){
+	    			u = new Administrador(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
+	    		}
+	    		usuarios.put(u.getNombre(), u);
+	    	} catch (Exception ex1) {
+	    		System.out.println(ex1.getMessage());
+	    		return null;
+	    	}
+	    }
+	    return usuarios;
+	}
+	
+	public Usuario obtenerUsuario(String nombre) throws SQLException{
+		if (this.getConexion() == null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		ResultSet rs_usu = this.lanzarSelect("SELECT * FROM usuarios WHERE NomUsu='" + nombre + "'");
+		Usuario u = null;
+		while(rs_usu.next()){
+			if(rs_usu.getString("Tipo").equals("Usuario")){
+    			u = new Usuario(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
+    		}else if(rs_usu.getString("Tipo").equals("Tecnico")){
+    			u = new Tecnico(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
+    		}else if(rs_usu.getString("Tipo").equals("Administrador")){
+    			u = new Administrador(rs_usu.getString("NomUsu"), rs_usu.getString("Pass"), rs_usu.getString("Email"));
+    		}
+		}
+		return u;
 	}
 }
