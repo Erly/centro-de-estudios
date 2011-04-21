@@ -21,6 +21,7 @@ import modelo.Aula;
 import modelo.Equipo;
 import modelo.Main;
 import javax.swing.JCheckBox;
+import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class VerAulas extends JInternalFrame {
@@ -35,10 +36,13 @@ public class VerAulas extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public VerAulas() {
+		setSize(new Dimension(700, 350));
+		setResizable(true);
+		setMinimumSize(new Dimension(700, 350));
 		setClosable(true);
 		setMaximizable(true);
 		setIconifiable(true);
-		setBounds(100, 100, 650, 350);
+		setBounds(100, 100, 700, 350);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 1.0};

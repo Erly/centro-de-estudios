@@ -7,6 +7,7 @@ import java.util.Vector;
 import datos.Seriales;
 
 import modelo.Hardware.Hardware;
+import modelo.Usuarios.Usuario;
 
 public class Respuesta implements Serializable{
 	
@@ -20,6 +21,7 @@ public class Respuesta implements Serializable{
 	public Hardware hardware;
 	public Vector resultado;
 	public Hashtable resultado2;
+	public Usuario usuario;
 
 	public Respuesta() {}
 	
@@ -35,6 +37,11 @@ public class Respuesta implements Serializable{
 	public Respuesta(Boolean exito, String mensaje, Equipo equipo){
 		this(exito, mensaje);
 		this.equipo=equipo;
+	}
+
+	public Respuesta(Boolean exito, String mensaje, Usuario usuario){
+		this(exito, mensaje);
+		this.usuario=usuario;
 	}
 	
 	public Respuesta(Boolean exito, String mensaje, Hardware resultado){
