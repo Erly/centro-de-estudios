@@ -17,6 +17,7 @@ public class Main {
 	public static Socket socket = new Socket();
 	public static ObjectInputStream in;
 	public static ObjectOutputStream out;
+	public static Usuario usuario = null;
 
 	public static void main(String[] args) {
 		try{
@@ -48,6 +49,7 @@ public class Main {
 	public static boolean Login(Usuario usuario){
 		Respuesta res = enviarPeticion(new Peticion(usuario));
 		if(res.exito){
+			Main.usuario = res.usuario;
 			JOptionPane.showMessageDialog(null, res.mensaje, "Login", JOptionPane.INFORMATION_MESSAGE);
 			return true;
 		} else {
