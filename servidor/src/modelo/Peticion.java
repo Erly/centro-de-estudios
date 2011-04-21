@@ -1,7 +1,6 @@
 package modelo;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -214,10 +213,23 @@ public class Peticion implements Serializable{
 					}
 					break;
 				case 11:
-					
+					Vector<Software> soft;
+					if(equipo==null){
+						soft = Main.db.obtenerSoftware();
+						respuesta = new Respuesta(true, "Aplicaciones obtenidas con exito.", soft);
+					}else{
+						soft = Main.db.obtenerSoftware(equipo);
+						respuesta = new Respuesta(true, "Aplicaciones obtenidas con exito.", soft);
+					}
 					break;
 				case 12:
-					
+					Vector<Solicitud> solicitudes;
+					if(equipo==null){
+						solicitudes = Main.db.obtenerSolicitudes();
+						respuesta = new Respuesta(true, "Solicitudes obtenidas con exito.", solicitudes);
+					}else{
+						//TODO Es necesario crear un nuevo metodo en CentroDB para las solicitudes de un equipo
+					}
 					break;
 				}
 			} catch (SQLException e) {
@@ -226,11 +238,29 @@ public class Peticion implements Serializable{
 			break;
 		case 1:
 			if(objeto.getClass().toString().equals(Usuario.class.toString())){
-				
+				try {
+					Main.db.insertarUsuario((Usuario)objeto);
+					respuesta= new Respuesta(true, "El usuario ha sido creada con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El usuario no ha podido ser creado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
-				
+				try {
+					Main.db.insertarUsuario((Tecnico)objeto);
+					respuesta= new Respuesta(true, "El tecnico ha sido creada con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El tecnico no ha podido ser creado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Administrador.class.toString())){
-				
+				try {
+					Main.db.insertarUsuario((Administrador)objeto);
+					respuesta= new Respuesta(true, "El administrador ha sido creada con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El administrador no ha podido ser creado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Aula.class.toString())){
 				try {
 					Main.db.insertarAula((Aula)objeto);
@@ -263,19 +293,49 @@ public class Peticion implements Serializable{
 				
 			}else if(objeto.getClass().toString().equals(TRed.class.toString())){
 				
-			}/*else if(objeto.getClass().toString().equals(Software.class.toString())){
-				
+			}else if(objeto.getClass().toString().equals(Software.class.toString())){
+				try {
+					Main.db.insertarSoftware((Software)objeto);
+					respuesta= new Respuesta(true, "La aplicacion ha sido añadida con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "La aplicacion no ha podido ser añadida debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Solicitud.class.toString())){
-				
-			}*/
+				try {
+					Main.db.insertarSolicitud((Solicitud)objeto);
+					respuesta= new Respuesta(true, "La solicitud ha sido añadida con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "La solicitud no ha podido ser añadida debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
+			}
 			break;
 		case 2:
 			if(objeto.getClass().toString().equals(Usuario.class.toString())){
-				
+				try{
+					Main.db.borrarUsuario((Usuario)objeto);
+					respuesta = new Respuesta(true, "El usuario ha sido eliminado con exito.");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El usuario no ha podido ser eliminado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
-				
+				try{
+					Main.db.borrarUsuario((Tecnico)objeto);
+					respuesta = new Respuesta(true, "El tecnico ha sido eliminado con exito.");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El tecnico no ha podido ser eliminado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Administrador.class.toString())){
-				
+				try{
+					Main.db.borrarUsuario((Administrador)objeto);
+					respuesta = new Respuesta(true, "El administrador ha sido eliminado con exito.");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El administrador no ha podido ser eliminado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Aula.class.toString())){
 				try {
 					Main.db.borrarAula((Aula)objeto);
@@ -308,33 +368,57 @@ public class Peticion implements Serializable{
 				
 			}else if(objeto.getClass().toString().equals(TRed.class.toString())){
 				
-			}/*else if(objeto.getClass().toString().equals(Software.class.toString())){
+			/*}else if(objeto.getClass().toString().equals(Software.class.toString())){
 				
-			}else if(objeto.getClass().toString().equals(Solicitud.class.toString())){
-				
-			}*/
+			*/}else if(objeto.getClass().toString().equals(Solicitud.class.toString())){
+				try {
+					Main.db.borrarSolicitud((Solicitud)objeto);
+					respuesta= new Respuesta(true, "La solicitud ha sido eliminada con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "La solicitud no ha podido ser eliminada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
+			}
 			break;
 		case 3:
 			if(objeto.getClass().toString().equals(Usuario.class.toString())){
-				
+				try {
+					Main.db.actualizarUsuario((Usuario)nuevoObjeto);
+					respuesta= new Respuesta(true, "El usuario ha sido modificado con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El usuario no ha podido ser modificado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Tecnico.class.toString())){
-				
+				try {
+					Main.db.actualizarUsuario((Tecnico)nuevoObjeto);
+					respuesta= new Respuesta(true, "El tecnico ha sido modificado con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El tecnico no ha podido ser modificado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Administrador.class.toString())){
-				
+				try {
+					Main.db.actualizarUsuario((Administrador)nuevoObjeto);
+					respuesta= new Respuesta(true, "El administrador ha sido modificado con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "El administrador no ha podido ser modificado debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Aula.class.toString())){
 				try {
 					Main.db.actualizarAula((Aula)nuevoObjeto);
-					respuesta= new Respuesta(true, "La aula ha sido creada con exito");
+					respuesta= new Respuesta(true, "La aula ha sido modificada con exito");
 				} catch (SQLException e) {
-					respuesta = new Respuesta(false, "La aula no ha podido ser creada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+					respuesta = new Respuesta(false, "La aula no ha podido ser modificada debido a un error en los datos introducidos. El error devuelto es: \r\n"
 							+ e.getMessage().toString());
 				}
 			}else if(objeto.getClass().toString().equals(Equipo.class.toString())){
 				try {
 					Main.db.actualizarEquipo((Equipo)nuevoObjeto);
-					respuesta= new Respuesta(true, "El equipo ha sido creado con exito");
+					respuesta= new Respuesta(true, "El equipo ha sido modificado con exito");
 				} catch (SQLException e) {
-					respuesta = new Respuesta(false, "El equipo no ha podido ser creada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+					respuesta = new Respuesta(false, "El equipo no ha podido ser modificado debido a un error en los datos introducidos. El error devuelto es: \r\n"
 							+ e.getMessage().toString());
 				}
 			}else if(objeto.getClass().toString().equals(PlacaBase.class.toString())){
@@ -353,21 +437,36 @@ public class Peticion implements Serializable{
 				
 			}else if(objeto.getClass().toString().equals(TRed.class.toString())){
 				
-			}/*else if(objeto.getClass().toString().equals(Software.class.toString())){
-				
+			}else if(objeto.getClass().toString().equals(Software.class.toString())){
+				try {
+					Main.db.actualizarSoftware((Software)nuevoObjeto);
+					respuesta= new Respuesta(true, "La aplicacion ha sido modificada con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "La aplicacion no ha podido ser modificada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
 			}else if(objeto.getClass().toString().equals(Solicitud.class.toString())){
-				
-			}*/
+				try {
+					Main.db.actualizarSolicitudes((Solicitud)nuevoObjeto);
+					respuesta= new Respuesta(true, "La solicitud ha sido modificada con exito");
+				} catch (SQLException e) {
+					respuesta = new Respuesta(false, "La solicitud no ha podido ser modificada debido a un error en los datos introducidos. El error devuelto es: \r\n"
+							+ e.getMessage().toString());
+				}
+			}
 			break;
 		case 4:
 			try {
 				String mensa = Main.db.login(usuario);
 				if(mensa.equals("Usuario")){
-					respuesta = new Respuesta(true, "Cuenta de tipo 'Usuario' correcta.");
+					Usuario usu = new Usuario(usuario.getNombre(), usuario.getPass(), usuario.getEmail());
+					respuesta = new Respuesta(true, "Cuenta de tipo 'Usuario' correcta.", usu);
 				}else if(mensa.equals("Tecnico")){
-					respuesta = new Respuesta(true, "Cuenta de tipo 'Tecnico' correcta.");
+					Tecnico tecnico = new Tecnico(usuario.getNombre(), usuario.getPass(), usuario.getEmail());
+					respuesta = new Respuesta(true, "Cuenta de tipo 'Tecnico' correcta.", tecnico);
 				}else if(mensa.equals("Administrador")){
-					respuesta = new Respuesta(true, "Cuenta de tipo 'Administrador' correcta.");
+					Administrador admin = new Administrador(usuario.getNombre(), usuario.getPass(), usuario.getEmail());
+					respuesta = new Respuesta(true, "Cuenta de tipo 'Administrador' correcta.", admin);
 				}else{
 					respuesta = new Respuesta(false, mensa);
 				}

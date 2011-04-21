@@ -47,7 +47,7 @@ public class AccesoBD {
             case 2: //MySQL
                 Class.forName("com.mysql.jdbc.Driver");
                 // "jdbc:mysql://localhost/agenda", "root", "password"
-                con = DriverManager.getConnection("jdbc:mysql:" + ruta, user, pass);
+                con = DriverManager.getConnection("jdbc:mysql://" + ruta, user, pass);
                 System.out.println("Conexión establecida con: " + ruta);
                 break;
             //Faltan los "cases" 3 (SQLServer) y 4 (ORACLE)

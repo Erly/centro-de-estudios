@@ -42,8 +42,17 @@ public class CentroDB extends AccesoBD {
 		while(rs_login.next()){
 			//Usuario usu = new Usuario(rs_login.getString("NomUsu") ,rs_login.getString("Pass"), rs_login.getString("Email"), 
 			//		rs_login.getString("Tipo");
+			String tipo = rs_login.getString("Tipo");
 			if(usuario.getPass().equals(rs_login.getString("Pass"))){
-				return rs_login.getString("Tipo");
+				/*if(tipo.equals("Administrador")){
+					usuario = new Administrador(rs_login.getString("NomUsu"), rs_login.getString("Pass"), rs_login.getString("Email"));
+				}else if(tipo.equals("Tecnico")){
+					usuario = new Tecnico(rs_login.getString("NomUsu"), rs_login.getString("Pass"), rs_login.getString("Email"));
+				}else{
+					usuario = new Usuario(rs_login.getString("NomUsu"), rs_login.getString("Pass"), rs_login.getString("Email"));
+				}*/
+				usuario.setEmail(rs_login.getString("Email"));
+				return tipo;
 			}else{
 				return "La contraseña introducida es incorrecta.";
 			}
