@@ -62,7 +62,7 @@ public class Main {
 	public Main() {
 		try{
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-			db.abrirConexionSinODBC("//localhost/centrodb", AccesoBD.MYSQL, "root", "291188");
+			db.abrirConexionSinODBC("localhost/centrodb", AccesoBD.MYSQL, "root", "291188");
 		}catch(SQLException e) {
 			System.out.println("No se ha podido establecer la conexión.");
 		}catch(ClassNotFoundException e) {
