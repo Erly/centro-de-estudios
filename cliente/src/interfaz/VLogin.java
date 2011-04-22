@@ -1,6 +1,9 @@
 package interfaz;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Robot;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -21,6 +24,9 @@ import excepciones.ValorIncorrectoEx;
 import modelo.Main;
 import modelo.Usuarios.Usuario;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -29,6 +35,8 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings({"serial"})
 public class VLogin extends JDialog {
@@ -40,19 +48,6 @@ public class VLogin extends JDialog {
 	JButton btnSeleccionarServidor;
 	JButton okButton;
 	JButton cancelButton;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VLogin dialog = new VLogin();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -79,12 +74,12 @@ public class VLogin extends JDialog {
 		lblLogin.setForeground(Color.WHITE);
 		lblLogin.setBounds(12, 12, 426, 71);
 		contentPanel.add(lblLogin);
-		{
-			okButton = new JButton("OK");
-			okButton.setEnabled(false);
-			okButton.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
+		
+		okButton = new JButton("OK");
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getActionCommand().equals("OK")){
+					//okButton.doClick();
 					if(!okButton.isEnabled()){
 						return;
 					}
@@ -99,32 +94,50 @@ public class VLogin extends JDialog {
 						VLogin.this.dispose();
 					}
 				}
-			});
-			okButton.setBounds(287, 264, 54, 24);
-			contentPanel.add(okButton);
-			okButton.setActionCommand("OK");
-			getRootPane().setDefaultButton(okButton);
-		}
-		{
-			cancelButton = new JButton("Cancel");
-			cancelButton.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(Main.socket.isConnected()){
-						try {
-							Main.Salir();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-					System.exit(0);
+			}
+		});
+		okButton.setEnabled(false);
+		okButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!okButton.isEnabled()){
+					return;
 				}
-			});
-			cancelButton.setBounds(353, 264, 81, 24);
-			contentPanel.add(cancelButton);
-			cancelButton.setActionCommand("Cancel");
-		}
+				String usuario = txtUsuario.getText();
+				char[] pass = txtPassword.getPassword();
+				String password = String.valueOf(pass);
+				pass = new char[0];
+				Usuario usu = new Usuario(usuario, password, "");
+				if(Main.Login(usu)){
+					VPrincipal vprincipal = new VPrincipal();
+					vprincipal.setVisible(true);
+					VLogin.this.dispose();
+				}
+			}
+		});
+		okButton.setBounds(287, 264, 54, 24);
+		contentPanel.add(okButton);
+		okButton.setActionCommand("OK");
+		getRootPane().setDefaultButton(okButton);
+		
+		cancelButton = new JButton("Cancel");
+		cancelButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(Main.socket.isConnected()){
+					try {
+						Main.Salir();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				System.exit(0);
+			}
+		});
+		cancelButton.setBounds(353, 264, 81, 24);
+		contentPanel.add(cancelButton);
+		cancelButton.setActionCommand("Cancel");
 		
 		btnSeleccionarServidor = new JButton("Seleccionar Servidor");
 		btnSeleccionarServidor.addMouseListener(new MouseAdapter() {
@@ -187,24 +200,6 @@ public class VLogin extends JDialog {
 		chkRecordarPass.setBounds(72, 224, 202, 22);
 		chkRecordarPass.setOpaque(false);
 		contentPanel.add(chkRecordarPass);
-		
-		JButton btnNotificacion = new JButton("Notificacion");
-		btnNotificacion.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Thread notif;
-				try {
-					notif = new Thread(new BarraNotificadora(VLogin.this, "Esto es una notificación muuuuuuuuuuuuuuuuuuuy larga de prueba", 
-							BarraNotificadora.INFORMATION_MESSAGE, 3000));
-					notif.start();
-				} catch (ValorIncorrectoEx e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnNotificacion.setBounds(12, 191, 117, 25);
-		contentPanel.add(btnNotificacion);
 		
 		JLabel lblPassOlvidado = new JLabel("\u00BFHas olvidado tu contrase\u00F1a?");
 		lblPassOlvidado.setForeground(new Color(128, 0, 128));

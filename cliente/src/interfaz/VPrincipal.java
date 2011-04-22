@@ -40,6 +40,7 @@ public class VPrincipal extends JFrame {
 	private JPanel contentPane;
 
 	VNuevoUsuario nuevoUsuario;
+	VUsuarios verUsuarios;
 	CrearAula crearAula;
 	ModificarAula modificarAula;
 	VerAulas verAulas;
@@ -79,6 +80,9 @@ public class VPrincipal extends JFrame {
 		nuevoUsuario = new VNuevoUsuario();
 		contentPane.add(nuevoUsuario);
 		
+		verUsuarios = new VUsuarios();
+		contentPane.add(verUsuarios);
+		
 		verEquipo = new VerEquipo();
 		verEquipo.setName("VerEquipo");
 		verEquipo.setClosable(true);
@@ -108,12 +112,11 @@ public class VPrincipal extends JFrame {
 		mvCrearUsuario.putValue(Action.NAME, "Crear Usuario");
 		JMenuItem mntmCrearUsuario = new JMenuItem(mvCrearUsuario);
 		mnAdministracion.add(mntmCrearUsuario);
-		
-		JMenuItem mntmModificarUsuarios = new JMenuItem("Modificar Usuario");
-		mnAdministracion.add(mntmModificarUsuarios);
-		
-		JMenuItem mntmBorrarUsuario = new JMenuItem("Borrar Usuario");
-		mnAdministracion.add(mntmBorrarUsuario);
+
+		MostrarVentana mvVerUsuarios = new MostrarVentana(verUsuarios);
+		mvVerUsuarios.putValue(Action.NAME, "Ver Usuarios");
+		JMenuItem mntmVerUsuarios = new JMenuItem(mvVerUsuarios);
+		mnAdministracion.add(mntmVerUsuarios);
 		
 		JMenu mnAulas = new JMenu("Aulas");
 		menuBar.add(mnAulas);
