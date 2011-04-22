@@ -161,5 +161,18 @@ public class CentroEstudios {
 			e.printStackTrace();
 		}
 	}
+	
+	public void cargarUsuario(){
+		try{
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.USUARIOS));
+			if(res.exito){
+				setUsuarios(res.resultado2);
+			}else{
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener los usuarios", JOptionPane.ERROR_MESSAGE);
+			}
+		}catch (ValorIncorrectoEx e) {
+			
+		}
+	}
 
 }
