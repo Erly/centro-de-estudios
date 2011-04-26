@@ -2,6 +2,7 @@ package interfaz;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -57,12 +58,26 @@ public class BarraNotificadora extends JPanel implements Runnable{
 		padre.getContentPane().add(this, 0);
 	}
 	
+	public BarraNotificadora(JInternalFrame padre, String texto) {
+		this();
+		calcAltura(padre, texto);
+		this.setBounds(0, 0, padre.getWidth(), alto);
+		lblTexto.setText("<html><center>" + texto + "</center></html>");
+		lblTexto.setBounds(5, 0, this.getWidth()-10, alto);
+		padre.getContentPane().add(this, 0);
+	}
+	
 	public BarraNotificadora(JFrame padre, String texto, int tipoMensaje) throws ValorIncorrectoEx{
 		this(padre, texto);
 		this.setColor(tipoMensaje);
 	}
-	
+
 	public BarraNotificadora(JDialog padre, String texto, int tipoMensaje) throws ValorIncorrectoEx{
+		this(padre, texto);
+		this.setColor(tipoMensaje);
+	}
+
+	public BarraNotificadora(JInternalFrame padre, String texto, int tipoMensaje) throws ValorIncorrectoEx{
 		this(padre, texto);
 		this.setColor(tipoMensaje);
 	}
@@ -71,8 +86,13 @@ public class BarraNotificadora extends JPanel implements Runnable{
 		this(padre, texto, tipoMensaje);
 		this.setMillis(millis);
 	}
-	
+
 	public BarraNotificadora(JDialog padre, String texto, int tipoMensaje, int millis) throws ValorIncorrectoEx{
+		this(padre, texto, tipoMensaje);
+		this.setMillis(millis);
+	}
+
+	public BarraNotificadora(JInternalFrame padre, String texto, int tipoMensaje, int millis) throws ValorIncorrectoEx{
 		this(padre, texto, tipoMensaje);
 		this.setMillis(millis);
 	}
@@ -142,13 +162,18 @@ public class BarraNotificadora extends JPanel implements Runnable{
 	private void calcAltura(JFrame padre, String texto) {
 		int ancho = padre.getWidth();
 		int tamTexto = texto.length();
-		alto = 20 * (1 + ancho / (tamTexto * 10));
+		alto = 20 * (1 + (tamTexto * 8) / ancho);
 	}
 	
 	private void calcAltura(JDialog padre, String texto) {
 		int ancho = padre.getWidth();
 		int tamTexto = texto.length();
 		alto = 20 * (1 + (tamTexto * 8) / ancho);
-		System.out.println("" + alto);
+	}
+	
+	private void calcAltura(JInternalFrame padre, String texto) {
+		int ancho = padre.getWidth();
+		int tamTexto = texto.length();
+		alto = 20 * (1 + (tamTexto * 8) / ancho);
 	}
 }

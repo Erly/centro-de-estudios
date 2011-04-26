@@ -2,6 +2,7 @@ package interfaz;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -57,9 +58,7 @@ public class CrearAula extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(!txtCurso.getText().isEmpty()){
-					Aula aula = new Aula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
-					Main.centroEstudios.agregarAula(aula);
-					CrearAula.this.dispose();
+					crearAula();
 				}
 			}
 		});
@@ -82,5 +81,20 @@ public class CrearAula extends JInternalFrame {
 			txtCodigo.setText("" + (Main.centroEstudios.getAulas().lastElement().getCodAula() + 1));
 		}
 		txtCurso.setText("");
+	}
+	
+	public void crearAula(){
+		try{
+			int codigo = Integer.parseInt(txtCodigo.getText());
+			String curso = txtCurso.getText();
+			if(!curso.trim().isEmpty()){
+				Aula aula = new Aula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
+				Main.centroEstudios.agregarAula(aula);
+				CrearAula.this.dispose();
+			}
+		} catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "El codigo introducido no es correcto", "Codigo incorrecto", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 }

@@ -1,9 +1,16 @@
 package modelo;
 
+import java.io.Serializable;
+
 import excepciones.ValorIncorrectoEx;
 
-public class Software {
+public class Software implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 515682319167300184L;
+	private int codigo;
 	public String nombre;
 	private float version;
 	private String categoria;
@@ -14,11 +21,12 @@ public class Software {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Software(String nombre, float version, String categoria,
+	public Software(int codigo, String nombre, float version, String categoria,
 			String licencia, String desarrollador) throws ValorIncorrectoEx {
+		this.setCodigo(codigo);
 		this.nombre = nombre;
 		this.setVersion(version);
-		this.categoria = categoria;
+		this.setCategoria(categoria);
 		this.licencia = licencia;
 		this.desarrollador = desarrollador;
 	}
@@ -43,4 +51,15 @@ public class Software {
 		this.categoria = categoria;
 	}
 
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public String toString(){
+		return nombre + " " + version;
+	}
 }

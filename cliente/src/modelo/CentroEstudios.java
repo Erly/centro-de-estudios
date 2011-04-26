@@ -11,9 +11,10 @@ import modelo.Usuarios.Usuario;
 
 public class CentroEstudios {
 	
-	Hashtable<String, Usuario> usuarios = new Hashtable<String, Usuario>();
+	private Hashtable<String, Usuario> usuarios = new Hashtable<String, Usuario>();
 	private Vector<Aula> aulas = new Vector<Aula>();
 	private Vector<Solicitud> solicitudes = new Vector<Solicitud>();
+	private Vector<Software> software = new Vector<Software>();
 
 	public Hashtable<String, Usuario> getUsuarios() {
 		return usuarios;
@@ -37,6 +38,14 @@ public class CentroEstudios {
 
 	public Vector<Solicitud> getSolicitudes() {
 		return solicitudes;
+	}
+
+	public void setSoftware(Vector<Software> software) {
+		this.software = software;
+	}
+
+	public Vector<Software> getSoftware() {
+		return software;
 	}
 
 	public CentroEstudios() {}
@@ -162,7 +171,7 @@ public class CentroEstudios {
 		}
 	}
 	
-	public void cargarUsuario(){
+	public void cargarUsuarios(){
 		try{
 			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.USUARIOS));
 			if(res.exito){
@@ -171,6 +180,33 @@ public class CentroEstudios {
 				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener los usuarios", JOptionPane.ERROR_MESSAGE);
 			}
 		}catch (ValorIncorrectoEx e) {
+			
+		}
+	}
+	
+	public void agregarSoftware(Software software){
+		try{
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.INSERTAR, software));
+			if(res.exito){
+				JOptionPane.showMessageDialog(null, res.mensaje, "Sofware agregado con exito", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al agregar el software", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (ValorIncorrectoEx e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void cargarSoftware(){
+		try{
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.SOFTWARE));
+			if(res.exito){
+				setSoftware(res.resultado);
+			}else{
+				JOptionPane.showMessageDialog(null, res.mensaje, "Error al obtener el software", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (ValorIncorrectoEx e) {
 			
 		}
 	}
