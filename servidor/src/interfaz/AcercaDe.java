@@ -1,16 +1,12 @@
 package interfaz;
 
 import java.awt.Desktop;
-import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -18,8 +14,6 @@ import datos.VERSION;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
