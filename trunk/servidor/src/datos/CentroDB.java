@@ -122,8 +122,8 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("solicitudes", "Realizado='" + solicitud.getCodigo() + "' AND Observaciones='" + solicitud.observaciones + "'", 
-				"CodSolicitud='" + solicitud.getCodigo() + "'");
+		this.lanzarUpdate("solicitudes", "Realizado='" + solicitud.isRealizado() + "' AND Exito=" + solicitud.isExito() 
+				+ "' AND Observaciones='" + solicitud.getObservaciones() + "'",	"CodSolicitud='" + solicitud.getCodigo() + "'");
 	}
 	
 	/**
@@ -236,16 +236,29 @@ public class CentroDB extends AccesoBD {
 	}
 	
 	public void insertarSolicitud(Solicitud solicitud) throws SQLException{
-		insertarSolicitud(solicitud.getCodigo(), solicitud.Descripcion, solicitud.usuario, solicitud.equipo);
+		if(solicitud.aula == null){
+			insertarSolicitud(solicitud.getCodigo(), solicitud.getSoftware(), solicitud.descripcion, solicitud.usuario, solicitud.equipo);
+		}else{
+			insertarSolicitud(solicitud.getCodigo(), solicitud.getSoftware(), solicitud.descripcion, solicitud.usuario, solicitud.aula);
+		}
 	}
-	
-	public void insertarSolicitud(int codSolicitud, String descripcion, Usuario usuario, Equipo equipo) throws SQLException{
+
+	public void insertarSolicitud(int codSolicitud, Software software, String descripcion, Usuario usuario, Equipo equipo) throws SQLException{
 		if(this.getConexion()==null){
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarInsert("solicitudes", "CodSolicitud, Descripcion, NomUsu	, CodAula, CodEquipo", codSolicitud + ", '" 
-				+ descripcion + "', '" + usuario.getNombre() + "', " + equipo.getCodAula() + ", " + equipo.getCodEquipo());
+		this.lanzarInsert("solicitudes", "CodSolicitud, CodSoft, Descripcion, NomUsu, CodAula, CodEquipo", codSolicitud + ", " 
+				+ software.getCodigo() + ", '"+ descripcion + "', '" + usuario.getNombre() + "', " + equipo.getCodAula() + ", " + equipo.getCodEquipo());
+	}
+
+	public void insertarSolicitud(int codSolicitud, Software software, String descripcion, Usuario usuario, Aula aula) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarInsert("solicitudes", "CodSolicitud, CodSoft, Descripcion, NomUsu, CodAula, CodEquipo", codSolicitud + ", " 
+				+ software.getCodigo() + ", '"+ descripcion + "', '" + usuario.getNombre() + "', " + aula.getCodAula() + ", 0");
 	}
 	
 	public void insertarSoftware(Software soft) throws SQLException{
@@ -697,6 +710,24 @@ public class CentroDB extends AccesoBD {
 		}
 		return vsoft;
 	}
+
+	public Software obtenerSoftware(int codigo) throws SQLException{
+		if(this.getConexion()==null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return null;
+		}
+		Software software = null;
+		ResultSet rs_soft = this.lanzarSelect("SELECT * FROM software WHERE CodSoft=" + codigo);
+		rs_soft.next();
+		try {
+			software = new Software(rs_soft.getInt("CodSoft"), rs_soft.getString("Nombre"), rs_soft.getFloat("Version"), 
+					rs_soft.getString("Categoria"), rs_soft.getString("Licencia"), rs_soft.getString("Desarrollador"));
+		} catch (ValorIncorrectoEx e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return software;
+	}
 	
 	public Vector<Solicitud> obtenerSolicitudes() throws SQLException{
 		if(this.getConexion()==null){
@@ -707,11 +738,20 @@ public class CentroDB extends AccesoBD {
 		ResultSet rs_sol = this.lanzarSelect("select * from solicitudes");
 		while(rs_sol.next()){
 			try{
-				Usuario usuario = this.obtenerUsuario(rs_sol.getString("NomUsu"));
-				Aula aula = this.obtenerAula(rs_sol.getInt("CodAula"));
-				Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
-				equipo.cargarHardware();
-				Solicitud solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), rs_sol.getString("Descripcion"), usuario, aula, equipo);
+				Software software = obtenerSoftware(rs_sol.getInt("CodSoft"));
+				Usuario usuario = obtenerUsuario(rs_sol.getString("NomUsu"));
+				int codEquipo = rs_sol.getInt("CodEquipo");
+				Solicitud solicitud = null;
+				if(codEquipo == 0){
+					Aula aula = obtenerAula(rs_sol.getInt("CodAula"));
+					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
+							usuario, aula, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+				}else{
+					Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
+					equipo.cargarHardware();
+					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
+							usuario, equipo, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+				}
 				vsol.addElement(solicitud);
 			}catch (Exception ex1){
 				System.out.println(ex1.getMessage());
@@ -725,18 +765,25 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
-		ResultSet rs_sol = this.lanzarSelect("SELECT * FROM solicitudes WHERE CodSolicitud=" + codSolicitud);
+		ResultSet rs_sol = lanzarSelect("SELECT * FROM solicitudes WHERE CodSolicitud=" + codSolicitud);
 		Solicitud solicitud = null;
 		while(rs_sol.next()){
-			Usuario usuario = this.obtenerUsuario(rs_sol.getString("NomUsu"));
-			Aula aula = this.obtenerAula(rs_sol.getInt("CodAula"));
-			Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
-			equipo.cargarHardware();
-			 try {
-				solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), rs_sol.getString("Descripcion"), usuario, aula, equipo);
-			} catch (ValorIncorrectoEx e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			Software software = obtenerSoftware(rs_sol.getInt("CodSoft"));
+			Usuario usuario = obtenerUsuario(rs_sol.getString("NomUsu"));
+			int codEquipo = rs_sol.getInt("CodEquipo");
+			try{
+				if(codEquipo == 0){
+					Aula aula = obtenerAula(rs_sol.getInt("CodAula"));
+					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
+							usuario, aula, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+				}else{
+					Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
+					equipo.cargarHardware();
+					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
+							usuario, equipo, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+				}
+			}catch (ValorIncorrectoEx e){
+				System.out.println(e.getMessage().toString());
 			}
 		}
 		return solicitud;
