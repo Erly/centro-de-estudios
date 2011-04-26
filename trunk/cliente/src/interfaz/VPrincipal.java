@@ -1,8 +1,6 @@
 package interfaz;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,10 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import accionesMenu.Cerrar;
+import accionesMenu.CerrarSesion;
 import accionesMenu.MostrarVentana;
 
 import modelo.Main;
 import modelo.Usuarios.Administrador;
+import modelo.Usuarios.Tecnico;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -31,12 +31,14 @@ import java.awt.Cursor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.UIManager;
-import java.awt.event.WindowStateListener;
 import java.awt.ComponentOrientation;
 
 @SuppressWarnings("serial")
 public class VPrincipal extends JFrame {
 
+	private int x = 0;
+	private int y = 0;
+	
 	private JPanel contentPane;
 
 	VNuevoUsuario nuevoUsuario;
@@ -46,6 +48,8 @@ public class VPrincipal extends JFrame {
 	VerAulas verAulas;
 	NuevoEquipo nuevoEquipo;
 	VerEquipo verEquipo;
+	VNuevoSoft nuevoSoftware;
+	VNuevaSolicitud nuevaSolicitud;
 	
 	AcercaDe acercaDe;
 	
@@ -60,8 +64,13 @@ public class VPrincipal extends JFrame {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				cargarMenuUsuario();
-				if(VPrincipal.this.getExtendedState() == VPrincipal.MAXIMIZED_BOTH){
-					VPrincipal.this.setLocation(0, 0);
+				VPrincipal vp = VPrincipal.this;
+				if(vp.getExtendedState() == VPrincipal.MAXIMIZED_BOTH){
+					x = vp.getX();
+					y = vp.getY();
+					vp.setLocation(0, 0);
+				}else if(x != 0 || y != 0){
+					vp.setLocation(x, y);
 				}
 			}
 		});
@@ -79,6 +88,12 @@ public class VPrincipal extends JFrame {
 		
 		nuevoUsuario = new VNuevoUsuario();
 		contentPane.add(nuevoUsuario);
+		
+		nuevoSoftware = new VNuevoSoft();
+		contentPane.add(nuevoSoftware);
+		
+		nuevaSolicitud = new VNuevaSolicitud();
+		contentPane.add(nuevaSolicitud);
 		
 		verUsuarios = new VUsuarios();
 		contentPane.add(verUsuarios);
@@ -171,8 +186,24 @@ public class VPrincipal extends JFrame {
 		JPopupMenu popupMenu = new JPopupMenu();
 		popupMenu.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		popupMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+		if(Main.usuario.getClass().toString().equals(Tecnico.class.toString()) || 
+				Main.usuario.getClass().toString().equals(Administrador.class.toString())){
+			JMenuItem mntmAdminSolicitudes = new JMenuItem("Administrar Solicitudes");
+			popupMenu.add(mntmAdminSolicitudes);
+		}
 		
-		JMenuItem mntmCerrarSesin = new JMenuItem("Cerrar sesión");
+		MostrarVentana mvSolicitarIns = new MostrarVentana(nuevaSolicitud);
+		mvSolicitarIns.putValue(Action.NAME, "Solicitar Instalacion");
+		JMenuItem mntmSolicitarIns = new JMenuItem(mvSolicitarIns);
+		popupMenu.add(mntmSolicitarIns);
+		
+		JMenuItem mntmVerSolicitudes = new JMenuItem("Ver mis Solicitudes");
+		popupMenu.add(mntmVerSolicitudes);
+		
+		CerrarSesion cerrarSesion = new CerrarSesion(this);
+		cerrarSesion.putValue(Action.NAME, "Cerrar Sesion");
+		JMenuItem mntmCerrarSesin = new JMenuItem(cerrarSesion);
 		popupMenu.add(mntmCerrarSesin);
 		
 		addPopup(lblUsuario, popupMenu);
@@ -184,7 +215,7 @@ public class VPrincipal extends JFrame {
 
 	public void cargarMenuUsuario(){
 		lblUsuario.setHorizontalAlignment(SwingConstants.LEADING);
-		int ancho = (8 * lblUsuario.getText().length() + 2);
+		int ancho = (7 * lblUsuario.getText().length() + 2);
 		lblUsuario.setBounds(this.getWidth() - ancho, this.getHeight() - 75, ancho, 15);
 	}
 	
@@ -221,22 +252,12 @@ public class VPrincipal extends JFrame {
 				showMenu(e);
 			}
 			private void showMenu(MouseEvent e) {
-				int nLetras = 0;
-				int nMenus = popup.getComponentCount();
-				for(int i = 0; i < nMenus; i++){
-					JMenuItem jmi = (JMenuItem) popup.getComponent(i);
-					if(jmi.getText().length() > nLetras){
-						nLetras = jmi.getText().length();
-					}
-					jmi.setSize(jmi.getWidth(), 20);
+				if(popup.getWidth() == 0){
+					//Se ejecutara solo la primera vez que se haga click para que el ancho y alto del menu no sean 0 
+					//al hacer la llamada de abajo y asi el menu se muestre donde debe. 
+					popup.show(null, 0, 0);
 				}
-				int ancho2 = 8 * nLetras + 10;
-				int alto = nMenus * 30;
-				
-				popup.setSize(ancho2, alto);
-				//popup.show(e.getComponent().getParent(), e.getComponent().getBounds().x + e.getComponent().getBounds().width - ancho2, 
-				//		e.getComponent().getBounds().y - alto - 12);
-				popup.show(e.getComponent(), e.getComponent().getWidth() - ancho2, 0 - alto);
+				popup.show(e.getComponent(), e.getComponent().getWidth() -1 - popup.getWidth(), -1 - popup.getHeight());
 			}
 		});
 	}

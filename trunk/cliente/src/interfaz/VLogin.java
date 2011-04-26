@@ -228,6 +228,12 @@ public class VLogin extends JDialog {
 			Fondo.setBounds(0, 0, 450, 298);
 			contentPanel.add(Fondo);
 		}
+		
+		if(Main.socket.isConnected()){
+			lblConectado.setText("Conectado");
+			lblConectado.setForeground(Color.GREEN);
+			okButton.setEnabled(true);
+		}
 	}
 	
 	public boolean comprobarip(String ip){

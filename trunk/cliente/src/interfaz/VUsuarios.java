@@ -33,7 +33,7 @@ public class VUsuarios extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
-		Main.centroEstudios.cargarUsuario();
+		Main.centroEstudios.cargarUsuarios();
 		Hashtable<String, Usuario> usuarios = Main.centroEstudios.getUsuarios();
 		
 		Enumeration<Usuario> eUsuarios = usuarios.elements();
