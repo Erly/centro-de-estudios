@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.JEditorPane;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -67,10 +68,10 @@ public class AcercaDe extends JFrame {
 		btnAceptar.setBounds(487, 140, 89, 23);
 		getContentPane().add(btnAceptar);
 		
-		JEditorPane editorPane = new JEditorPane("text/html","<center>Liberado bajo licencia GPLv3 </center><br> " +
-				"Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com/'>centro-de-estudios.googlecode.com</a>");
+		JEditorPane editorPane = new JEditorPane("text/html","<body bgcolor='d6d9df'><center>Liberado bajo licencia GPLv3 <p> " +
+		"Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com/'>centro-de-estudios.googlecode.com</a></center></body>");
+		editorPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		editorPane.setAutoscrolls(true);
-		editorPane.setOpaque(false);
 		editorPane.setEditable(false);
 		editorPane.addHyperlinkListener(new HyperlinkListener() {
 			
