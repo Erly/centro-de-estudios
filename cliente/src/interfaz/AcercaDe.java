@@ -1,13 +1,11 @@
 package interfaz;
 
 import java.awt.Desktop;
-import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -15,7 +13,6 @@ import datos.VERSION;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,6 +20,8 @@ import java.net.URISyntaxException;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
 public class AcercaDe extends JInternalFrame {
@@ -60,6 +59,8 @@ public class AcercaDe extends JInternalFrame {
 		getContentPane().add(lblLogo);
 		
 		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.setOpaque(true);
+		btnAceptar.setBackground(UIManager.getColor("InternalFrame.background"));
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -69,10 +70,10 @@ public class AcercaDe extends JInternalFrame {
 		btnAceptar.setBounds(487, 140, 89, 23);
 		getContentPane().add(btnAceptar);
 		
-		JEditorPane editorPane = new JEditorPane("text/html","<center>Liberado bajo licencia GPLv3 </center><br> " +
-				"Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com/'>centro-de-estudios.googlecode.com</a>");
+		JEditorPane editorPane = new JEditorPane("text/html","<body bgcolor='d6d9df'><center>Liberado bajo licencia GPLv3 <p> " +
+				"Codigo fuente disponible en <a href='http://centro-de-estudios.googlecode.com/'>centro-de-estudios.googlecode.com</a></center></body>");
+		editorPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		editorPane.setAutoscrolls(true);
-		editorPane.setOpaque(false);
 		editorPane.setEditable(false);
 		editorPane.addHyperlinkListener(new HyperlinkListener() {
 			
