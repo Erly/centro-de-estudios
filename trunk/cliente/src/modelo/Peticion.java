@@ -79,6 +79,7 @@ public class Peticion implements Serializable{
 	public Peticion(Object objeto, Object nuevoObjeto){
 		accion=MODIFICAR;
 		this.objeto=objeto;
+		this.nuevoObjeto=nuevoObjeto;
 	}
 	
 	public Peticion(Usuario usuario){

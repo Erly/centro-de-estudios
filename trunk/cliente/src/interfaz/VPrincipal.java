@@ -50,6 +50,8 @@ public class VPrincipal extends JFrame {
 	VerEquipo verEquipo;
 	VNuevoSoft nuevoSoftware;
 	VNuevaSolicitud nuevaSolicitud;
+	VSolicitudes verSolicitudes;
+	VAdminSolicitud adminSolicitudes;
 	
 	AcercaDe acercaDe;
 	
@@ -103,6 +105,9 @@ public class VPrincipal extends JFrame {
 		verEquipo.setClosable(true);
 		verEquipo.setBounds(0, 0, 500, 400);
 		contentPane.add(verEquipo);
+		
+		verSolicitudes = new VSolicitudes();
+		contentPane.add(verSolicitudes);
 		
 		crearAula = new CrearAula();
 		contentPane.add(crearAula);
@@ -189,7 +194,12 @@ public class VPrincipal extends JFrame {
 
 		if(Main.usuario.getClass().toString().equals(Tecnico.class.toString()) || 
 				Main.usuario.getClass().toString().equals(Administrador.class.toString())){
-			JMenuItem mntmAdminSolicitudes = new JMenuItem("Administrar Solicitudes");
+			adminSolicitudes = new VAdminSolicitud();
+			contentPane.add(adminSolicitudes);
+			
+			MostrarVentana mvAdminSol = new MostrarVentana(adminSolicitudes);
+			mvAdminSol.putValue(Action.NAME, "Administrar Solicitudes");
+			JMenuItem mntmAdminSolicitudes = new JMenuItem(mvAdminSol);
 			popupMenu.add(mntmAdminSolicitudes);
 		}
 		
@@ -198,7 +208,9 @@ public class VPrincipal extends JFrame {
 		JMenuItem mntmSolicitarIns = new JMenuItem(mvSolicitarIns);
 		popupMenu.add(mntmSolicitarIns);
 		
-		JMenuItem mntmVerSolicitudes = new JMenuItem("Ver mis Solicitudes");
+		MostrarVentana mvVerSolicitudes = new MostrarVentana(verSolicitudes);
+		mvVerSolicitudes.putValue(Action.NAME, "Ver mis Solicitudes");
+		JMenuItem mntmVerSolicitudes = new JMenuItem(mvVerSolicitudes);
 		popupMenu.add(mntmVerSolicitudes);
 		
 		CerrarSesion cerrarSesion = new CerrarSesion(this);

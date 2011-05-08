@@ -316,7 +316,7 @@ public class VNuevaSolicitud extends JInternalFrame {
 	private void lanzarError(String texto){
 		try {
 			Thread notif = new Thread(new BarraNotificadora(VNuevaSolicitud.this, texto, 
-					BarraNotificadora.ERROR_MESSAGE, 300));
+					BarraNotificadora.ERROR_MESSAGE, 500));
 			notif.start();
 		} catch (ValorIncorrectoEx e1) {
 			// TODO Auto-generated catch block
