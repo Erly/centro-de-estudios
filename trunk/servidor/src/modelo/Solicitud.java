@@ -1,7 +1,6 @@
 package modelo;
 
 import java.io.Serializable;
-
 import datos.Seriales;
 
 import excepciones.ValorIncorrectoEx;
@@ -54,19 +53,29 @@ public class Solicitud implements Serializable{
 	}
 	
 	public Solicitud(int codigo, Software software, String descripcion, Usuario usuario,
-			Equipo equipo, boolean exito, boolean realizado, String observacione) throws ValorIncorrectoEx {
-		this(codigo, software, descripcion, usuario, equipo);
-		if(realizado){
-			realizar(realizado, observacione);
-		}
+			Equipo equipo, boolean exito, boolean realizado, String observaciones) throws ValorIncorrectoEx {
+		this.setCodigo(codigo);
+		setSoftware(software);
+		this.descripcion = descripcion;
+		this.usuario = usuario;
+		this.aula = null;
+		this.equipo = equipo;
+		setExito(exito);
+		setRealizado(realizado);
+		setObservaciones(observaciones);
 	}
 	
 	public Solicitud(int codigo, Software software, String descripcion, Usuario usuario,
-			Aula aula, boolean exito, boolean realizado, String observacione) throws ValorIncorrectoEx {
-		this(codigo, software, descripcion, usuario, aula);
-		if(realizado){
-			realizar(realizado, observacione);
-		}
+			Aula aula, boolean exito, boolean realizado, String observaciones) throws ValorIncorrectoEx {
+		this.setCodigo(codigo);
+		setSoftware(software);
+		this.descripcion = descripcion;
+		this.usuario = usuario;
+		this.aula = aula;
+		this.equipo = null;
+		setExito(exito);
+		setRealizado(realizado);
+		setObservaciones(observaciones);
 	}
 
 	public int getCodigo() {
@@ -111,11 +120,5 @@ public class Solicitud implements Serializable{
 
 	public Software getSoftware() {
 		return software;
-	}
-	
-	public void realizar(boolean exito, String observaciones){
-		setRealizado(true);
-		setExito(exito);
-		setObservaciones(observaciones);
 	}
 }

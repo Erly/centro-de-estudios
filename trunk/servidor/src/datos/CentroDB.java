@@ -82,7 +82,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("aulas", "Curso='" + curso + "'", "CodAula =" + codAula);
+		this.lanzarUpdate("aulas", "Curso='" + curso + "'", "CodAula=" + codAula);
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("equipos", "CodEquipo='" + equipo.getCodEquipo() + "'", "CodAula =" + equipo.getCodAula());
+		this.lanzarUpdate("equipos", "CodEquipo=" + equipo.getCodEquipo(), "CodAula=" + equipo.getCodAula());
 	}
 	
 	public void actualizarUsuario(Usuario usuario) throws SQLException{
@@ -104,8 +104,8 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("usuarios", "Pass='" + usuario.getPass() + "' AND Email='" + usuario.getEmail() + "'", 
-				"NomUsu='" + usuario.getNombre());
+		this.lanzarUpdate("usuarios", "Pass='" + usuario.getPass() + "', Email='" + usuario.getEmail() + "'", 
+				"NomUsu='" + usuario.getNombre() + "'");
 	}
 	
 	public void actualizarSoftware(Software software) throws SQLException{
@@ -113,8 +113,8 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("software", "Categoria='" + software.getCategoria() + "' AND Desarrollador='" + software.desarrollador + 
-				"' AND Version='" + software.getVersion() + "'", "CodSoft='" + software.getCodigo());
+		this.lanzarUpdate("software", "Categoria='" + software.getCategoria() + "', Desarrollador='" + software.desarrollador + 
+				"', Version='" + software.getVersion() + "'", "CodSoft=" + software.getCodigo());
 	}
 	
 	public void actualizarSolicitudes(Solicitud solicitud) throws SQLException{
@@ -122,8 +122,8 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return;
 		}
-		this.lanzarUpdate("solicitudes", "Realizado='" + solicitud.isRealizado() + "' AND Exito=" + solicitud.isExito() 
-				+ "' AND Observaciones='" + solicitud.getObservaciones() + "'",	"CodSolicitud='" + solicitud.getCodigo() + "'");
+		this.lanzarUpdate("solicitudes", "Realizado=" + solicitud.isRealizado() + ", Exito=" + solicitud.isExito() 
+				+ ", Observaciones='" + solicitud.getObservaciones() + "'",	"CodSolicitud=" + solicitud.getCodigo());
 	}
 	
 	/**
@@ -356,7 +356,7 @@ public class CentroDB extends AccesoBD {
 			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
 			return null;
 		}
-		ResultSet rs_aula = this.lanzarSelect("SELECT * FROM AULAS WHERE CodAula=" + codAula);
+		ResultSet rs_aula = this.lanzarSelect("SELECT * FROM aulas WHERE CodAula=" + codAula);
 		while(rs_aula.next()){
 			Aula aula = new Aula(rs_aula.getInt("CodAula"), rs_aula.getString("Curso"));
 			aula.setEquipos(obtenerEquipos(aula));
@@ -745,12 +745,12 @@ public class CentroDB extends AccesoBD {
 				if(codEquipo == 0){
 					Aula aula = obtenerAula(rs_sol.getInt("CodAula"));
 					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
-							usuario, aula, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+							usuario, aula, rs_sol.getBoolean("Exito"), rs_sol.getBoolean("Realizado"), rs_sol.getString("Observaciones"));
 				}else{
 					Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
 					equipo.cargarHardware();
 					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
-							usuario, equipo, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+							usuario, equipo, rs_sol.getBoolean("Exito"), rs_sol.getBoolean("Realizado"), rs_sol.getString("Observaciones"));
 				}
 				vsol.addElement(solicitud);
 			}catch (Exception ex1){
@@ -775,12 +775,12 @@ public class CentroDB extends AccesoBD {
 				if(codEquipo == 0){
 					Aula aula = obtenerAula(rs_sol.getInt("CodAula"));
 					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
-							usuario, aula, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+							usuario, aula, rs_sol.getBoolean("Exito"), rs_sol.getBoolean("Realizado"), rs_sol.getString("Observaciones"));
 				}else{
 					Equipo equipo = new Equipo(rs_sol.getInt("CodAula"), rs_sol.getInt("CodEquipo"));
 					equipo.cargarHardware();
 					solicitud = new Solicitud(rs_sol.getInt("CodSolicitud"), software, rs_sol.getString("Descripcion"), 
-							usuario, equipo, rs_sol.getBoolean("Realizado"), rs_sol.getBoolean("Exito"), rs_sol.getString("Observaciones"));
+							usuario, equipo, rs_sol.getBoolean("Exito"), rs_sol.getBoolean("Realizado"), rs_sol.getString("Observaciones"));
 				}
 			}catch (ValorIncorrectoEx e){
 				System.out.println(e.getMessage().toString());
