@@ -57,7 +57,7 @@ public class Aula implements Serializable{
 	 */
 	public void agregarEquipo(Equipo equipo){
 		try {
-			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.INSERTAR, equipo));
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.INSERTAR, (Object)equipo));
 			if (res.exito){
 				JOptionPane.showMessageDialog(null, res.mensaje, "Equipo creado con exito", JOptionPane.INFORMATION_MESSAGE);
 			} else {
@@ -76,7 +76,7 @@ public class Aula implements Serializable{
 	 */
 	public void borrarEquipo(Equipo equipo){
 		try {
-			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, equipo));
+			Respuesta res = Main.enviarPeticion(new Peticion(Peticion.BORRAR, (Object)equipo));
 			if (res.exito){
 				JOptionPane.showMessageDialog(null, res.mensaje, "Equipo borrado con exito", JOptionPane.INFORMATION_MESSAGE);
 			} else {

@@ -20,6 +20,8 @@ import javax.swing.SwingConstants;
 import modelo.Aula;
 import modelo.Equipo;
 import modelo.Main;
+import modelo.Usuarios.Usuario;
+
 import javax.swing.JCheckBox;
 import java.awt.Dimension;
 
@@ -31,6 +33,10 @@ public class VerAulas extends JInternalFrame {
 	JList lstEquipos;
 	Aula aula;
 	JCheckBox chkRecursivo;
+	JButton btnNuevoEquipo;
+	JButton btnEliminarEquipo;
+	JButton btnModificarAula;
+	JButton btnBorrarAula;
 	
 	/**
 	 * Create the frame.
@@ -104,7 +110,7 @@ public class VerAulas extends JInternalFrame {
 		gbc_panel_1.gridy = 2;
 		getContentPane().add(panel_1, gbc_panel_1);
 		
-		JButton btnBorrarAula = new JButton("Eliminar Aula");
+		btnBorrarAula = new JButton("Eliminar Aula");
 		btnBorrarAula.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -125,7 +131,7 @@ public class VerAulas extends JInternalFrame {
 			}
 		});
 		
-		JButton btnModificarAula = new JButton("Modificar Aula");
+		btnModificarAula = new JButton("Modificar Aula");
 		btnModificarAula.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -134,6 +140,7 @@ public class VerAulas extends JInternalFrame {
 					if(componentes[i].getClass() == ModificarAula.class){
 						ModificarAula ma = (ModificarAula) componentes[i];
 						ma.cargarCodigo(aula);
+						ma.toFront();
 						ma.setVisible(true);
 					}
 				}
@@ -156,7 +163,7 @@ public class VerAulas extends JInternalFrame {
 		gbc_panel.gridy = 2;
 		getContentPane().add(panel, gbc_panel);
 		
-		JButton btnNuevoEquipo = new JButton("Nuevo Equipo");
+		btnNuevoEquipo = new JButton("Nuevo Equipo");
 		btnNuevoEquipo.addMouseListener	(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -165,10 +172,12 @@ public class VerAulas extends JInternalFrame {
 					if(componentes[i].getClass() == NuevoEquipo.class){
 						NuevoEquipo ne = (NuevoEquipo) componentes[i];
 						if(!aula.getEquipos().isEmpty()){
-							ne.cargarCampos(aula.getCodAula(), aula.getEquipos().lastElement().getCodEquipo() + 1);
+							ne.cargarCampos(aula, aula.getEquipos().lastElement().getCodEquipo() + 1);
 						}else{
-							ne.cargarCampos(aula.getCodAula(), 1);
+							ne.cargarCampos(aula, 1);
 						}
+						VerAulas.this.toBack();
+						ne.toFront();
 						ne.setVisible(true);
 					}
 				}
@@ -188,6 +197,7 @@ public class VerAulas extends JInternalFrame {
 						
 						e.cargarHardware();
 						ve.setEquipo(e);
+						ve.toFront();
 						ve.setVisible(true);
 					}
 				}
@@ -195,7 +205,7 @@ public class VerAulas extends JInternalFrame {
 		});
 		panel.add(btnVerEquipo);
 		
-		JButton btnEliminarEquipo = new JButton("Eliminar Equipo");
+		btnEliminarEquipo = new JButton("Eliminar Equipo");
 		btnEliminarEquipo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -211,8 +221,11 @@ public class VerAulas extends JInternalFrame {
 	
 	public void setVisible(boolean b){
 		super.setVisible(b);
-		if(b==true)
+		if(b==true){
 			cargarAulas();
+			comprobarPermisos();
+			this.toFront();
+		}
 	}
 	
 	public void cargarAulas(){
@@ -224,5 +237,15 @@ public class VerAulas extends JInternalFrame {
 			lstEquipos.setListData(aulas.elementAt(lstAulas.getSelectedIndex()).getEquipos());
 		}
 		chkRecursivo.setSelected(false);
+	}
+	
+	private void comprobarPermisos(){
+		if(Main.usuario.getClass() == Usuario.class){
+			btnBorrarAula.setVisible(false);
+			btnEliminarEquipo.setVisible(false);
+			btnModificarAula.setVisible(false);
+			btnNuevoEquipo.setVisible(false);
+			chkRecursivo.setVisible(false);
+		}
 	}
 }

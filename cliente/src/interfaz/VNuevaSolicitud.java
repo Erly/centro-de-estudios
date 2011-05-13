@@ -72,8 +72,10 @@ public class VNuevaSolicitud extends JInternalFrame {
 		cmbAulas = new JComboBox();
 		cmbAulas.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				aula = Main.centroEstudios.getAulas().elementAt(cmbAulas.getSelectedIndex());
-				lstEquipos.setListData(aula.getEquipos());
+				if(cmbAulas.getItemCount() != 0){
+					aula = Main.centroEstudios.getAulas().elementAt(cmbAulas.getSelectedIndex());
+					lstEquipos.setListData(aula.getEquipos());
+				}
 			}
 		});
 		cmbAulas.setBounds(16, 292, 187, 25);
@@ -294,12 +296,17 @@ public class VNuevaSolicitud extends JInternalFrame {
 		}
 	}
 	
-	public void cargarDatos(){
-		cmbSoftware.removeAll();
+	private void cargarDatos(){
+		vAulas = new Vector<Aula>();
+		vEquipos = new Vector<Equipo>();
+		cmbSoftware.removeAllItems();
 		edtDescripcion.setText("");
-		cmbAulas.removeAll();
-		lstEquiposSel.removeAll();
-		lstAulasSel.removeAll();
+		cmbAulas.removeAllItems();
+
+		//lstEquiposSel.setListData(new Object[]{});
+		//lstAulasSel.setListData(new Object[]{});
+		lstEquiposSel.setListData(vEquipos);
+		lstAulasSel.setListData(vAulas);
 		Main.centroEstudios.cargarSoftware();
 		cmbSoftware.addItem("---Seleccionar Software---");
 		for(int i = 0; i < Main.centroEstudios.getSoftware().size(); i++){

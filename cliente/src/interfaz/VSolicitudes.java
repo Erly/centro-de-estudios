@@ -73,6 +73,7 @@ public class VSolicitudes extends JInternalFrame {
 			gbc_table.fill = GridBagConstraints.BOTH;
 			gbc_table.gridx = 0;
 			gbc_table.gridy = 0;
+			getContentPane().removeAll();
 			getContentPane().add(scrollPane, gbc_table);
 		}
 	}
