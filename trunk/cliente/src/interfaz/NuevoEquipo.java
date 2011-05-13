@@ -52,6 +52,7 @@ public class NuevoEquipo extends JInternalFrame {
 	Vector<RAM> vram2 = new Vector<RAM>();
 	Vector<TGrafica> vtgraf2 = new Vector<TGrafica>();
 	Vector<TRed> vtred2 = new Vector<TRed>();
+	Aula aula = null;
 	
 	/**
 	 * Create the frame.
@@ -63,11 +64,11 @@ public class NuevoEquipo extends JInternalFrame {
 		getContentPane().setLayout(null);
 		
 		JLabel lblAula = new JLabel("Aula");
-		lblAula.setBounds(258, 28, 25, 14);
+		lblAula.setBounds(248, 28, 35, 14);
 		getContentPane().add(lblAula);
 		
 		JLabel lblCodequipo = new JLabel("Codigo Equipo");
-		lblCodequipo.setBounds(379, 28, 82, 14);
+		lblCodequipo.setBounds(379, 28, 91, 14);
 		getContentPane().add(lblCodequipo);
 		
 		JLabel lblCpu = new JLabel("CPU");
@@ -79,7 +80,7 @@ public class NuevoEquipo extends JInternalFrame {
 		getContentPane().add(lblTSonido);
 		
 		JLabel lblMonitor = new JLabel("Monitor");
-		lblMonitor.setBounds(425, 102, 45, 14);
+		lblMonitor.setBounds(408, 102, 62, 14);
 		getContentPane().add(lblMonitor);
 		
 		JLabel lblHdds = new JLabel("HDDs");
@@ -243,8 +244,7 @@ public class NuevoEquipo extends JInternalFrame {
 						Equipo equipo = new Equipo(Integer.parseInt(txtAula.getText()), Integer.parseInt(txtCodEquipo.getText()), vpb.elementAt(cmbPlacaBase.getSelectedIndex()-1), 
 								vhdd2, vcpu.elementAt(cmbCPU.getSelectedIndex()-1), vram2, vtgraf2, vtso.elementAt(cmbTSonido.getSelectedIndex()-1), 
 								vmo.elementAt(cmbMonitor.getSelectedIndex()-1), vtred2);
-						Vector<Aula> aulas = Main.centroEstudios.getAulas();
-						Aula aula = aulas.elementAt(0); //TODO
+						aula.agregarEquipo(equipo);
 					} catch (NumberFormatException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -277,11 +277,12 @@ public class NuevoEquipo extends JInternalFrame {
 
 	}
 	
-	public void cargarCampos(int codClase, int codEquipo){
-		
+	public void cargarCampos(Aula aula, int codEquipo){
+		resetearVectores();
 		resetearCombos();
 		resetearListas();
-		txtAula.setText("" + codClase);
+		this.aula = aula;
+		txtAula.setText("" + aula.getCodAula());
 		txtCodEquipo.setText("" + codEquipo);
 		Respuesta res;
 		try {	
@@ -401,5 +402,20 @@ public class NuevoEquipo extends JInternalFrame {
 		lstRAM2.setListData(new Object[0]);
 		lstTGrafica2.setListData(new Object[0]);
 		lstTRed2.setListData(new Object[0]);
+	}
+	
+	private void resetearVectores(){
+		vpb = new Vector<PlacaBase>();
+		vcpu = new Vector<CPU>();
+		vtso = new Vector<TAudio>();
+		vmo = new Vector<Monitor>();
+		vhdd = new Vector<HDD>();
+		vram = new Vector<RAM>();
+		vtgraf = new Vector<TGrafica>();
+		vtred = new Vector<TRed>();
+		vhdd2 = new Vector<HDD>();
+		vram2 = new Vector<RAM>();
+		vtgraf2 = new Vector<TGrafica>();
+		vtred2 = new Vector<TRed>();
 	}
 }

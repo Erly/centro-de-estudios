@@ -31,7 +31,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.Vector;
 import javax.swing.BoxLayout;
@@ -50,20 +52,6 @@ public class VConectar extends JDialog {
 	JFormattedTextField txtPuerto;
 	JList lstDirecciones;
 	Vector<Direcciones> conexiones = new Vector<Direcciones>();
-	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VConectar dialog = new VConectar();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
@@ -201,20 +189,22 @@ public class VConectar extends JDialog {
 						if(lstDirecciones.getSelectedIndex() != -1){
 							Direcciones direccion = conexiones.elementAt(lstDirecciones.getSelectedIndex());
 							try {
-								Main.socket = new Socket(direccion.getIp(), direccion.getPuerto());
+								SocketAddress sockAddr = new InetSocketAddress(direccion.getIp(), direccion.getPuerto());
+								Main.socket.connect(sockAddr, 2000);
 								Main.out = new ObjectOutputStream(Main.socket.getOutputStream());
 								Main.in = new ObjectInputStream(Main.socket.getInputStream());
 								conectado = true;
-								VConectar.this.setVisible(false);
 							} catch (UnknownHostException e1) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								//e1.printStackTrace();
 							} catch (ConnectException ce){
 								// TODO Auto-generated catch block
-								ce.printStackTrace();								
+								//ce.printStackTrace();								
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
+							} finally {
+								VConectar.this.setVisible(false);
 							}
 						}
 					}
@@ -224,6 +214,12 @@ public class VConectar extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						VConectar.this.setVisible(false);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -321,17 +317,19 @@ public class VConectar extends JDialog {
 	public void cargarDirecciones(){
 		File archivo = new File("./hosts.txt");
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(archivo));
-			String s;
 			conexiones.removeAllElements();
-			while((s = br.readLine()) != null){
-				int pos = s.indexOf(":");
-				String ip = s.substring(0, pos);
-				int puerto = Integer.parseInt(s.substring(pos+1, s.length()));
-				Direcciones direccion = new Direcciones(ip, puerto);
-				conexiones.addElement(direccion);
+			if(!archivo.createNewFile()){
+				BufferedReader br = new BufferedReader(new FileReader(archivo));
+				String s;
+				while((s = br.readLine()) != null){
+					int pos = s.indexOf(":");
+					String ip = s.substring(0, pos);
+					int puerto = Integer.parseInt(s.substring(pos+1, s.length()));
+					Direcciones direccion = new Direcciones(ip, puerto);
+					conexiones.addElement(direccion);
+				}
+				lstDirecciones.setListData(conexiones);
 			}
-			lstDirecciones.setListData(conexiones);
 		} catch (FileNotFoundException e) {
 			//No hay direcciones guardadas
 		} catch (IOException e) {
