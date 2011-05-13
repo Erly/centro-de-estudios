@@ -309,19 +309,19 @@ public class CentroDB extends AccesoBD {
 		this.lanzarInsert("equipos", "CodEquipo, CodAula, ModeloPB, ModeloCPU, ModeloTA, ModeloMonitor", codEquipo + ", " + codAula + ", '" + pb.getModelo() + "', '" + 
 				cpu.getModelo() + "', '" + tso.getModelo() + "', '" + mon.getModelo() + "'");
 		for(int i = 0; i < vhdd.size(); i++){
-			this.lanzarInsert("eqhdd", "Codigo, codEquipo, codAula, ModeloHDD", this.obtenerMaxCod("eqHDD") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqhdd", "Codigo, codEquipo, codAula, ModeloHDD", this.obtenerMaxCod("eqhdd") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vhdd.elementAt(i).getModelo() + "'");
 		}
 		for(int i = 0; i < vram.size(); i++){
-			this.lanzarInsert("eqram", "Codigo, codEquipo, codAula, ModeloRAM", this.obtenerMaxCod("eqRAM") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqram", "Codigo, codEquipo, codAula, ModeloRAM", this.obtenerMaxCod("eqram") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vram.elementAt(i).getModelo() + "'");
 		}
 		for(int i = 0; i < vtgraf.size(); i++){
-			this.lanzarInsert("eqtg", "Codigo, codEquipo, codAula, ModeloTG", this.obtenerMaxCod("eqTG") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqtg", "Codigo, codEquipo, codAula, ModeloTG", this.obtenerMaxCod("eqtg") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vtgraf.elementAt(i).getModelo() + "'");
 		}
 		for(int i = 0; i < vtred.size(); i++){
-			this.lanzarInsert("eqtr", "Codigo, codEquipo, codAula, ModeloTR", this.obtenerMaxCod("eqTR") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
+			this.lanzarInsert("eqtr", "Codigo, codEquipo, codAula, ModeloTR", this.obtenerMaxCod("eqtr") + 1 + ", " + codEquipo + ", " + codAula + ", '" +
 					vtred.elementAt(i).getModelo() + "'");
 		}
 	}

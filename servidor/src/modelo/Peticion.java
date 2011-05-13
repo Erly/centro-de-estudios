@@ -14,10 +14,7 @@ import modelo.Hardware.*;
 import modelo.Usuarios.*;
 
 public class Peticion implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = Seriales.PETICION;
 	private static final int CONSULTAR = 0;
 	public static final int INSERTAR = 1;
@@ -49,9 +46,6 @@ public class Peticion implements Serializable{
 	private Equipo equipo;
 	private Usuario usuario;
 	private boolean salir;
-	/*String tabla;
-	private String[] filtros;
-	private String[] extras;*/
 	
 	public Peticion() {}
 	
@@ -69,15 +63,20 @@ public class Peticion implements Serializable{
 	}
 	
 	public Peticion(int tipo, Equipo equipo) throws ValorIncorrectoEx{
-		if(tipo < 3 || tipo > 11)
+		if(tipo < 2 || tipo > 11)
 			throw new ValorIncorrectoEx();
-		accion = CONSULTAR;
-		this.tipo = tipo;
-		this.equipo = equipo;
+		if(tipo == 2){
+			accion = BORRAR;
+			objeto = equipo;
+		} else {
+			accion = CONSULTAR;
+			this.tipo = tipo;
+			this.equipo = equipo;
+		}
 	}
 	
 	public Peticion(int accion, Object objeto) throws ValorIncorrectoEx{
-		if(accion != 1 && accion != 3)
+		if(accion != INSERTAR && accion != BORRAR)
 			throw new ValorIncorrectoEx();
 		this.accion=accion;
 		this.objeto=objeto;
@@ -102,20 +101,6 @@ public class Peticion implements Serializable{
 	public Peticion(boolean salir){
 		this.salir=salir;
 	}
-	
-	/*
-	public Peticion(int accion, String tabla, String[] filtros) throws Exception{
-		if(accion != 0)
-			throw new Exception();
-		this.accion=accion;
-		this.tabla = tabla;
-		this.filtros = filtros;
-	}
-	
-	public Peticion(int accion, String tabla, String[] filtros, String[] extras) throws Exception{
-		this(accion, tabla, filtros);
-		this.extras=extras;
-	}*/
 	
 	public Respuesta tratar(){
 		Respuesta respuesta = null;
