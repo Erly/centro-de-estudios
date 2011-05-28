@@ -50,6 +50,7 @@ public class VPrincipal extends JFrame {
 	NuevoEquipo nuevoEquipo;
 	VerEquipo verEquipo;
 	VNuevoSoft nuevoSoftware;
+	VSoftware verSoftware;
 	VNuevaSolicitud nuevaSolicitud;
 	VSolicitudes verSolicitudes;
 	VAdminSolicitud adminSolicitudes;
@@ -128,6 +129,10 @@ public class VPrincipal extends JFrame {
 		verAulas.setName("VerAula");
 		contentPane.add(verAulas);
 		
+		verSoftware = new VSoftware();
+		verSoftware.setName("VerSoftware");
+		contentPane.add(verSoftware);
+		
 		acercaDe = new AcercaDe();
 		contentPane.add(acercaDe);
 		
@@ -144,12 +149,12 @@ public class VPrincipal extends JFrame {
 		JMenu mnAulas = new JMenu("Aulas");
 		menuBar.add(mnAulas);
 		
+		JMenu mnSoftware = new JMenu("Software");
+		menuBar.add(mnSoftware);
+		
 		// Si el usuario es un técnico o administrador carga los menus y ventanas a los que un usuario normal no puede
 		// acceder
 		if(Main.usuario.getClass() == Tecnico.class || Main.usuario.getClass() == Administrador.class){
-			
-			JMenu mnSoftware = new JMenu("Software");
-			menuBar.add(mnSoftware);
 			
 			crearAula = new CrearAula();
 			contentPane.add(crearAula);
@@ -229,6 +234,11 @@ public class VPrincipal extends JFrame {
 		mvVerAula.putValue(Action.NAME, "Ver Aulas");
 		JMenuItem mntmVerAulas = new JMenuItem(mvVerAula);
 		mnAulas.add(mntmVerAulas);
+		
+		MostrarVentana mvVerSoftware = new MostrarVentana(verSoftware);
+		mvVerSoftware.putValue(Action.NAME, "Ver Software");
+		JMenuItem mntmVerSoftware = new JMenuItem(mvVerSoftware);
+		mnSoftware.add(mntmVerSoftware);
 		
 		Cerrar cerrar = new Cerrar(this);
 		cerrar.putValue(Action.NAME, "Salir");
