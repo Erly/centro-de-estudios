@@ -81,18 +81,8 @@ public class VNuevoUsuario extends JInternalFrame {
 					tipo = "Administrador";
 					break;
 				}
-				try {
-					Respuesta res = Main.enviarPeticion(new Peticion(Peticion.INSERTAR, usuario));
-					if(res.exito){
-						JOptionPane.showMessageDialog(null, "El usuario " + txtNombre.getText() + " de tipo " + tipo + 
-								" ha sido creado con éxito.", "Usuario creado correctamente", JOptionPane.INFORMATION_MESSAGE);
-						VNuevoUsuario.this.setVisible(false);
-					}else{
-						JOptionPane.showMessageDialog(null, res.mensaje, "Error al crear el usuario", JOptionPane.ERROR_MESSAGE);
-					}
-				} catch (ValorIncorrectoEx e1) {
-					JOptionPane.showMessageDialog(null, "Algun dato introducido es incorrecto.", "Error!", JOptionPane.ERROR_MESSAGE);
-				}
+				((Administrador)Main.usuario).altaUsuario(usuario);
+				VNuevoUsuario.this.setVisible(false);
 			}
 		});
 		btnCrear.setBounds(50, 227, 100, 27);

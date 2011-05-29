@@ -12,6 +12,7 @@ import excepciones.ValorIncorrectoEx;
 
 import modelo.Main;
 import modelo.Software;
+import modelo.Usuarios.Tecnico;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -157,7 +158,7 @@ public class VNuevoSoft extends JInternalFrame {
 			if(!nombre.trim().isEmpty() && !categoria.trim().isEmpty() && !licencia.trim().isEmpty() && 
 					!desarrollador.trim().isEmpty()){
 				Software software = new Software(codigo, nombre, version, categoria, licencia, desarrollador);
-				Main.centroEstudios.agregarSoftware(software);
+				((Tecnico)Main.usuario).agregarSoftware(software);
 				VNuevoSoft.this.dispose();
 			}
 		}catch (NumberFormatException e){

@@ -11,6 +11,7 @@ import modelo.Aula;
 import modelo.Equipo;
 import modelo.Main;
 import modelo.Peticion;
+import modelo.Respuesta;
 import modelo.Software;
 import modelo.Solicitud;
 
