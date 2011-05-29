@@ -32,6 +32,9 @@ import java.awt.Cursor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.UIManager;
+
+import excepciones.ValorIncorrectoEx;
+
 import java.awt.ComponentOrientation;
 
 @SuppressWarnings("serial")
@@ -79,6 +82,7 @@ public class VPrincipal extends JFrame {
 				}
 			}
 		});
+		
 		this.setExtendedState(VPrincipal.MAXIMIZED_BOTH);
 		setName("VPrincipal");
 		setBounds(100, 100, 800, 640);
@@ -155,6 +159,10 @@ public class VPrincipal extends JFrame {
 		// Si el usuario es un técnico o administrador carga los menus y ventanas a los que un usuario normal no puede
 		// acceder
 		if(Main.usuario.getClass() == Tecnico.class || Main.usuario.getClass() == Administrador.class){
+			
+			int nSolicitudes = Main.centroEstudios.getSolicitudesPendientes();
+			lblUsuario.setText(Main.usuario.getNombre() + " (" + nSolicitudes + ")");
+			notificar(BarraNotificadora.INFORMATION_MESSAGE, "Tienes " + nSolicitudes + " solicitudes de instalacion pendientes");
 			
 			crearAula = new CrearAula();
 			contentPane.add(crearAula);
@@ -307,5 +315,15 @@ public class VPrincipal extends JFrame {
 				popup.show(e.getComponent(), e.getComponent().getWidth() -1 - popup.getWidth(), -1 - popup.getHeight());
 			}
 		});
+	}
+	
+	private void notificar(int tipo, String texto){
+		try {
+			Thread notif = new Thread(new BarraNotificadora(VPrincipal.this, texto, tipo, 500));
+			notif.start();
+		} catch (ValorIncorrectoEx e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

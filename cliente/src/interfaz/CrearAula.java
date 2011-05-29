@@ -8,6 +8,8 @@ import javax.swing.JButton;
 
 import modelo.Aula;
 import modelo.Main;
+import modelo.Usuarios.Tecnico;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -89,7 +91,7 @@ public class CrearAula extends JInternalFrame {
 			String curso = txtCurso.getText();
 			if(!curso.trim().isEmpty()){
 				Aula aula = new Aula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
-				Main.centroEstudios.agregarAula(aula);
+				((Tecnico)Main.usuario).agregarAula(aula);
 				CrearAula.this.dispose();
 			}
 		} catch(NumberFormatException e) {

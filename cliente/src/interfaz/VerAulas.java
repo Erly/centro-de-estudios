@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import modelo.Aula;
 import modelo.Equipo;
 import modelo.Main;
+import modelo.Usuarios.Tecnico;
 import modelo.Usuarios.Usuario;
 
 import javax.swing.JCheckBox;
@@ -115,12 +116,12 @@ public class VerAulas extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(aula.getEquipos().isEmpty()){
-					Main.centroEstudios.eliminarAula(aula);
+					((Tecnico)Main.usuario).eliminarAula(aula);
 					cargarAulas();
 					aula = null;
 				}else{
 					if(chkRecursivo.isSelected()){
-						Main.centroEstudios.eliminarAulaRecursivamente(aula);
+						((Tecnico)Main.usuario).eliminarAulaRecursivamente(aula);
 						cargarAulas();
 						aula = null;
 					}else{

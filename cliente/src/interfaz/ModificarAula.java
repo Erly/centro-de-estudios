@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import modelo.Aula;
 import modelo.Main;
+import modelo.Usuarios.Tecnico;
 
 @SuppressWarnings("serial")
 public class ModificarAula extends JInternalFrame {
@@ -61,7 +62,7 @@ public class ModificarAula extends JInternalFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				if(!txtCurso.getText().isEmpty()){
 					Aula nuevaAula = new Aula(Integer.parseInt(txtCodigo.getText()), txtCurso.getText());
-					Main.centroEstudios.modificarAula(aula, nuevaAula);
+					((Tecnico)Main.usuario).modificarAula(aula, nuevaAula);
 					Component[] componentes = ModificarAula.this.getParent().getComponents();
 					for(int i = 0; i < componentes.length; i++){
 						if(componentes[i].getClass() == VerAulas.class){
