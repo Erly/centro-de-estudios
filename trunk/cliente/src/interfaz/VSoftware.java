@@ -70,7 +70,7 @@ public class VSoftware extends JInternalFrame {
 			gbc_table.gridy = 1;
 			getContentPane().add(scrollPane, gbc_table);
 			
-			JButton btnModificarPrograma = new JButton("Modificar Programa");
+			/*JButton btnModificarPrograma = new JButton("Modificar Programa");
 			GridBagConstraints gbc_btnModificarPrograma = new GridBagConstraints();
 			gbc_btnModificarPrograma.insets = new Insets(0, 0, 0, 5);
 			gbc_btnModificarPrograma.gridx = 2;
@@ -82,7 +82,7 @@ public class VSoftware extends JInternalFrame {
 			gbc_btnEliminarPrograma.gridx = 4;
 			gbc_btnEliminarPrograma.gridy = 2;
 			getContentPane().add(btnEliminarPrograma, gbc_btnEliminarPrograma);
-
+*/
 		}
 	}
 

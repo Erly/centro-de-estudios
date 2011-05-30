@@ -124,7 +124,6 @@ public class VPrincipal extends JFrame {
 		verEquipo = new VerEquipo();
 		verEquipo.setName("VerEquipo");
 		verEquipo.setClosable(true);
-		verEquipo.setBounds(0, 0, 500, 400);
 		contentPane.add(verEquipo);
 		
 		verSolicitudes = new VSolicitudes();
