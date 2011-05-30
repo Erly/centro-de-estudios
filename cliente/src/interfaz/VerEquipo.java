@@ -20,12 +20,13 @@ public class VerEquipo extends JInternalFrame {
 	JList lstRAM;
 	JList lstTG;
 	JList lstTR;
+	JList lstSoft;
 	
 	/**
 	 * Create the frame.
 	 */
 	public VerEquipo() {
-		setBounds(100, 100, 450, 400);
+		setBounds(100, 100, 450, 500);
 		getContentPane().setLayout(null);
 		
 		JLabel lblPlacaBase = new JLabel("Placa Base:");
@@ -107,6 +108,17 @@ public class VerEquipo extends JInternalFrame {
 		
 		lstTR = new JList();
 		scrollPane_3.setViewportView(lstTR);
+		
+		JLabel lblSoftware = new JLabel("Software:");
+		lblSoftware.setBounds(12, 407, 60, 15);
+		getContentPane().add(lblSoftware);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(129, 407, 297, 50);
+		getContentPane().add(scrollPane_4);
+		
+		lstSoft = new JList();
+		scrollPane_4.setViewportView(lstSoft);
 	}
 	public void setEquipo(Equipo e){
 		this.setTitle("Aula Nº" + e.getCodAula() + " - PC" + e.getCodEquipo());
@@ -118,5 +130,6 @@ public class VerEquipo extends JInternalFrame {
 		lstRAM.setListData(e.getRam());
 		lstTG.setListData(e.gettGraficas());
 		lstTR.setListData(e.gettRed());
+		lstSoft.setListData(e.getSoftware());
 	}
 }
