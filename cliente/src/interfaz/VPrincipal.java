@@ -320,7 +320,7 @@ public class VPrincipal extends JFrame {
 	
 	private void notificar(int tipo, String texto){
 		try {
-			Thread notif = new Thread(new BarraNotificadora(VPrincipal.this, texto, tipo, 1000));
+			Thread notif = new Thread(new BarraNotificadora(VPrincipal.this, texto, tipo, 1700));
 			notif.start();
 		} catch (ValorIncorrectoEx e1) {
 			// TODO Auto-generated catch block

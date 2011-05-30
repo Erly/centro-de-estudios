@@ -79,6 +79,10 @@ public class VAdminSolicitud extends JInternalFrame {
 		btnRealizarSolicitud.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(chckbxMostrarLasSolicitudes.isSelected()){
+					lanzarError("Desmarca la casilla de ver todas para poder realizar una solicitud");
+					return;
+				}
 				boolean exito;
 				String observaciones;
 				Solicitud sol;
@@ -224,7 +228,7 @@ public class VAdminSolicitud extends JInternalFrame {
 	private void lanzarError(String texto){
 		try {
 			Thread notif = new Thread(new BarraNotificadora(VAdminSolicitud.this, texto, 
-					BarraNotificadora.ERROR_MESSAGE, 700));
+					BarraNotificadora.ERROR_MESSAGE, 900));
 			notif.start();
 		} catch (ValorIncorrectoEx e1) {
 			// TODO Auto-generated catch block
