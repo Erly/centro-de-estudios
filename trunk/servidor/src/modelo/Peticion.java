@@ -434,10 +434,12 @@ public class Peticion implements Serializable{
 			}else if(objeto.getClass().toString().equals(Solicitud.class.toString())){
 				try {
 					Solicitud sol = (Solicitud)objeto;
-					if(sol.equipo==null){
-						Main.db.instalarSoftware(sol.aula, sol.getSoftware());
-					}else{
-						Main.db.instalarSoftware(sol.equipo, sol.getSoftware());
+					if(sol.isRealizado() && sol.isExito()){
+						if(sol.equipo==null){
+							Main.db.instalarSoftware(sol.aula, sol.getSoftware());
+						}else{
+							Main.db.instalarSoftware(sol.equipo, sol.getSoftware());
+						}
 					}
 					Main.db.actualizarSolicitudes((Solicitud)nuevoObjeto);
 					respuesta= new Respuesta(true, "La solicitud ha sido modificada con exito");
