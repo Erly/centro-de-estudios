@@ -992,4 +992,29 @@ public class CentroDB extends AccesoBD {
 		}
 		return u;
 	}
+	
+	public void instalarSoftware(Equipo e, Software s) throws SQLException{
+		if (this.getConexion() == null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		this.lanzarInsert("eqso", "CodAula, CodEquipo, CodSoft", e.getCodAula() + ", " + e.getCodEquipo() + ", " +
+				s.getCodigo());
+	}
+
+	public void instalarSoftware(Aula a, Software s) throws SQLException{
+		if (this.getConexion() == null){
+			System.out.println("Imposible realizar consulta; CONEXION BD NO ESTABLECIDA");
+			return;
+		}
+		Vector<Equipo> vEquipos = obtenerEquipos(a);
+		for(int i = 0; i < vEquipos.size(); i++){
+			try{
+				instalarSoftware(vEquipos.elementAt(i), s);
+			}catch(SQLException e){
+				System.out.println(e.getMessage());
+			}
+		}
+	}
 }
+	

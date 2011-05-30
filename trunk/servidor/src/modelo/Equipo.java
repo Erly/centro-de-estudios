@@ -26,6 +26,7 @@ public class Equipo implements Serializable{
 	private TAudio tAudio;
 	private Monitor monitor;
 	private Vector<TRed> tRed = new Vector<TRed>();
+	private Vector<Software> software = new Vector<Software>();
 
 	public Equipo() {
 	}
@@ -128,7 +129,15 @@ public class Equipo implements Serializable{
 	public void settRed(Vector<TRed> tRed) {
 		this.tRed = tRed;
 	}
-	
+
+	public Vector<Software> getSoftware() {
+		return software;
+	}
+
+	public void setSoftware(Vector<Software> software) {
+		this.software = software;
+	}
+
 	public String toString(){
 		return "PC " + codEquipo;
 	}
@@ -142,5 +151,6 @@ public class Equipo implements Serializable{
 		this.settAudio(Main.db.obtenerTAudio(this));
 		this.setMonitor(Main.db.obtenerMonitor(this));
 		this.settRed(Main.db.obtenerTRed(this));
+		this.setSoftware(Main.db.obtenerSoftware(this));
 	}
 }
