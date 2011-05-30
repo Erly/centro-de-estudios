@@ -108,6 +108,8 @@ public class VAdminSolicitud extends JInternalFrame {
 				observaciones = JOptionPane.showInputDialog("¿Ha habido algo que reseñar a la hora de realizar la solicitud?");
 				sol.realizar(exito, observaciones);
 				cargarTablas();
+				int nSolicitudes = Main.centroEstudios.getSolicitudesPendientes();
+				Main.lblUsuario.setText(Main.usuario.getNombre() + " (" + nSolicitudes + ")");
 			}
 		});
 		

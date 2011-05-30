@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import modelo.Usuarios.Usuario;
@@ -18,6 +21,7 @@ public class Main {
 	public static ObjectInputStream in;
 	public static ObjectOutputStream out;
 	public static Usuario usuario = null;
+	public static JLabel lblUsuario = null;
 
 	public static void main(String[] args) {
 		try{

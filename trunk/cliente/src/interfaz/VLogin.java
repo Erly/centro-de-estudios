@@ -60,7 +60,7 @@ public class VLogin extends JDialog {
 		}
 		setTitle("Login");
 		setUndecorated(true);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 400, 250);
 		this.setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(UIManager.getColor("ComboBox.disabledForeground"));
@@ -72,7 +72,7 @@ public class VLogin extends JDialog {
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Droid Serif", Font.BOLD, 40));
 		lblLogin.setForeground(Color.WHITE);
-		lblLogin.setBounds(12, 12, 426, 71);
+		lblLogin.setBounds(12, 12, 378, 71);
 		contentPanel.add(lblLogin);
 		
 		okButton = new JButton("OK");
@@ -115,7 +115,7 @@ public class VLogin extends JDialog {
 				}
 			}
 		});
-		okButton.setBounds(287, 264, 54, 24);
+		okButton.setBounds(243, 221, 54, 24);
 		contentPanel.add(okButton);
 		okButton.setActionCommand("OK");
 		getRootPane().setDefaultButton(okButton);
@@ -135,7 +135,7 @@ public class VLogin extends JDialog {
 				System.exit(0);
 			}
 		});
-		cancelButton.setBounds(353, 264, 81, 24);
+		cancelButton.setBounds(309, 221, 81, 24);
 		contentPanel.add(cancelButton);
 		cancelButton.setActionCommand("Cancel");
 		
@@ -169,54 +169,32 @@ public class VLogin extends JDialog {
 				}
 			}
 		});
-		btnSeleccionarServidor.setBounds(12, 264, 182, 25);
+		btnSeleccionarServidor.setBounds(12, 221, 182, 25);
 		contentPanel.add(btnSeleccionarServidor);
 		{
 			JLabel lblUsuario = new JLabel("Usuario");
-			lblUsuario.setForeground(Color.WHITE);
+			lblUsuario.setForeground(Color.BLACK);
 			lblUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
-			lblUsuario.setBounds(72, 119, 101, 14);
+			lblUsuario.setBounds(28, 119, 101, 14);
 			contentPanel.add(lblUsuario);
 		}
 		{
 			JLabel lblPass = new JLabel("Contraseña");
-			lblPass.setForeground(Color.WHITE);
+			lblPass.setForeground(Color.BLACK);
 			lblPass.setHorizontalAlignment(SwingConstants.TRAILING);
-			lblPass.setBounds(72, 165, 101, 14);
+			lblPass.setBounds(28, 165, 101, 14);
 			contentPanel.add(lblPass);
 		}
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(191, 113, 182, 25);
+		txtUsuario.setBounds(147, 113, 182, 25);
 		contentPanel.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(191, 159, 182, 24);
+		txtPassword.setBounds(147, 159, 182, 24);
 		contentPanel.add(txtPassword);
 		txtPassword.setColumns(10);
-		
-		JCheckBox chkRecordarPass = new JCheckBox("Recordar Contraseña");
-		chkRecordarPass.setBounds(72, 224, 202, 22);
-		chkRecordarPass.setOpaque(false);
-		contentPanel.add(chkRecordarPass);
-		
-		JLabel lblPassOlvidado = new JLabel("\u00BFHas olvidado tu contrase\u00F1a?");
-		lblPassOlvidado.setForeground(new Color(128, 0, 128));
-		lblPassOlvidado.setBounds(191, 195, 221, 14);
-		contentPanel.add(lblPassOlvidado);
-		
-		JLabel usuarioIncorrecto = new JLabel("");
-		usuarioIncorrecto.setIcon(new ImageIcon(VLogin.class.getResource("/javax/swing/plaf/metal/icons/ocean/error.png")));
-		usuarioIncorrecto.setBounds(384, 113, 32, 32);
-		usuarioIncorrecto.setVisible(false);
-		contentPanel.add(usuarioIncorrecto);
-		
-		JLabel passwordIncorrecto = new JLabel("");
-		passwordIncorrecto.setIcon(new ImageIcon(VLogin.class.getResource("/javax/swing/plaf/metal/icons/ocean/error.png")));
-		passwordIncorrecto.setBounds(384, 157, 32, 32);
-		passwordIncorrecto.setVisible(false);
-		contentPanel.add(passwordIncorrecto);
 		
 		lblConectado = new JLabel("NO Conectado");
 		lblConectado.setForeground(Color.RED);
@@ -225,7 +203,7 @@ public class VLogin extends JDialog {
 		{
 			JLabel Fondo = new JLabel("");
 			Fondo.setIcon(new ImageIcon(getClass().getClassLoader().getResource("imagenes/fondo_login.png")));//"/home/erlantz/Descargas/fondo_login.png"));
-			Fondo.setBounds(0, 0, 450, 298);
+			Fondo.setBounds(0, 0, 400, 250);
 			contentPanel.add(Fondo);
 		}
 		
