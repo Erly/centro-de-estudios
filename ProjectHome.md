@@ -1,0 +1,12 @@
+# Centro de Estudios / Study Center #
+
+### SPANISH DESCRIPTION ###
+Proyecto de 3º de la Universidad de Gales. El proyecto debe ser un programa de gestión para los ordenadores de un centro de estudios y puede ser cliente-servidor como bonus. El código debe estar hecho en Java y la base de datos ha de ser MySQL.
+
+En este caso yo elegí hacer una aplicación cliente-servidor usando sockets (fuí el primero en hacerlo de esta manera ya que todas las personas que habian decidido hacer una aplicación cliente-servidor tanto los de mi año como los de año anteriores habian decidido hacerlo usando Jsp y/o J2EE). Hay una pequeña aplicación para el servidor que será la encargada de conectarse a la BBDD y de recibir las peticiones de n clientes a traves de un socket y enviar la respuesta. El cliente permite gestionar las aulas, los ordenadores, el hardware y software de estos, las peticiones para cambiar algo en el ordenador y los usuarios. Hay diferentes tipos de usuario cada uno con una serie de permisos, por ejemplo un usuario normal no puede cambiar ni el hardware ni el software de un pc, por lo que tendrá que enviar una petición y que un usuario con mas permisos acepte o rechace su petición, en caso de rechazo se podrá escribir la razón en la propia petición (p.e. el hardware no es lo suficientemente bueno para ejecutar ese programa).
+
+
+### ENGLISH DESCRIPTION ###
+Project done on my 3rd year on the University of Wales. The project must be a management solution for the computers in a school and can be client-server as a bonus. The code must be Java and the database must be MySQL.
+
+In this case I chose to do a client-server application using sockets (I was the first person to do it like this because all the people who chose to do a client-server app not only of my promotion but also previous year students decided to do use Jsp and/or J2EE). There is a lightweight server app that connects to the DB and receives petitions from n clients through a socket and sends the response back. The client allows to manage the classrooms, the computers inside them, the hardware and software inside the computer, petitions to change something in a computer and the Users. There are different type of users each with different privileges, for example a normal user can't change the hardware or (un)install any program so they have to send a petition and then a user with more privileges will accept or deny his petition and in case of denying it, he can write the reason in the petition (e.g. the hardware is not good enoguh for that program).
